@@ -1,11 +1,11 @@
 import { BackgroundBeamsWithCollision } from "@/components/Landing/background-beams-with-collision";
-import { FloatingNavbar } from "@/components/Landing/FloatingNavbar";
+import Navbar from "@/components/Landing/navbar";
 import ShinyButton from "@/components/Landing/shiny-button";
 
 const Home = () => {
   return (
     <>
-      <FloatingNavbar />
+      <Navbar />
       <BackgroundBeamsWithCollision>
         <div className="flex flex-col items-center">
           <h2 className="relative z-20 text-center font-sans text-2xl font-bold tracking-tight text-black dark:text-white md:text-4xl lg:text-7xl">

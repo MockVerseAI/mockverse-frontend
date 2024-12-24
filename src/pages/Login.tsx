@@ -3,30 +3,68 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import UserService from "@/services/userService";
+import { AppDispatch } from "@/store";
+import { setUser } from "@/store/user/slice";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
-  username: z.string().min(3).max(50),
+  email: z.string().min(3).max(50),
   password: z.string().min(1).max(50),
 });
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const { handleSubmit, register } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  };
+  const { mutate: login, isPending } = useMutation({
+    mutationFn: (payload: z.infer<typeof formSchema>) => UserService.login(payload),
+    onError: (e: any) => {
+      const errObj = e?.response?.data;
+      toast.error(errObj.message);
+    },
+    onSuccess: (res: any) => {
+      const { data } = res;
+      const dataObj = data.data;
+      const user = dataObj.user;
+      const accessToken = dataObj.accessToken;
+      const refreshToken = dataObj.refreshToken;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      dispatch(setUser(user));
+      navigate(`/dashboard`);
+    },
+  });
+
+  const onSubmit = useCallback(
+    (values: z.infer<typeof formSchema>) => {
+      console.log(values);
+      login(values);
+    },
+    [login]
+  );
+
+  const handleGoogleLogin = useCallback(async () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/v1/user/google`;
+  }, []);
+
+  const handleGithubLogin = useCallback(async () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/v1/user/github`;
+  }, []);
 
   return (
     <AuthScreenWrapper>
@@ -40,7 +78,7 @@ const Login = () => {
             <div>
               <div className="grid gap-6">
                 <div className="flex flex-col gap-4">
-                  <Button variant="outline" className="w-full">
+                  <Button onClick={handleGoogleLogin} variant="outline" className="w-full">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path
                         d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
@@ -49,7 +87,7 @@ const Login = () => {
                     </svg>
                     Login with Google
                   </Button>
-                  <Button variant="outline" className="w-full">
+                  <Button onClick={handleGithubLogin} variant="outline" className="w-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -73,7 +111,7 @@ const Login = () => {
                 <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="m@example.com" {...register("username")} required />
+                    <Input id="email" type="email" placeholder="m@example.com" {...register("email")} required />
                   </div>
                   <div className="grid gap-2">
                     <div className="flex items-center">
@@ -84,7 +122,7 @@ const Login = () => {
                     </div>
                     <Input id="password" type="password" {...register("password")} required />
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full" isLoading={isPending}>
                     Login
                   </Button>
                 </form>
