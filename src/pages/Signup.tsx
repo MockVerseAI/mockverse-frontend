@@ -3,9 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import UserService from "@/services/userService";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -15,6 +18,7 @@ const formSchema = z.object({
 });
 
 const Login = () => {
+  const navigate = useNavigate();
   const { handleSubmit, register } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -24,10 +28,22 @@ const Login = () => {
     },
   });
 
+  const { mutate: signup, isPending } = useMutation({
+    mutationFn: (payload: z.infer<typeof formSchema>) => UserService.register(payload),
+    onError: (e: any) => {
+      const errObj = e?.response?.data;
+      toast.error(errObj.message);
+    },
+    onSuccess: (res: any) => {
+      const { data } = res;
+      const userId = data?.data?.user?._id;
+      navigate(`/email-sent?userId=${userId}`);
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
+    signup(values);
   };
 
   return (
@@ -54,7 +70,7 @@ const Login = () => {
                     <Label htmlFor="password">Password</Label>
                     <Input id="password" type="password" {...register("password")} required />
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button type="submit" className="w-full" isLoading={isPending}>
                     Sign up
                   </Button>
                 </form>
