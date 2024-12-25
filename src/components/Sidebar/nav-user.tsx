@@ -1,4 +1,4 @@
-import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from "lucide-react";
+import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Moon, Sun } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -11,10 +11,33 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
+import { useTheme } from "@/hooks/useTheme";
 import { User } from "@/lib/types";
+import UserService from "@/services/userService";
+import { useCallback } from "react";
+import { useNavigate } from "react-router";
+import { Switch } from "../ui/switch";
 
 export function NavUser({ user }: { user: User | null }) {
   const { isMobile } = useSidebar();
+  const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
+
+  const logoutUser = useCallback(async () => {
+    try {
+      await UserService.logout();
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  }, [navigate]);
+
+  const toggleTheme = useCallback(() => {
+    if (theme === "dark") setTheme("light");
+    else setTheme("dark");
+  }, [setTheme, theme]);
 
   return (
     <SidebarMenu>
@@ -57,13 +80,18 @@ export function NavUser({ user }: { user: User | null }) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
+                {theme === "dark" ? <Moon /> : <Sun />}
+                Dark Mode
+                <Switch
+                  className="data-[state=checked]:bg-muted-foreground"
+                  checked={theme === "dark"}
+                  onCheckedChange={toggleTheme}
+                />
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/dashboard/account")}>
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
@@ -77,7 +105,7 @@ export function NavUser({ user }: { user: User | null }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={logoutUser}>
               <LogOut />
               Log out
             </DropdownMenuItem>
