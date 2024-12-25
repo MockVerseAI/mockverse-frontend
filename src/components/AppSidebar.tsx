@@ -14,36 +14,29 @@ import { RootState } from "@/store";
 import { BrainCircuit, ContactRound, Home, Map } from "lucide-react";
 import * as React from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
-// This is sample data.
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+const navItems = [
+  {
+    name: "Home",
+    url: "/dashboard",
+    icon: Home,
   },
-  projects: [
-    {
-      name: "Home",
-      url: "#",
-      icon: Home,
-    },
-    {
-      name: "Interviews",
-      url: "#",
-      icon: ContactRound,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
-    },
-  ],
-};
+  {
+    name: "Interviews",
+    url: "/dashboard/interview",
+    icon: ContactRound,
+  },
+  {
+    name: "Travel",
+    url: "#",
+    icon: Map,
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useSelector((root: RootState) => root.user);
+  const { pathname } = useLocation();
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -64,9 +57,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {data.projects.map((item) => (
+            {navItems.map((item) => (
               <SidebarMenuItem key={item.name}>
-                <SidebarMenuButton tooltip={item.name} asChild>
+                <SidebarMenuButton isActive={pathname === item.url} tooltip={item.name} asChild>
                   <Link to={item.url}>
                     <item.icon />
                     <span>{item.name}</span>

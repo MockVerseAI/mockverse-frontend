@@ -50,6 +50,10 @@ const UserService = {
   currentUser: () => {
     return userAPI.get("/current-user");
   },
+
+  logout: () => {
+    return userAPI.post("/logout");
+  },
 };
 
 export default UserService;

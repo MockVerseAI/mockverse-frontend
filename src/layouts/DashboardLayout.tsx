@@ -4,24 +4,24 @@ import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { isUserAuthenticated } from "@/lib/utils";
 import UserService from "@/services/userService";
-import { AppDispatch } from "@/store";
+import { AppDispatch, RootState } from "@/store";
 import { setUser } from "@/store/user/slice";
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, useNavigate } from "react-router";
 
 export default function DashboardLayout() {
   const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((root: RootState) => root.user);
   const isAuthenticated = isUserAuthenticated();
   const navigate = useNavigate();
-  const [isLoadingGetMyProfile, setIsLoadingGetMyProfile] = useState(true);
+  const [isLoadingGetMyProfile, setIsLoadingGetMyProfile] = useState(false);
 
   const fetchProfile = useCallback(async () => {
     setIsLoadingGetMyProfile(true);
     if (isAuthenticated) {
       try {
         const { data } = await UserService.currentUser();
-        console.log(data);
         const user = data.data;
         dispatch(setUser(user));
       } catch (error) {
@@ -33,8 +33,10 @@ export default function DashboardLayout() {
   }, [dispatch, isAuthenticated, navigate]);
 
   useEffect(() => {
-    fetchProfile();
-  }, [fetchProfile]);
+    if (!user) {
+      fetchProfile();
+    }
+  }, [fetchProfile, user]);
 
   if (isAuthenticated) {
     if (isLoadingGetMyProfile) {

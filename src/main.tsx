@@ -5,6 +5,7 @@ import Providers from "./components/Providers.tsx";
 import "./index.css";
 import DashboardLayout from "./layouts/DashboardLayout.tsx";
 import PublicLayout from "./layouts/PublicLayout.tsx";
+import Account from "./pages/Account.tsx";
 import DashboardHome from "./pages/DashboardHome.tsx";
 import EmailSent from "./pages/EmailSent.tsx";
 import ForgotPassword from "./pages/ForgotPassword.tsx";
@@ -13,15 +14,15 @@ import Interview from "./pages/Interview.tsx";
 import Login from "./pages/Login.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import Signup from "./pages/Signup.tsx";
-import VerifyEmail from "./pages/VerifyEmail.tsx";
 import SSOSuccess from "./pages/SSOSuccess.tsx";
+import VerifyEmail from "./pages/VerifyEmail.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Providers>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<PublicLayout />}>
+          <Route element={<PublicLayout />}>
             <Route index element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
@@ -32,9 +33,10 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/sso-success" element={<SSOSuccess />} />
           </Route>
 
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<DashboardHome />} />
-            <Route path="interview" element={<Interview />} />
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<DashboardHome />} />
+            <Route path="/dashboard/interview" element={<Interview />} />
+            <Route path="/dashboard/account" element={<Account />} />
           </Route>
         </Routes>
       </BrowserRouter>
