@@ -18,6 +18,10 @@ interface IForgotPassword {
   email: string;
 }
 
+export interface IChangeAvatar {
+  avatar: File;
+}
+
 const UserService = {
   login: (payload: ILogin) => {
     return userAPI.post("/login", payload);
@@ -53,6 +57,10 @@ const UserService = {
 
   logout: () => {
     return userAPI.post("/logout");
+  },
+
+  changeAvatar: (payload: IChangeAvatar) => {
+    return userAPI.postForm("/avatar", payload);
   },
 };
 
