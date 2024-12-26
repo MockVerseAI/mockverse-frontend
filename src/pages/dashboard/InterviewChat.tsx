@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Mic, Send } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
-export default function Interview() {
+export default function InterviewChat() {
   const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([]);
   const [input, setInput] = useState("");
   const [isFirstMessage, setIsFirstMessage] = useState(true);

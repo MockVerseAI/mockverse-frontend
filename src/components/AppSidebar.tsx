@@ -23,7 +23,7 @@ const navItems = [
     icon: Home,
   },
   {
-    name: "Interviews",
+    name: "Interview",
     url: "/dashboard/interview",
     icon: ContactRound,
   },
