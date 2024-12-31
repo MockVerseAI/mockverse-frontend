@@ -1,12 +1,14 @@
-import { User } from "@/lib/types";
+import { Resume, User } from "@/lib/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
   user: User | null;
+  resumes: Resume[];
 }
 
 const initialState: UserState = {
   user: null,
+  resumes: [],
 };
 
 const userSlice = createSlice({
@@ -21,11 +23,14 @@ const userSlice = createSlice({
         state.user = { ...state.user, ...action.payload };
       }
     },
+    setResumes(state, action: PayloadAction<Resume[]>) {
+      state.resumes = action.payload;
+    },
     removeUser(state) {
       state.user = null;
     },
   },
 });
 
-export const { setUser, editUser, removeUser } = userSlice.actions;
+export const { setUser, editUser, removeUser, setResumes } = userSlice.actions;
 export default userSlice.reducer;

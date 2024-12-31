@@ -8,7 +8,7 @@ const interviewAPI = axios.create({
 export interface IInterviewSetup {
   jobRole: string;
   jobDescription: string;
-  resume: File;
+  resumeId: string;
 }
 
 const InterviewService = {

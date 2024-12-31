@@ -15,3 +15,16 @@ export interface User {
   updatedAt: string;
   __v: number;
 }
+
+export interface Resume {
+  _id: string;
+  fileName: string;
+  content: string;
+  url: string;
+  hash: string;
+  parsedContent: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
