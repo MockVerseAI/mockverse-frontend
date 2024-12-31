@@ -11,9 +11,10 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { isUserAuthenticated } from "@/lib/utils";
+import ResumeService from "@/services/resumeService";
 import UserService from "@/services/userService";
 import { AppDispatch, RootState } from "@/store";
-import { setUser } from "@/store/user/slice";
+import { setResumes, setUser } from "@/store/user/slice";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, useNavigate } from "react-router";
@@ -29,9 +30,13 @@ export default function DashboardLayout() {
     setIsLoadingGetMyProfile(true);
     if (isAuthenticated) {
       try {
-        const { data } = await UserService.currentUser();
-        const user = data.data;
+        const [userResponse, resumesResponse] = await Promise.all([UserService.currentUser(), ResumeService.getAll()]);
+
+        const user = userResponse.data.data;
+        const resumes = resumesResponse.data.data;
+
         dispatch(setUser(user));
+        dispatch(setResumes(resumes));
       } catch (error) {
         console.log(error);
         navigate("/login");

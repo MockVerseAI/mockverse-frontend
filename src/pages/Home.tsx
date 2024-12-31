@@ -1,8 +1,16 @@
 import { BackgroundBeamsWithCollision } from "@/components/Landing/background-beams-with-collision";
 import Navbar from "@/components/Landing/navbar";
 import ShinyButton from "@/components/Landing/shiny-button";
+import { isUserAuthenticated } from "@/lib/utils";
+import { Navigate } from "react-router";
 
 const Home = () => {
+  const isAuthenticated = isUserAuthenticated();
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
+
   return (
     <>
       <Navbar />

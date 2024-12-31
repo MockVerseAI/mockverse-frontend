@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Label } from "./label";
 
 const mainVariant = {
   initial: {
@@ -67,7 +66,6 @@ export const FileUpload = ({ onChange }: { onChange?: (files: File[]) => void })
           <GridPattern />
         </div>
         <div className="flex flex-col items-center justify-center">
-          <Label className="z-20">Upload resume</Label>
           <p className="relative z-20 mt-1 font-sans text-sm font-normal text-neutral-400 dark:text-neutral-400">
             Drag or drop your resume here or click to upload
           </p>
