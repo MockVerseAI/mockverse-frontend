@@ -64,8 +64,14 @@ const InterviewSetup = () => {
       const errObj = e?.response?.data;
       toast.error(errObj.message || "Failed to upload resume");
     },
-    onSuccess: async () => {
-      toast.success("Resume uploaded successfully");
+    onSuccess: async (r) => {
+      console.log(r);
+      if (r.data.data.alreadyExists == true) {
+        toast.warning(r.data.message);
+      } else {
+        toast.success(r.data.message);
+      }
+
       setUploadFile(undefined);
       // Fetch updated resumes
       try {
@@ -218,7 +224,7 @@ const InterviewSetup = () => {
             <span className="text-center">OR</span>
             <FileUpload onChange={handleFileSelect} />
           </div>
-          <DialogFooter>
+          <DialogFooter className="flex-col sm:flex-row">
             <Button
               disabled={!uploadFile}
               isLoading={isUploading}
@@ -226,7 +232,9 @@ const InterviewSetup = () => {
             >
               Upload
             </Button>
-            <Button onClick={() => setResumeSelectOpen(false)}>Done</Button>
+            <Button onClick={() => setResumeSelectOpen(false)} className="mt-3 sm:mt-0">
+              Done
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
