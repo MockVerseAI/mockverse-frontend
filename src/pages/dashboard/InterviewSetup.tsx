@@ -65,7 +65,6 @@ const InterviewSetup = () => {
       toast.error(errObj.message || "Failed to upload resume");
     },
     onSuccess: async (r) => {
-      console.log(r);
       if (r.data.data.alreadyExists == true) {
         toast.warning(r.data.message);
       } else {
