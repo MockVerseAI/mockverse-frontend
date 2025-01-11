@@ -11,9 +11,18 @@ export interface IInterviewSetup {
   resumeId: string;
 }
 
+export interface IChat {
+  message: string;
+  interviewId: string;
+  isFirst: boolean;
+}
+
 const InterviewService = {
   setup: (payload: IInterviewSetup) => {
-    return interviewAPI.postForm("/setup", payload);
+    return interviewAPI.post("/setup", payload);
+  },
+  chat: (payload: IChat) => {
+    return interviewAPI.post("/chat", payload);
   },
 };
 

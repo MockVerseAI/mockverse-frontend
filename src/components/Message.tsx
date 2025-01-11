@@ -33,20 +33,17 @@ export default function Message({ message }: MessageProps) {
       initial={{ opacity: 0, y: 50, scale: 0.3 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
-      className={cn(
-        "flex mb-4",
-        message.isUser ? "justify-end" : "justify-start"
-      )}
+      className={cn("mb-4 flex", message.isUser ? "justify-end" : "justify-start")}
     >
       <div
         className={cn(
-          "max-w-xs md:max-w-md lg:max-w-lg xl:max-w-xl px-4 py-2 rounded-lg",
-          message.isUser ? "bg-primary" : "bg-muted"
+          "max-w-xs rounded-lg px-4 py-2 md:max-w-md lg:max-w-lg xl:max-w-xl",
+          message.isUser ? "bg-primary text-white" : "bg-muted"
         )}
       >
         {displayedText}
         {!message.isUser && displayedText.length < message.text.length && (
-          <span className="inline-block w-1 h-4 ml-1 bg-gray-800 animate-blink"></span>
+          <span className="animate-blink ml-1 inline-block h-4 w-1 bg-gray-800"></span>
         )}
       </div>
     </motion.div>
