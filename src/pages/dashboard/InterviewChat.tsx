@@ -2,55 +2,87 @@ import ConsentCard from "@/components/ConsetCard";
 import Message from "@/components/Message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import WaveformIcon from "@/components/WaveformIcon";
+import { cn } from "@/lib/utils";
 import InterviewService from "@/services/interviewService";
 import { useMutation } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
-import { Loader, Mic, Send } from "lucide-react";
+import { Loader, Send } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { toast } from "sonner";
 
 export default function InterviewChat() {
   const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([]);
   const [showChat, setShowChat] = useState(false);
   const [input, setInput] = useState("");
+  const [isVoiceMode, setIsVoiceMode] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const { id: interviewId = "" } = useParams();
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const synth = useRef(window.speechSynthesis);
 
-  const speakText = useCallback(async (text: string) => {
-    try {
-      synth.current.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
+  const { transcript, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
-      const voices = synth.current.getVoices();
-      const englishVoice = voices.find((voice) => voice.lang.includes("en")) || voices[0];
-      if (englishVoice) {
-        utterance.voice = englishVoice;
-      }
+  const pauseTimeout = useRef<NodeJS.Timeout | null>(null);
 
-      utterance.rate = 1.0;
-      utterance.pitch = 1.0;
-      utterance.volume = 1.0;
+  useEffect(() => {
+    setInput(transcript);
+  }, [transcript]);
 
-      utterance.onerror = (event) => {
-        console.error("Speech synthesis error:", event);
-        toast.error("Failed to speak the response. Please ensure audio is enabled.");
-      };
-
-      synth.current.speak(utterance);
-    } catch (error) {
-      console.error("Speech synthesis error:", error);
-      toast.error("Failed to initialize speech synthesis");
-    }
+  const startListening = useCallback(() => {
+    SpeechRecognition.startListening({ continuous: true, language: "en-US" });
   }, []);
+  const stopListening = useCallback(() => SpeechRecognition.stopListening(), []);
+
+  const speakText = useCallback(
+    async (text: string) => {
+      try {
+        setIsSpeaking(true);
+        stopListening();
+        synth.current.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+
+        const voices = synth.current.getVoices();
+        const englishVoice = voices.find((voice) => voice.lang.includes("en")) || voices[0];
+        if (englishVoice) {
+          utterance.voice = englishVoice;
+        }
+
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
+        utterance.onerror = (event) => {
+          console.error("Speech synthesis error:", event);
+          toast.error("Failed to speak the response. Please ensure audio is enabled.");
+        };
+
+        synth.current.speak(utterance);
+
+        utterance.onend = () => {
+          if (isVoiceMode) {
+            startListening();
+          }
+          setIsSpeaking(false);
+        };
+      } catch (error) {
+        console.error("Speech synthesis error:", error);
+        toast.error("Failed to initialize speech synthesis");
+      }
+    },
+    [isVoiceMode, startListening, stopListening]
+  );
 
   const { mutate: handleSend, isPending } = useMutation({
     mutationFn: ({ isFirst = false }: { isFirst?: boolean } = {}) => {
       if (!isFirst) {
         setMessages((prev) => [...prev, { text: input, isUser: true }]);
         setInput("");
+        resetTranscript();
       }
+      stopListening();
       return InterviewService.chat({ message: input, interviewId, isFirst });
     },
     onError: (e: any) => {
@@ -59,7 +91,7 @@ export default function InterviewChat() {
     },
     onSuccess: async (response) => {
       const aiResponse = response.data.data.message;
-      await speakText(aiResponse);
+      speakText(aiResponse);
       setMessages((prev) => [...prev, { text: aiResponse, isUser: false }]);
     },
   });
@@ -74,6 +106,31 @@ export default function InterviewChat() {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
+
+  const handleMicClick = useCallback(() => {
+    if (!isVoiceMode) {
+      if (!browserSupportsSpeechRecognition) {
+        toast.error("Your browser does not support voice recognition");
+        return;
+      }
+      setIsVoiceMode(true);
+      startListening();
+    } else {
+      setIsVoiceMode(false);
+      stopListening();
+    }
+  }, [browserSupportsSpeechRecognition, isVoiceMode, startListening, stopListening]);
+
+  useEffect(() => {
+    if (isVoiceMode && transcript.trim() !== "") {
+      if (pauseTimeout.current) clearTimeout(pauseTimeout.current);
+
+      // Start auto-send after user stops speaking for 2 seconds
+      pauseTimeout.current = setTimeout(() => {
+        handleSend({ isFirst: false });
+      }, 2000);
+    }
+  }, [transcript, isVoiceMode, handleSend]);
 
   if (!showChat) {
     return <ConsentCard onStart={handleStart} />;
@@ -112,17 +169,23 @@ export default function InterviewChat() {
           <div className="relative">
             <Input
               value={input}
+              disabled={isSpeaking}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend({ isFirst: false })}
               placeholder="Type your response..."
               className="w-full rounded-lg border-none bg-sidebar py-6"
             />
             <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-2">
-              <Button variant="ghost" size="icon">
-                <Mic className="h-4 w-4" />
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleMicClick}
+                className={cn("rounded-full", isVoiceMode ? "bg-accent" : "")}
+              >
+                <WaveformIcon isActive={isVoiceMode} />
               </Button>
-              <Button size="icon" onClick={() => handleSend({ isFirst: false })}>
-                <Send className="h-4 w-4" />
+              <Button disabled={input.trim().length === 0} size="icon" onClick={() => handleSend({ isFirst: false })}>
+                <Send className="size-4" />
               </Button>
             </div>
           </div>

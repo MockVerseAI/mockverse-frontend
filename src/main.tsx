@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
+import "regenerator-runtime/runtime";
 import Providers from "./components/Providers.tsx";
 import "./index.css";
 import DashboardLayout from "./layouts/DashboardLayout.tsx";
