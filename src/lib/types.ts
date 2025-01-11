@@ -28,3 +28,8 @@ export interface Resume {
   updatedAt: string;
   __v: number;
 }
+
+export interface IMessage {
+  content: string;
+  role: "user" | "system";
+}
