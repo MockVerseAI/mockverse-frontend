@@ -3,6 +3,7 @@ import Message from "@/components/Message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import WaveformIcon from "@/components/WaveformIcon";
+import { IMessage } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import InterviewService from "@/services/interviewService";
 import { useMutation } from "@tanstack/react-query";
@@ -14,11 +15,11 @@ import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognitio
 import { toast } from "sonner";
 
 export default function InterviewChat() {
-  const [messages, setMessages] = useState<{ text: string; isUser: boolean }[]>([]);
-  const [showChat, setShowChat] = useState(false);
+  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [showChat, setShowChat] = useState<boolean>(false);
   const [input, setInput] = useState("");
-  const [isVoiceMode, setIsVoiceMode] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isVoiceMode, setIsVoiceMode] = useState<boolean>(false);
+  const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const { id: interviewId = "" } = useParams();
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const synth = useRef(window.speechSynthesis);
@@ -78,7 +79,7 @@ export default function InterviewChat() {
   const { mutate: handleSend, isPending } = useMutation({
     mutationFn: ({ isFirst = false }: { isFirst?: boolean } = {}) => {
       if (!isFirst) {
-        setMessages((prev) => [...prev, { text: input, isUser: true }]);
+        setMessages((prev) => [...prev, { content: input, role: "user" }]);
         setInput("");
         resetTranscript();
       }
@@ -90,9 +91,14 @@ export default function InterviewChat() {
       toast.error(errObj.message || "Failed to send message");
     },
     onSuccess: async (response) => {
-      const aiResponse = response.data.data.message;
-      speakText(aiResponse);
-      setMessages((prev) => [...prev, { text: aiResponse, isUser: false }]);
+      const dataObj = response.data.data;
+      if (Array.isArray(dataObj)) {
+        setMessages(dataObj.map((item) => ({ role: item.role, content: item.content })));
+      } else {
+        const aiResponse = dataObj.content;
+        speakText(aiResponse);
+        setMessages((prev) => [...prev, { content: aiResponse, role: "system" }]);
+      }
     },
   });
 
@@ -173,7 +179,7 @@ export default function InterviewChat() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend({ isFirst: false })}
               placeholder="Type your response..."
-              className="w-full rounded-lg border-none bg-sidebar py-6"
+              className="w-full rounded-lg border-none bg-sidebar py-6 pr-24"
             />
             <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-2">
               <Button
