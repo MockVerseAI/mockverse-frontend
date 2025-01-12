@@ -10,7 +10,7 @@ import { useMutation } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader, Send } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 import { toast } from "sonner";
 
@@ -21,6 +21,7 @@ export default function InterviewChat() {
   const [isVoiceMode, setIsVoiceMode] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const { id: interviewId = "" } = useParams();
+  const navigate = useNavigate();
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const synth = useRef(window.speechSynthesis);
 
@@ -138,65 +139,83 @@ export default function InterviewChat() {
     }
   }, [transcript, isVoiceMode, handleSend]);
 
+  const { mutate: endInterview, isPending: isEndInterviewPending } = useMutation({
+    mutationFn: () => {
+      return InterviewService.end({ interviewId });
+    },
+    onError: (e: any) => {
+      const errObj = e?.response?.data;
+      toast.error(errObj.message || "Failed to end interview");
+    },
+    onSuccess: async () => {
+      navigate(`/dashboard/interview/report/${interviewId}`);
+    },
+  });
+
   if (!showChat) {
     return <ConsentCard onStart={handleStart} />;
   }
 
   return (
-    <div className="flex h-full flex-col items-center">
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="w-full max-w-4xl flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500"
-          style={{ maxHeight: "calc(100vh - 150px)" }}
-          ref={chatContainerRef}
-        >
-          {messages.map((message, index) => (
-            <Message key={index} message={message} />
-          ))}
-          {isPending ? (
-            <motion.div
-              initial={{ opacity: 0, y: 50, scale: 0.3 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
-              className="mb-4 flex justify-start"
-            >
-              <div className="max-w-xs rounded-lg bg-muted px-4 py-2 md:max-w-md lg:max-w-lg xl:max-w-xl">
-                <Loader className="size-5 animate-spin" />
-              </div>
-            </motion.div>
-          ) : null}
-        </motion.div>
-      </AnimatePresence>
-
-      <div className="mb-5 w-full">
-        <div className="mx-auto max-w-4xl">
-          <div className="relative">
-            <Input
-              value={input}
-              disabled={isSpeaking}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend({ isFirst: false })}
-              placeholder="Type your response..."
-              className="w-full rounded-lg border-none bg-sidebar py-6 pr-24"
-            />
-            <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleMicClick}
-                className={cn("rounded-full", isVoiceMode ? "bg-accent" : "")}
+    <>
+      <Button isLoading={isEndInterviewPending} onClick={() => endInterview()} className="fixed right-5 top-4">
+        End Interview
+      </Button>
+      <div className="flex h-full flex-col items-center">
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="w-full max-w-4xl flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500"
+            style={{ maxHeight: "calc(100vh - 150px)" }}
+            ref={chatContainerRef}
+          >
+            {messages.map((message, index) => (
+              <Message key={index} message={message} />
+            ))}
+            {isPending ? (
+              <motion.div
+                initial={{ opacity: 0, y: 50, scale: 0.3 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
+                className="mb-4 flex justify-start"
               >
-                <WaveformIcon isActive={isVoiceMode} />
-              </Button>
-              <Button disabled={input.trim().length === 0} size="icon" onClick={() => handleSend({ isFirst: false })}>
-                <Send className="size-4" />
-              </Button>
+                <div className="max-w-xs rounded-lg bg-muted px-4 py-2 md:max-w-md lg:max-w-lg xl:max-w-xl">
+                  <Loader className="size-5 animate-spin" />
+                </div>
+              </motion.div>
+            ) : null}
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="mb-5 w-full">
+          <div className="mx-auto max-w-4xl">
+            <div className="relative">
+              <Input
+                value={input}
+                disabled={isSpeaking}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSend({ isFirst: false })}
+                placeholder="Type your response..."
+                className="w-full rounded-lg border-none bg-sidebar py-6 pr-24"
+              />
+              <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleMicClick}
+                  className={cn("rounded-full", isVoiceMode ? "bg-accent" : "")}
+                >
+                  <WaveformIcon isActive={isVoiceMode} />
+                </Button>
+                <Button disabled={input.trim().length === 0} size="icon" onClick={() => handleSend({ isFirst: false })}>
+                  <Send className="size-4" />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

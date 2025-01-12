@@ -17,12 +17,22 @@ export interface IChat {
   isFirst: boolean;
 }
 
+export interface IInterviewEnd {
+  interviewId: string;
+}
+
 const InterviewService = {
+  get: () => {
+    return interviewAPI.get("/");
+  },
   setup: (payload: IInterviewSetup) => {
     return interviewAPI.post("/setup", payload);
   },
   chat: (payload: IChat) => {
     return interviewAPI.post("/chat", payload);
+  },
+  end: (payload: IInterviewEnd) => {
+    return interviewAPI.post("/end", payload);
   },
 };
 
