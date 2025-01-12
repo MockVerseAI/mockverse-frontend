@@ -15,6 +15,7 @@ import VerifyEmail from "./pages/auth/VerifyEmail.tsx";
 import Account from "./pages/dashboard/Account.tsx";
 import DashboardHome from "./pages/dashboard/DashboardHome.tsx";
 import InterviewChat from "./pages/dashboard/InterviewChat.tsx";
+import InterviewReport from "./pages/dashboard/InterviewReport.tsx";
 import Interviews from "./pages/dashboard/Interviews.tsx";
 import InterviewSetup from "./pages/dashboard/InterviewSetup.tsx";
 import Home from "./pages/Home.tsx";
@@ -39,6 +40,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/dashboard/interview" element={<Interviews />} />
           <Route path="/dashboard/interview/setup" element={<InterviewSetup />} />
           <Route path="/dashboard/interview/chat/:id" element={<InterviewChat />} />
+          <Route path="/dashboard/interview/report/:id" element={<InterviewReport />} />
           <Route path="/dashboard/account" element={<Account />} />
         </Route>
       </Routes>

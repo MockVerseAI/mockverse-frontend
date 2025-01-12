@@ -33,3 +33,15 @@ export interface IMessage {
   content: string;
   role: "user" | "system";
 }
+
+export interface IInterview {
+  _id: string;
+  jobRole: string;
+  jobDescription: string;
+  resumeId: string;
+  userId: string;
+  isCompleted: boolean;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
+}
