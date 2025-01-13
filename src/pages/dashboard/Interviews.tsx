@@ -29,7 +29,7 @@ const Interviews = () => {
         {isPending
           ? Array(2)
               .fill(0)
-              .map((_) => <Skeleton className="h-[145px]" />)
+              .map((_, idx) => <Skeleton key={idx} className="h-[145px]" />)
           : null}
         {!isPending
           ? interviews?.data.data.map((item: IInterview) => (

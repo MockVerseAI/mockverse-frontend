@@ -28,11 +28,14 @@ const InterviewService = {
   setup: (payload: IInterviewSetup) => {
     return interviewAPI.post("/setup", payload);
   },
-  chat: (payload: IChat) => {
-    return interviewAPI.post("/chat", payload);
+  chat: ({ interviewId, ...rest }: IChat) => {
+    return interviewAPI.post(`/chat/${interviewId}`, rest);
   },
-  end: (payload: IInterviewEnd) => {
-    return interviewAPI.post("/end", payload);
+  end: ({ interviewId }: IInterviewEnd) => {
+    return interviewAPI.post(`/end/${interviewId}`);
+  },
+  report: ({ interviewId }: IInterviewEnd) => {
+    return interviewAPI.get(`/report/${interviewId}`);
   },
 };
 
