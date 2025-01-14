@@ -46,7 +46,7 @@ const Account = () => {
     <div className="flex h-full w-full flex-col items-center">
       <input ref={fileInput} type="file" accept="image/*" hidden onChange={handleFileChange} />
       <Avatar className="relative size-28 overflow-visible rounded-full">
-        <AvatarImage src={user?.avatar?.url} alt={user?.username} className="rounded-full" />
+        <AvatarImage src={user?.avatar} alt={user?.username} className="rounded-full" />
         <AvatarFallback className="rounded-full uppercase">{user?.username?.slice(0, 1)}</AvatarFallback>
         <Button
           onClick={handleEditClick}
@@ -57,7 +57,7 @@ const Account = () => {
           <SquarePen className="size-4 text-white" />
         </Button>
       </Avatar>
-      {user?.avatar?.url}
+      {user?.avatar}
     </div>
   );
 };

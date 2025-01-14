@@ -97,8 +97,13 @@ export default function InterviewChat() {
         setMessages(dataObj.map((item) => ({ role: item.role, content: item.content })));
       } else {
         const aiResponse = dataObj.content;
+        if (aiResponse.includes("That concludes our interview")) {
+          setTimeout(() => {
+            endInterview();
+          }, 5000);
+        }
         speakText(aiResponse);
-        setMessages((prev) => [...prev, { content: aiResponse, role: "system" }]);
+        setMessages((prev) => [...prev, { content: aiResponse, role: "assistant" }]);
       }
     },
   });
