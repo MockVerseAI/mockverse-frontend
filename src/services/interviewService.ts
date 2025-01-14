@@ -1,9 +1,23 @@
+import { getAuthToken } from "@/lib/utils";
 import axios from "axios";
 
 const interviewAPI = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1/interview`,
   withCredentials: true,
 });
+
+interviewAPI.interceptors.request.use(
+  (config) => {
+    const authToken = getAuthToken();
+    if (authToken) {
+      config.headers.Authorization = authToken;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export interface IInterviewSetup {
   jobRole: string;
@@ -28,11 +42,14 @@ const InterviewService = {
   setup: (payload: IInterviewSetup) => {
     return interviewAPI.post("/setup", payload);
   },
-  chat: (payload: IChat) => {
-    return interviewAPI.post("/chat", payload);
+  chat: ({ interviewId, ...rest }: IChat) => {
+    return interviewAPI.post(`/chat/${interviewId}`, rest);
   },
-  end: (payload: IInterviewEnd) => {
-    return interviewAPI.post("/end", payload);
+  end: ({ interviewId }: IInterviewEnd) => {
+    return interviewAPI.post(`/end/${interviewId}`);
+  },
+  report: ({ interviewId }: IInterviewEnd) => {
+    return interviewAPI.get(`/report/${interviewId}`);
   },
 };
 

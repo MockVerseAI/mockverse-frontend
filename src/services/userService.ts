@@ -1,9 +1,23 @@
+import { getAuthToken } from "@/lib/utils";
 import axios from "axios";
 
 const userAPI = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1/user`,
   withCredentials: true,
 });
+
+userAPI.interceptors.request.use(
+  (config) => {
+    const authToken = getAuthToken();
+    if (authToken) {
+      config.headers.Authorization = authToken;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 interface ILogin {
   email: string;
