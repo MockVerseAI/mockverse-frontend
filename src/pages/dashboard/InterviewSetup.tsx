@@ -175,10 +175,7 @@ const InterviewSetup = () => {
                       {selectedResume?.fileName || "Select a resume"}
                     </div>
                     {selectedResume ? (
-                      <Button
-                        onClick={handleResumePreview}
-                        className="absolute right-9 top-1.5 z-20 h-auto px-1.5 py-1"
-                      >
+                      <Button onClick={handleResumePreview} className="absolute right-9 top-0.5 z-20 size-8">
                         <ExternalLink className="size-3" />
                       </Button>
                     ) : null}
@@ -206,7 +203,7 @@ const InterviewSetup = () => {
                   <SelectValue placeholder={resumes.length ? "Select a resume" : "Upload a resume"} />
                 </SelectTrigger>
                 {selectedResume ? (
-                  <Button onClick={handleResumePreview} className="absolute right-10 top-1.5 z-20 h-auto px-1.5 py-1">
+                  <Button onClick={handleResumePreview} className="absolute right-10 top-0.5 z-20 size-8">
                     <ExternalLink className="size-3" />
                   </Button>
                 ) : null}
