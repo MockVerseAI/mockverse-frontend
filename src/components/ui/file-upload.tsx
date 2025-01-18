@@ -48,11 +48,11 @@ export const FileUpload = ({ onChange }: { onChange?: (files: File[]) => void })
   });
 
   return (
-    <div className="w-full" {...getRootProps()}>
+    <div {...getRootProps()}>
       <motion.div
         onClick={handleClick}
         whileHover="animate"
-        className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg px-10"
+        className="group/file relative block w-full cursor-pointer overflow-hidden rounded-lg px-10 pb-10"
       >
         <input
           ref={fileInputRef}
