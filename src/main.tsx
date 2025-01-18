@@ -13,13 +13,14 @@ import Signup from "./pages/auth/Signup.tsx";
 import SSOSuccess from "./pages/auth/SSOSuccess.tsx";
 import VerifyEmail from "./pages/auth/VerifyEmail.tsx";
 import Account from "./pages/dashboard/Account.tsx";
+import ApplicationEnhancer from "./pages/dashboard/application-enhancer/ApplicationEnhancer.tsx";
+import ApplicationEnhancerSetup from "./pages/dashboard/application-enhancer/ApplicationEnhancerSetup.tsx";
 import DashboardHome from "./pages/dashboard/DashboardHome.tsx";
 import InterviewChat from "./pages/dashboard/interview/InterviewChat.tsx";
 import InterviewReport from "./pages/dashboard/interview/InterviewReport.tsx";
 import Interviews from "./pages/dashboard/interview/Interviews.tsx";
 import InterviewSetup from "./pages/dashboard/interview/InterviewSetup.tsx";
 import Home from "./pages/Home.tsx";
-import Resumes from "./pages/dashboard/resumes/Resumes.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <Providers>
@@ -42,7 +43,8 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/dashboard/interview/setup" element={<InterviewSetup />} />
           <Route path="/dashboard/interview/chat/:id" element={<InterviewChat />} />
           <Route path="/dashboard/interview/report/:id" element={<InterviewReport />} />
-          <Route path="/dashboard/resumes" element={<Resumes />} />
+          <Route path="/dashboard/application-enhancer" element={<ApplicationEnhancer />} />
+          <Route path="/dashboard/application-enhancer/setup" element={<ApplicationEnhancerSetup />} />
           <Route path="/dashboard/account" element={<Account />} />
         </Route>
       </Routes>
