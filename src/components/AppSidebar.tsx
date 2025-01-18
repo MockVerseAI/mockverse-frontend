@@ -11,7 +11,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { RootState } from "@/store";
-import { BrainCircuit, ContactRound, Home, Map } from "lucide-react";
+import { BrainCircuit, ContactRound, FileText, Home } from "lucide-react";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router";
@@ -28,9 +28,9 @@ const navItems = [
     icon: ContactRound,
   },
   {
-    name: "Travel",
-    url: "#",
-    icon: Map,
+    name: "Resumes",
+    url: "/dashboard/resumes",
+    icon: FileText,
   },
 ];
 
