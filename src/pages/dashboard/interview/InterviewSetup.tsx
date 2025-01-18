@@ -105,9 +105,13 @@ const InterviewSetup = () => {
     setupInterview(payload);
   };
 
-  const handleFileSelect = useCallback((files: File[]) => {
-    setUploadFile(files[0]);
-  }, []);
+  const handleFileSelect = useCallback(
+    (files: File[]) => {
+      setUploadFile(files[0]);
+      uploadResume(files[0]);
+    },
+    [uploadResume]
+  );
 
   const handleResumeSelectOpen = useCallback(() => {
     setResumeSelectOpen(true);
@@ -221,13 +225,11 @@ const InterviewSetup = () => {
             <FileUpload onChange={handleFileSelect} />
           </div>
           <DialogFooter className="flex-col sm:flex-row">
-            <Button
-              disabled={!uploadFile}
-              isLoading={isUploading}
-              onClick={() => uploadFile && uploadResume(uploadFile)}
-            >
-              Upload
-            </Button>
+            {isUploading ? (
+              <Button disabled={true} isLoading={isUploading} onClick={() => uploadFile && uploadResume(uploadFile)}>
+                Uploading
+              </Button>
+            ) : null}
             <Button onClick={() => setResumeSelectOpen(false)} className="mt-3 sm:mt-0">
               Done
             </Button>
