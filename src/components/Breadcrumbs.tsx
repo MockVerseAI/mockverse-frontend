@@ -11,12 +11,12 @@ const Breadcrumbs = () => {
     const segments = pathname
       .split("/")
       .slice(1)
-      .filter((segment) => segment.length < 15)
+      .filter((segment) => segment.length < 21)
       .map((segment) => {
         url += `/${segment}`;
         return {
           link: url,
-          name: segment,
+          name: segment.replace("-", " "),
         };
       });
 

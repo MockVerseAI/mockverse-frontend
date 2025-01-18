@@ -28,8 +28,8 @@ const navItems = [
     icon: ContactRound,
   },
   {
-    name: "Resumes",
-    url: "/dashboard/resumes",
+    name: "Application Enhancer",
+    url: "/dashboard/application-enhancer",
     icon: FileText,
   },
 ];

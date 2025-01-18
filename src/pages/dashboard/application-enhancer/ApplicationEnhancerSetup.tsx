@@ -21,14 +21,16 @@ import { z } from "zod";
 const formSchema = z.object({
   jobRole: z.string().min(3).max(50),
   jobDescription: z.string(),
+  companyName: z.string(),
 });
 
-const InterviewSetup = () => {
+const ApplicationEnhancerSetup = () => {
   const { resumes } = useSelector((root: RootState) => root.user);
   const navigate = useNavigate();
   const { handleSubmit, register } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      companyName: "",
       jobRole: "",
       jobDescription: "",
     },
@@ -80,6 +82,16 @@ const InterviewSetup = () => {
           <div>
             <div className="grid gap-6">
               <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
+                <div className="grid gap-2">
+                  <Label htmlFor="companyName">Company Name</Label>
+                  <Input
+                    id="companyName"
+                    type="text"
+                    placeholder="Enter company name (ex. Google)"
+                    {...register("companyName")}
+                    required
+                  />
+                </div>
                 <div className="grid gap-2">
                   <Label htmlFor="jobRole">Job Role</Label>
                   <Input
@@ -141,4 +153,4 @@ const InterviewSetup = () => {
   );
 };
 
-export default InterviewSetup;
+export default ApplicationEnhancerSetup;
