@@ -20,14 +20,14 @@ import { z } from "zod";
 
 const formSchema = z.object({
   jobRole: z.string().min(3).max(50),
-  jobDescription: z.string(),
+  jobDescription: z.string().max(2500),
   companyName: z.string(),
 });
 
 const ApplicationEnhancerSetup = () => {
   const { resumes } = useSelector((root: RootState) => root.user);
   const navigate = useNavigate();
-  const { handleSubmit, register } = useForm<z.infer<typeof formSchema>>({
+  const { handleSubmit, register, watch } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       companyName: "",
@@ -35,6 +35,7 @@ const ApplicationEnhancerSetup = () => {
       jobDescription: "",
     },
   });
+  const watchJobDescription = watch("jobDescription");
 
   const [selectedResume, setSelectedResume] = useState<Resume | null>(null);
   const [resumeSelectOpen, setResumeSelectOpen] = useState<boolean>(false);
@@ -60,12 +61,15 @@ const ApplicationEnhancerSetup = () => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    if (!selectedResume) return toast.error("Please select a resume");
+  const onSubmit = useCallback(
+    (values: z.infer<typeof formSchema>) => {
+      if (!selectedResume) return toast.error("Please select a resume");
 
-    const payload = { ...values, resumeId: selectedResume._id };
-    createApplication(payload);
-  };
+      const payload = { ...values, resumeId: selectedResume._id };
+      createApplication(payload);
+    },
+    [createApplication, selectedResume]
+  );
 
   const handleResumeSelectOpen = useCallback(() => {
     setResumeSelectOpen(true);
@@ -110,6 +114,16 @@ const ApplicationEnhancerSetup = () => {
                     {...register("jobDescription")}
                     required
                   />
+                  <div className="-mt-1 flex justify-end">
+                    <span
+                      className={cn(
+                        "text-xs",
+                        watchJobDescription.length > 2500 ? "text-red-400" : "text-muted-foreground"
+                      )}
+                    >
+                      {watchJobDescription.length}/2500
+                    </span>
+                  </div>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="resume">Resume</Label>

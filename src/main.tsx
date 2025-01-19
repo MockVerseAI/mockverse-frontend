@@ -14,6 +14,7 @@ import SSOSuccess from "./pages/auth/SSOSuccess.tsx";
 import VerifyEmail from "./pages/auth/VerifyEmail.tsx";
 import Account from "./pages/dashboard/Account.tsx";
 import ApplicationEnhancer from "./pages/dashboard/application-enhancer/ApplicationEnhancer.tsx";
+import ApplicationEnhancerReport from "./pages/dashboard/application-enhancer/ApplicationEnhancerReport.tsx";
 import ApplicationEnhancerSetup from "./pages/dashboard/application-enhancer/ApplicationEnhancerSetup.tsx";
 import DashboardHome from "./pages/dashboard/DashboardHome.tsx";
 import InterviewChat from "./pages/dashboard/interview/InterviewChat.tsx";
@@ -45,6 +46,7 @@ createRoot(document.getElementById("root")!).render(
           <Route path="/dashboard/interview/report/:id" element={<InterviewReport />} />
           <Route path="/dashboard/application-enhancer" element={<ApplicationEnhancer />} />
           <Route path="/dashboard/application-enhancer/setup" element={<ApplicationEnhancerSetup />} />
+          <Route path="/dashboard/application-enhancer/report/:id" element={<ApplicationEnhancerReport />} />
           <Route path="/dashboard/account" element={<Account />} />
         </Route>
       </Routes>
