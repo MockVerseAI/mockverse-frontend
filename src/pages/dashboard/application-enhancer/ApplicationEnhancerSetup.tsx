@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Resume } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import InterviewService, { IInterviewSetup } from "@/services/interviewService";
+import ApplicationService, { IApplicationCreate } from "@/services/applicationService";
 import { RootState } from "@/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -46,9 +46,9 @@ const ApplicationEnhancerSetup = () => {
     }
   }, [resumes, selectedResume]);
 
-  const { mutate: setupInterview, isPending } = useMutation({
-    mutationFn: (payload: IInterviewSetup) => {
-      return InterviewService.setup(payload);
+  const { mutate: createApplication, isPending } = useMutation({
+    mutationFn: (payload: IApplicationCreate) => {
+      return ApplicationService.create(payload);
     },
     onError: (e: any) => {
       const errObj = e?.response?.data;
@@ -56,7 +56,7 @@ const ApplicationEnhancerSetup = () => {
     },
     onSuccess: (res: any) => {
       const { data } = res;
-      navigate(`/dashboard/interview/chat/${data?.data?._id}`);
+      navigate(`/dashboard/application-enhancer/report/${data?.data?._id}`);
     },
   });
 
@@ -64,7 +64,7 @@ const ApplicationEnhancerSetup = () => {
     if (!selectedResume) return toast.error("Please select a resume");
 
     const payload = { ...values, resumeId: selectedResume._id };
-    setupInterview(payload);
+    createApplication(payload);
   };
 
   const handleResumeSelectOpen = useCallback(() => {
