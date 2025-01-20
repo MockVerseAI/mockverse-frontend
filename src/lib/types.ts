@@ -39,3 +39,15 @@ export interface IInterview {
   createdAt: string;
   updatedAt: string;
 }
+
+export type PLAN = {
+  id: string;
+  title: string;
+  desc: string;
+  monthlyPrice: number;
+  annuallyPrice: number;
+  badge?: string;
+  buttonText: string;
+  features: string[];
+  link: string;
+};
