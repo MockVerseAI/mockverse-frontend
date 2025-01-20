@@ -1,30 +1,25 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
+import { FileUpload } from "@/components/ui/file-upload";
 import { cn } from "@/lib/utils";
+import ResumeService from "@/services/resumeService";
 import UserService, { IChangeAvatar } from "@/services/userService";
 import { AppDispatch, RootState } from "@/store";
-import { setUser } from "@/store/user/slice";
+import { setResumes, setUser } from "@/store/user/slice";
 import { useMutation } from "@tanstack/react-query";
-import ResumeService from "@/services/resumeService";
-import { setResumes } from "@/store/user/slice";
-import { Resume } from "@/lib/types";
 import { ExternalLink, Plus, SquarePen, Trash2 } from "lucide-react";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
 import { toast } from "sonner";
-import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
-import { FileUpload } from "@/components/ui/file-upload";
 
 const Account = () => {
   const fileInput = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch<AppDispatch>();
   const { user, resumes } = useSelector((root: RootState) => root.user);
-  const [uploadFile, setUploadFile] = useState<File>();
   const [resumeSelectOpen, setResumeSelectOpen] = useState<boolean>(false);
-  const [selectedResume, setSelectedResume] = useState<Resume | null>(null);
 
   // Mutation to handle image upload
   const { mutate: updateAvatar, isPending } = useMutation({
@@ -39,11 +34,6 @@ const Account = () => {
     },
   });
 
-  useEffect(() => {
-    if (resumes.length > 0 && !selectedResume) {
-      setSelectedResume(resumes[0]);
-    }
-  }, [resumes, selectedResume]);
   const { mutate: uploadResume, isPending: isUploading } = useMutation({
     mutationFn: (file: File) => {
       return ResumeService.create({ resume: file });
@@ -59,8 +49,6 @@ const Account = () => {
       } else {
         toast.success(r.data.message);
       }
-
-      setUploadFile(undefined);
       // Fetch updated resumes
       setResumeSelectOpen(false);
       try {
@@ -87,6 +75,13 @@ const Account = () => {
     },
     [updateAvatar]
   );
+
+  const handleResumeUpload = useCallback((files: File[]) => {
+    const file = files?.[0];
+    if (file) {
+      uploadResume(file);
+    }
+  }, []);
 
   return (
     <div className="flex h-full w-full flex-col items-center">
@@ -122,7 +117,7 @@ const Account = () => {
         </CardHeader>
 
         <CardContent>
-          <div>
+          <div className="flex flex-col gap-2">
             {resumes.map((item) => (
               <div id={item._id} className="flex items-center justify-between">
                 <span>{item.fileName}</span>
@@ -146,16 +141,14 @@ const Account = () => {
 
       <Dialog open={resumeSelectOpen} onOpenChange={setResumeSelectOpen}>
         <DialogContent className="sm:max-w-[460px]">
-          <FileUpload
-            onChange={(files) => {
-              const file = files[0];
-              if (file) {
-                setUploadFile(file);
-                uploadResume(file);
-              }
-            }}
-          />
-          <DialogFooter className="flex-col sm:flex-row" />
+          <FileUpload onChange={handleResumeUpload} />
+          <DialogFooter className="flex-col sm:flex-row">
+            {isUploading ? (
+              <Button disabled={true} isLoading={true}>
+                Uploading
+              </Button>
+            ) : null}
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
