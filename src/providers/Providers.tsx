@@ -2,7 +2,7 @@ import { ThemeProvider } from "@/providers/theme-provider";
 import { store } from "@/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
-import { Toaster } from "./ui/sonner";
+import { Toaster } from "@/components/ui/sonner";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient();

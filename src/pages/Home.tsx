@@ -11,7 +11,7 @@ import Pricing from "@/components/Landing/sections/pricing";
 
 const Home = () => {
   return (
-    <div className="!scrollbar-hide min-h-screen overflow-x-hidden bg-background font-heading text-foreground antialiased">
+    <div className="dark min-h-screen overflow-x-hidden bg-background font-heading text-foreground antialiased">
       <Navbar />
       <main className="relative z-40 mx-auto w-full">
         <Wrapper className="relative py-20">
