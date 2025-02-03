@@ -171,3 +171,228 @@ export type PLAN = {
   features: string[];
   link: string;
 };
+
+export interface ISkillAnalysis {
+  skill: string;
+  level: string;
+  evidence?: string;
+  priority?: string;
+  impact?: string;
+  recommendation?: string;
+  timeline?: string;
+  resources?: string[];
+}
+
+export interface IProblemSolving {
+  analytical: string;
+  design: string;
+  scalability: string;
+}
+
+export interface ITechnicalCommunication {
+  clarity: string;
+  depth: string;
+}
+
+export interface ILeadershipInitiative {
+  example: string;
+  impact: string;
+  context: string;
+}
+
+export interface ILeadership {
+  decisionMaking: string;
+  teamInfluence: string;
+  initiative: ILeadershipInitiative[];
+}
+
+export interface IAdaptability {
+  changeResponse: string;
+  learning: string;
+  growth: string;
+}
+
+export interface ICollaboration {
+  teamwork: string;
+  communication: string;
+  crossTeam: string[];
+}
+
+export interface IResponseStructure {
+  clarity: number;
+  organization: string;
+  improvement: string[];
+}
+
+export interface IStarMethod {
+  situation: string;
+  task: string;
+  action: string;
+  result: string;
+  tips: string[];
+}
+
+export interface IRoleRequirement {
+  requirement: string;
+  met: boolean;
+  notes: string;
+}
+
+export interface ISkillMatch {
+  match: number;
+  notes: string;
+}
+
+export interface IRoleAlignment {
+  requirements: {
+    essential: IRoleRequirement[];
+    experience: string;
+    skills: Record<string, ISkillMatch>;
+  };
+  potential: {
+    growth: string;
+    advancement: string;
+    development: string[];
+  };
+  cultural: {
+    values: string;
+    workStyle: string;
+    fit: string[];
+  };
+}
+
+export interface IPerformanceMetrics {
+  scores: {
+    overall: number;
+    technical: number;
+    behavioral: number;
+    communication: number;
+  };
+  benchmarks: {
+    industry: string;
+    role: string;
+    level: string;
+  };
+}
+
+export interface IDevelopmentAction {
+  area: string;
+  importance: string;
+  action: string;
+}
+
+export interface IDevelopmentExercise {
+  type: string;
+  description: string;
+  goal: string;
+}
+
+export interface IDevelopmentResource {
+  type: string;
+  description: string;
+  link: string;
+}
+
+export interface IDevelopmentGoal {
+  timeline: string;
+  objective: string;
+  success_criteria: string;
+}
+
+export interface IDevelopmentSkill {
+  skill: string;
+  current_level: string;
+  target_level: string;
+  timeline: string;
+}
+
+export interface IPreparationQuestion {
+  question: string;
+  category: string;
+  preparation_tips: string[];
+}
+
+export interface IPreparationScenario {
+  situation: string;
+  expected_response: string;
+  evaluation_criteria: string[];
+}
+
+export interface IInterviewReport {
+  technicalAssessment: {
+    skillsAnalysis: {
+      demonstrated: ISkillAnalysis[];
+      required: ISkillAnalysis[];
+      gaps: ISkillAnalysis[];
+      growthPath: ISkillAnalysis[];
+    };
+    problemSolving: IProblemSolving;
+    technicalCommunication: ITechnicalCommunication;
+  };
+  behavioralAnalysis: {
+    leadership: ILeadership;
+    adaptability: IAdaptability;
+    collaboration: ICollaboration;
+  };
+  responseQuality: {
+    structure: IResponseStructure;
+    starMethod: IStarMethod;
+  };
+  roleAlignment: IRoleAlignment;
+  performanceMetrics: IPerformanceMetrics;
+  developmentPlan: {
+    immediate: {
+      priorities: IDevelopmentAction[];
+      exercises: IDevelopmentExercise[];
+      resources: IDevelopmentResource[];
+    };
+    shortTerm: {
+      goals: IDevelopmentGoal[];
+      skills: IDevelopmentSkill[];
+      actions: string[];
+    };
+    preparation: {
+      questions: IPreparationQuestion[];
+      responses: Record<string, any>;
+      scenarios: IPreparationScenario[];
+    };
+  };
+  _id: string;
+  interviewId: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface IResponseQuality {
+  structure: IResponseStructure;
+  starMethod: IStarMethod;
+}
+
+export interface ITechnicalAssessment {
+  skillsAnalysis: {
+    demonstrated: ISkillAnalysis[];
+    required: ISkillAnalysis[];
+    gaps: ISkillAnalysis[];
+  };
+  problemSolving: IProblemSolving;
+  technicalCommunication: ITechnicalCommunication;
+}
+
+export interface IBehavioralAnalysis {
+  leadership: ILeadership;
+  adaptability: IAdaptability;
+  collaboration: ICollaboration;
+}
+
+export interface IDevelopmentPlan {
+  immediate: {
+    priorities: IDevelopmentAction[];
+    resources: IDevelopmentResource[];
+  };
+  shortTerm: {
+    goals: IDevelopmentGoal[];
+    skills: IDevelopmentSkill[];
+  };
+}

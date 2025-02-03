@@ -1,8 +1,13 @@
-import Message from "@/components/Message";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { IInterviewReport, IMessage } from "@/lib/types";
 import InterviewService from "@/services/interviewService";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
+import Overview from "@/components/interview-report/Overview";
+import TechnicalAssessment from "@/components/interview-report/TechnicalAssessment";
+import BehavioralAnalysis from "@/components/interview-report/BehavioralAnalysis";
+import DevelopmentPlan from "@/components/interview-report/DevelopmentPlan";
+import InterviewConversation from "@/components/interview-report/InterviewConversation";
 
 const InterviewReport = () => {
   const { id: interviewId = "" } = useParams();
@@ -19,53 +24,73 @@ const InterviewReport = () => {
     return <div>Generating Report....</div>;
   }
 
-  const { interviewReport, messages } = data;
+  const { interviewReport, messages, interview } = data as {
+    interviewReport: IInterviewReport;
+    messages: IMessage[];
+    interview: any;
+  };
 
   return (
-    <div className="grid grid-cols-2 gap-10">
-      <div className="flex flex-col gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Areas of Improvement</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="list-disc pl-4 text-sm">
-              {interviewReport.areasOfImprovement.map((item: string) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+    <div>
+      <h1 className="mb-4 text-2xl font-bold">{interview.jobRole} - Interview Report</h1>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Strengths</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="list-disc pl-4 text-sm">
-              {interviewReport.strengths.map((item: string) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+      <div className="container mx-auto py-4">
+        <Tabs defaultValue="overview">
+          <div className="relative h-[52px] overflow-y-hidden overflow-x-scroll rounded-sm bg-muted lg:bg-transparent">
+            <TabsList className="absolute flex w-full flex-row justify-stretch">
+              <TabsTrigger className="w-full" value="overview">
+                Overview & Performance
+              </TabsTrigger>
+              <TabsTrigger className="w-full" value="technical">
+                Technical Assessment
+              </TabsTrigger>
+              <TabsTrigger className="w-full" value="behavioral">
+                Behavioral Analysis
+              </TabsTrigger>
+              <TabsTrigger className="w-full" value="development">
+                Development Plan
+              </TabsTrigger>
+              <TabsTrigger className="w-full" value="conversation">
+                Interview Conversation
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Overall Feel</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm">{interviewReport.overallFeel}</p>
-          </CardContent>
-        </Card>
-      </div>
-      <div
-        className="w-full flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500"
-        style={{ maxHeight: "calc(100vh - 80px)" }}
-      >
-        {messages.map((message: any, index: any) => (
-          <Message key={index} message={message} className="max-w-xs md:max-w-xs lg:max-w-md xl:max-w-md" />
-        ))}
+          <TabsContent value="overview">
+            <Overview
+              performanceMetrics={interviewReport.performanceMetrics}
+              roleAlignment={interviewReport.roleAlignment}
+              responseQuality={interviewReport.responseQuality}
+            />
+          </TabsContent>
+
+          <TabsContent value="technical">
+            <TechnicalAssessment
+              skillsAnalysis={interviewReport.technicalAssessment.skillsAnalysis}
+              problemSolving={interviewReport.technicalAssessment.problemSolving}
+              technicalCommunication={interviewReport.technicalAssessment.technicalCommunication}
+            />
+          </TabsContent>
+
+          <TabsContent value="behavioral">
+            <BehavioralAnalysis
+              leadership={interviewReport.behavioralAnalysis.leadership}
+              adaptability={interviewReport.behavioralAnalysis.adaptability}
+              collaboration={interviewReport.behavioralAnalysis.collaboration}
+            />
+          </TabsContent>
+
+          <TabsContent value="development">
+            <DevelopmentPlan
+              immediate={interviewReport.developmentPlan.immediate}
+              shortTerm={interviewReport.developmentPlan.shortTerm}
+            />
+          </TabsContent>
+
+          <TabsContent value="conversation">
+            <InterviewConversation messages={messages} />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
