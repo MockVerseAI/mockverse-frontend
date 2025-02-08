@@ -76,12 +76,15 @@ const Account = () => {
     [updateAvatar]
   );
 
-  const handleResumeUpload = useCallback((files: File[]) => {
-    const file = files?.[0];
-    if (file) {
-      uploadResume(file);
-    }
-  }, []);
+  const handleResumeUpload = useCallback(
+    (files: File[]) => {
+      const file = files?.[0];
+      if (file) {
+        uploadResume(file);
+      }
+    },
+    [uploadResume]
+  );
 
   return (
     <div className="flex h-full w-full flex-col items-center">
