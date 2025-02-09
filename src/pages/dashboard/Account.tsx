@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 import ResumeService from "@/services/resumeService";
 import UserService, { IChangeAvatar } from "@/services/userService";
 import { AppDispatch, RootState } from "@/store";
-import { setResumes, setUser } from "@/store/user/slice";
+import { getAllResumes, getUser } from "@/store/user/actions";
 import { useMutation } from "@tanstack/react-query";
-import { ExternalLink, Plus, SquarePen, Trash2 } from "lucide-react";
+import { ExternalLink, Plus, SquarePen, Trash2, FileX } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
@@ -24,9 +24,8 @@ const Account = () => {
   // Mutation to handle image upload
   const { mutate: updateAvatar, isPending } = useMutation({
     mutationFn: (payload: IChangeAvatar) => UserService.changeAvatar(payload),
-    onSuccess: (response: any) => {
-      dispatch(setUser(response.data.data));
-      toast.success(response.data.message);
+    onSuccess: () => {
+      dispatch(getUser());
     },
     onError: (error: any) => {
       console.error("Error uploading avatar:", error);
@@ -52,13 +51,28 @@ const Account = () => {
       // Fetch updated resumes
       setResumeSelectOpen(false);
       try {
-        const response = await ResumeService.getAll();
-        const resumes = response.data.data;
-        dispatch(setResumes(resumes));
+        dispatch(getAllResumes());
       } catch (error) {
-        console.log(error);
+        console.error(error);
         toast.error("Failed to fetch updated resumes");
       }
+    },
+  });
+
+  const { mutate: deleteResume, isPending: isDeleting } = useMutation({
+    mutationFn: (id: string) => ResumeService.delete(id),
+    onSuccess: async () => {
+      toast.success("Resume deleted successfully");
+      try {
+        dispatch(getAllResumes());
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to fetch updated resumes");
+      }
+    },
+    onError: (e: any) => {
+      const errObj = e?.response?.data;
+      toast.error(errObj.message || "Failed to delete resume");
     },
   });
 
@@ -121,23 +135,40 @@ const Account = () => {
 
         <CardContent>
           <div className="flex flex-col gap-2">
-            {resumes.map((item) => (
-              <div id={item._id} className="flex items-center justify-between">
-                <span>{item.fileName}</span>
-                <div className="flex items-center gap-4">
-                  <Link
-                    to={item.url}
-                    target="_black"
-                    className={cn(buttonVariants({ variant: "default", size: "icon" }))}
-                  >
-                    <ExternalLink className="size-4" />
-                  </Link>
-                  <Button size="icon" className="bg-red-500">
-                    <Trash2 className="size-4" />
-                  </Button>
+            {resumes.length === 0 ? (
+              <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-border bg-card p-8 text-center">
+                <div className="rounded-full bg-muted p-3">
+                  <FileX className="size-6 text-muted-foreground" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold">No resumes found</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">Get started by uploading your first resume.</p>
                 </div>
               </div>
-            ))}
+            ) : (
+              resumes?.map((item) => (
+                <div key={item._id} className="flex items-center justify-between">
+                  <span>{item.fileName}</span>
+                  <div className="flex items-center gap-4">
+                    <Link
+                      to={item.url}
+                      target="_black"
+                      className={cn(buttonVariants({ variant: "default", size: "icon" }))}
+                    >
+                      <ExternalLink className="size-4" />
+                    </Link>
+                    <Button
+                      isLoading={isDeleting}
+                      size="icon"
+                      className="bg-red-500 hover:bg-red-400"
+                      onClick={() => deleteResume(item._id)}
+                    >
+                      <Trash2 className="size-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </CardContent>
       </Card>

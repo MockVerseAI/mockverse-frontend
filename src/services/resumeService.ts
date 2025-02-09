@@ -31,6 +31,10 @@ const ResumeService = {
   getAll: () => {
     return resumeAPI.get("/");
   },
+
+  delete: (id: string) => {
+    return resumeAPI.delete(`/${id}`);
+  },
 };
 
 export default ResumeService;
