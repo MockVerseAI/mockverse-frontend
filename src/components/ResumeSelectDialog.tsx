@@ -2,7 +2,7 @@ import { Resume } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ResumeService from "@/services/resumeService";
 import { AppDispatch, RootState } from "@/store";
-import { setResumes } from "@/store/user/slice";
+import { getAllResumes } from "@/store/user/actions";
 import { useMutation } from "@tanstack/react-query";
 import { ExternalLink } from "lucide-react";
 import { useCallback } from "react";
@@ -45,9 +45,7 @@ const ResumeSelectDialog = ({
       }
       // Fetch updated resumes
       try {
-        const response = await ResumeService.getAll();
-        const resumes = response.data.data;
-        dispatch(setResumes(resumes));
+        dispatch(getAllResumes());
       } catch (error) {
         console.log(error);
         toast.error("Failed to fetch updated resumes");
