@@ -4,10 +4,8 @@ import FullScreenLoader from "@/components/FullScreenLoader";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { isUserAuthenticated } from "@/lib/utils";
-import ResumeService from "@/services/resumeService";
-import UserService from "@/services/userService";
 import { AppDispatch, RootState } from "@/store";
-import { setResumes, setUser } from "@/store/user/slice";
+import { getAllResumes, getUser } from "@/store/user/actions";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, Outlet, useNavigate } from "react-router";
@@ -23,13 +21,7 @@ export default function DashboardLayout() {
     setIsLoadingGetMyProfile(true);
     if (isAuthenticated) {
       try {
-        const [userResponse, resumesResponse] = await Promise.all([UserService.currentUser(), ResumeService.getAll()]);
-
-        const user = userResponse.data.data;
-        const resumes = resumesResponse.data.data;
-
-        dispatch(setUser(user));
-        dispatch(setResumes(resumes));
+        await Promise.all([dispatch(getUser()), dispatch(getAllResumes())]);
       } catch (error) {
         console.log(error);
         navigate("/login");

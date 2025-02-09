@@ -1,5 +1,6 @@
 import { Resume, User } from "@/lib/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getAllResumes, getUser } from "./actions";
 
 interface UserState {
   user: User | null;
@@ -29,6 +30,14 @@ const userSlice = createSlice({
     removeUser(state) {
       state.user = null;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+    builder.addCase(getAllResumes.fulfilled, (state, action) => {
+      state.resumes = action.payload;
+    });
   },
 });
 
