@@ -64,6 +64,8 @@ const ApplicationEnhancerSetup = () => {
   const onSubmit = useCallback(
     (values: z.infer<typeof formSchema>) => {
       if (!selectedResume) return toast.error("Please select a resume");
+      if (values.jobDescription.length > 2500)
+        return toast.error("Job description cannot be more than 2500 characters");
 
       const payload = { ...values, resumeId: selectedResume._id };
       createApplication(payload);

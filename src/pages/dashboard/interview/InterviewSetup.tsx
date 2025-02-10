@@ -20,19 +20,22 @@ import { z } from "zod";
 
 const formSchema = z.object({
   jobRole: z.string().min(3).max(50),
-  jobDescription: z.string(),
+  jobDescription: z.string().max(2500),
+  companyName: z.string(),
 });
 
 const InterviewSetup = () => {
   const { resumes } = useSelector((root: RootState) => root.user);
   const navigate = useNavigate();
-  const { handleSubmit, register } = useForm<z.infer<typeof formSchema>>({
+  const { handleSubmit, register, watch } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      companyName: "",
       jobRole: "",
       jobDescription: "",
     },
   });
+  const watchJobDescription = watch("jobDescription");
 
   const [selectedResume, setSelectedResume] = useState<Resume | null>(null);
   const [resumeSelectOpen, setResumeSelectOpen] = useState<boolean>(false);
@@ -60,6 +63,7 @@ const InterviewSetup = () => {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     if (!selectedResume) return toast.error("Please select a resume");
+    if (values.jobDescription.length > 2500) return toast.error("Job description cannot be more than 2500 characters");
 
     const payload = { ...values, resumeId: selectedResume._id };
     setupInterview(payload);
@@ -81,6 +85,16 @@ const InterviewSetup = () => {
             <div className="grid gap-6">
               <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
                 <div className="grid gap-2">
+                  <Label htmlFor="companyName">Company Name</Label>
+                  <Input
+                    id="companyName"
+                    type="text"
+                    placeholder="Enter company name (ex. Google)"
+                    {...register("companyName")}
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
                   <Label htmlFor="jobRole">Job Role</Label>
                   <Input
                     id="jobRole"
@@ -98,6 +112,16 @@ const InterviewSetup = () => {
                     {...register("jobDescription")}
                     required
                   />
+                  <div className="-mt-1 flex justify-end">
+                    <span
+                      className={cn(
+                        "text-xs",
+                        watchJobDescription.length > 2500 ? "text-red-400" : "text-muted-foreground"
+                      )}
+                    >
+                      {watchJobDescription.length}/2500
+                    </span>
+                  </div>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="resume">Resume</Label>
