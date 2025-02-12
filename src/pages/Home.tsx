@@ -8,10 +8,18 @@ import Hero from "@/components/Landing/sections/hero";
 import Integration from "@/components/Landing/sections/integration";
 import Navbar from "@/components/Landing/sections/navbar";
 import Pricing from "@/components/Landing/sections/pricing";
+import { useTheme } from "@/hooks/useTheme";
+import { useEffect } from "react";
 
 const Home = () => {
+  const { setTheme } = useTheme();
+
+  useEffect(() => {
+    setTheme("dark");
+  }, [setTheme]);
+
   return (
-    <div className="dark min-h-screen overflow-x-hidden bg-background font-heading text-foreground antialiased">
+    <div className="dark bg-background font-heading text-foreground min-h-screen overflow-x-hidden antialiased">
       <Navbar />
       <main className="relative z-40 mx-auto w-full">
         <Wrapper className="relative py-20">
