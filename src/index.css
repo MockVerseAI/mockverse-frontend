@@ -1,43 +1,210 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap")
+layer(base);
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap")
+layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
+@plugin 'tailwindcss-animate';
+@plugin 'tailwind-scrollbar';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-loading: loading 0.6s linear infinite;
+  --animate-flip: flip 6s infinite steps(2, end);
+  --animate-rotate: rotate 3s linear infinite both;
+  --animate-orbit: orbit calc(var(--duration) * 1s) linear infinite;
+  --animate-ripple: ripple var(--duration, 2s) ease calc(var(--i, 0) * 0.2s) infinite;
+  --animate-blob: blob 7s infinite;
+  --animate-image-glow: image-glow 6s ease-out 0.6s forwards;
+
+  --spacing-1\/8: 12.5%;
+
+  --font-heading: var(--font-heading);
+  --font-base: var(--font-base);
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+  @keyframes loading {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes flip {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes rotate {
+    to {
+      transform: rotate(90deg);
+    }
+  }
+  @keyframes orbit {
+    0% {
+      transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px))
+        rotate(calc(var(--angle) * -1deg));
+    }
+    100% {
+      transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px))
+        rotate(calc((var(--angle) * -1deg) - 360deg));
+    }
+  }
+  @keyframes ripple {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
+  @keyframes blob {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    }
+    33% {
+      transform: translate(-50%, -50%) rotate(120deg) scale(1.1);
+    }
+    66% {
+      transform: translate(-50%, -50%) rotate(240deg) scale(0.9);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg) scale(1);
+    }
+  }
+  @keyframes image-glow {
+    0% {
+      opacity: 0;
+      animation-timing-function: cubic-bezier(0.74, 0.25, 0.76, 1);
+    }
+    10% {
+      opacity: 0.5;
+      animation-timing-function: cubic-bezier(0.12, 0.01, 0.08, 0.99);
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }
 
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
 }
 
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-}
+@layer utilities {
+  @font-face {
+    font-family: "Satoshi";
+    src: url("/fonts/Satoshi-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+  }
 
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-}
+  @font-face {
+    font-family: "Satoshi";
+    src: url("/fonts/Satoshi-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+  }
 
-@font-face {
-  font-family: "Satoshi";
-  src: url("/fonts/Satoshi-Black.woff2") format("woff2");
-  font-weight: 900;
-  font-style: normal;
+  @font-face {
+    font-family: "Satoshi";
+    src: url("/fonts/Satoshi-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Satoshi";
+    src: url("/fonts/Satoshi-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "Satoshi";
+    src: url("/fonts/Satoshi-Black.woff2") format("woff2");
+    font-weight: 900;
+    font-style: normal;
+  }
 }
 
 @layer base {
