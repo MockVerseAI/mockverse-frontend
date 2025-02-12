@@ -10,7 +10,7 @@ const Navbar = () => {
   const isAuthenticated = isUserAuthenticated();
 
   return (
-    <header className="sticky top-0 z-50 h-16 w-full bg-background/80 backdrop-blur-sm">
+    <header className="bg-background/80 sticky top-0 z-50 h-16 w-full backdrop-blur-xs">
       <Wrapper className="h-full">
         <div className="flex h-full items-center justify-between">
           <div className="flex items-center">

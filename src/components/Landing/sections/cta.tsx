@@ -8,7 +8,7 @@ const CTA = () => {
   return (
     <div className="relative flex w-full flex-col items-center justify-center py-20">
       <Container className="mx-auto max-w-6xl py-20">
-        <div className="relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-foreground/20 bg-background/20 px-0 py-12 text-center lg:rounded-3xl lg:py-20">
+        <div className="border-foreground/20 bg-background/20 relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border px-0 py-12 text-center lg:rounded-3xl lg:py-20">
           <Particles refresh ease={80} quantity={80} color="#d4d4d4" className="absolute inset-0 z-0 hidden lg:block" />
           <Particles refresh ease={80} quantity={35} color="#d4d4d4" className="absolute inset-0 z-0 block lg:hidden" />
 
@@ -26,10 +26,10 @@ const CTA = () => {
               ease: "linear",
             }}
           />
-          <h2 className="font-heading text-3xl font-medium !leading-snug md:text-5xl lg:text-6xl">
+          <h2 className="font-heading text-3xl leading-snug! font-medium md:text-5xl lg:text-6xl">
             Ready to boost your <br /> <span className="font-subheading italic">marketing</span> ?
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-sm text-accent-foreground/80 md:text-lg">
+          <p className="text-accent-foreground/80 mx-auto mt-4 max-w-2xl text-center text-sm md:text-lg">
             Transform your marketing with AI-powered automation. Create campaigns faster, generate better content{" "}
             <span className="hidden lg:inline">and make smarter decisions in minutes.</span>
           </p>
