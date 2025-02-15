@@ -23,7 +23,6 @@ export default function InterviewChat() {
   const { id: interviewId = "" } = useParams();
   const navigate = useNavigate();
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const synth = useRef(window.speechSynthesis);
 
   const { transcript, resetTranscript, browserSupportsSpeechRecognition } = useSpeechRecognition();
 
@@ -38,40 +37,40 @@ export default function InterviewChat() {
   }, []);
   const stopListening = useCallback(() => SpeechRecognition.stopListening(), []);
 
-  const speakText = useCallback(
-    async (text: string) => {
+  const playAudioBuffer = useCallback(
+    async (base64Audio: string) => {
       try {
         setIsSpeaking(true);
         stopListening();
-        synth.current.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
 
-        const voices = synth.current.getVoices();
-        const englishVoice = voices.find((voice) => voice.lang.includes("en")) || voices[0];
-        if (englishVoice) {
-          utterance.voice = englishVoice;
+        // Convert base64 to audio buffer
+        const binaryString = window.atob(base64Audio);
+        const bytes = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
         }
 
-        utterance.rate = 1.0;
-        utterance.pitch = 1.0;
-        utterance.volume = 1.0;
+        // Create audio context
+        const audioContext = new window.AudioContext();
+        const audioBuffer = await audioContext.decodeAudioData(bytes.buffer);
 
-        utterance.onerror = (event) => {
-          console.error("Speech synthesis error:", event);
-          toast.error("Failed to speak the response. Please ensure audio is enabled.");
-        };
+        // Create and play audio source
+        const source = audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(audioContext.destination);
 
-        synth.current.speak(utterance);
-
-        utterance.onend = () => {
+        source.onended = () => {
           if (isVoiceMode) {
             startListening();
           }
           setIsSpeaking(false);
         };
+
+        source.start(0);
       } catch (error) {
-        console.error("Speech synthesis error:", error);
-        toast.error("Failed to initialize speech synthesis");
+        console.error("Audio playback error:", error);
+        toast.error("Failed to play audio response");
+        setIsSpeaking(false);
       }
     },
     [isVoiceMode, startListening, stopListening]
@@ -102,7 +101,9 @@ export default function InterviewChat() {
             endInterview();
           }, 5000);
         }
-        speakText(aiResponse);
+        if (dataObj.audio) {
+          playAudioBuffer(dataObj.audio);
+        }
         setMessages((prev) => [...prev, { content: aiResponse, role: "assistant" }]);
       }
     },
