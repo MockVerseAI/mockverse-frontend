@@ -40,22 +40,19 @@ export interface ButtonProps
   isLoading?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, isLoading = false, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        disabled={isLoading || props.disabled}
-        {...props}
-      >
-        {isLoading && <LoaderCircle className="h-4 w-4 animate-spin" />}
-        {children}
-      </Comp>
-    );
-  }
-);
+const Button = ({ className, variant, size, asChild = false, isLoading = false, children, ...props }: ButtonProps) => {
+  const Comp = asChild ? Slot : "button";
+  return (
+    <Comp
+      className={cn(buttonVariants({ variant, size, className }))}
+      disabled={isLoading || props.disabled}
+      {...props}
+    >
+      {isLoading && <LoaderCircle className="h-4 w-4 animate-spin" />}
+      {children}
+    </Comp>
+  );
+};
 Button.displayName = "Button";
 
 export { Button, buttonVariants };
