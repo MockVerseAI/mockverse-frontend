@@ -128,7 +128,7 @@ const InterviewSetup = () => {
                   <div className="relative w-full">
                     <div
                       onClick={handleResumeSelectOpen}
-                      className="flex h-9 w-full cursor-pointer items-center rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                      className="border-input file:text-foreground placeholder:text-muted-foreground focus-visible:ring-ring flex h-9 w-full cursor-pointer items-center rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-1 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
                     >
                       {selectedResume?.fileName || "Select a resume"}
                     </div>
@@ -138,13 +138,13 @@ const InterviewSetup = () => {
                         target="_black"
                         className={cn(
                           buttonVariants({ variant: "default", size: "icon" }),
-                          "absolute right-10 top-1 size-7"
+                          "absolute top-1 right-10 size-7"
                         )}
                       >
                         <ExternalLink className="size-4" />
                       </a>
                     ) : null}
-                    <ChevronDown className="absolute right-2 top-1/2 size-4 -translate-y-1/2 opacity-50" />
+                    <ChevronDown className="absolute top-1/2 right-2 size-4 -translate-y-1/2 opacity-50" />
                   </div>
                 </div>
                 <Button isLoading={isPending} type="submit" className="w-full">
