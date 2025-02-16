@@ -277,6 +277,12 @@ layer(base);
   }
 }
 
+@layer components {
+  .title {
+    @apply font-heading text-xl font-medium tracking-wide lg:text-2xl;
+  }
+}
+
 :root {
   --font-heading: "Satoshi", sans-serif;
   --font-base: "Inter", serif;

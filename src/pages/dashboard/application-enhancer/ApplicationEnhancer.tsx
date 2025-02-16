@@ -21,8 +21,8 @@ const ApplicationEnhancer = () => {
     <div className="w-full">
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
-          <h1 className="text-2xl">Refine Your Application with AI</h1>
-          <p className="text-sm text-muted-foreground">
+          <h1 className="title">Refine Your Application with AI</h1>
+          <p className="text-muted-foreground text-sm">
             Get customized feedback and generate job-specific resumes and cover letters effortlessly.
           </p>
         </div>
