@@ -30,6 +30,7 @@ export interface IMessage {
 
 export interface IInterview {
   _id: string;
+  companyName: string;
   jobRole: string;
   jobDescription: string;
   resumeId: string;

@@ -10,7 +10,9 @@ const InterviewCard = ({ interview }: { interview: IInterview }) => {
     <Card>
       <CardHeader className="pb-1">
         <CardTitle>
-          <span className="overflow-hidden text-ellipsis whitespace-nowrap">{interview.jobRole}</span>
+          <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+            {interview?.companyName} - {interview?.jobRole}
+          </span>
         </CardTitle>
       </CardHeader>
       <CardContent className="py-1 text-sm">{moment(interview.createdAt).format("lll")}</CardContent>
