@@ -5,15 +5,15 @@ import { MagicCard } from "@/components/ui/magic-card";
 
 const Features = () => {
   return (
-    <div className="relative flex w-full flex-col items-center justify-center py-20">
+    <div id="features" className="relative flex w-full flex-col items-center justify-center py-20">
       <Container>
         <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
           <h2 className="font-heading mt-6 text-2xl leading-snug! font-medium md:text-4xl lg:text-5xl">
-            AI-Powered marketing <br /> made <span className="font-subheading italic">simple</span>
+            AI-Powered Interview <br /> Practice Made <span className="font-subheading italic">Simple</span>
           </h2>
           <p className="text-accent-foreground/80 mt-6 text-center text-base md:text-lg">
-            Transform your marketing with AI-powered automation. Create campaigns faster, generate better content, and
-            make smarter decisions in minutes.
+            Master your interview skills with AI-powered mock interviews. Practice with intelligent feedback, track your
+            progress, and boost your confidence for real interviews.
           </p>
         </div>
       </Container>

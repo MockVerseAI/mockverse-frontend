@@ -1,19 +1,18 @@
-import { cn } from "@/lib/utils";
-import { ArrowRightIcon } from "lucide-react";
-import Container from "../global/container";
-import Icons from "../global/icons";
-import Images from "../global/images";
 import { Button } from "@/components/ui/button";
 import Ripple from "@/components/ui/ripple";
+import { cn } from "@/lib/utils";
+import { ArrowRightIcon, BrainCircuit, Code, MessageSquare, UserRound, UsersRound, Video } from "lucide-react";
 import { Link } from "react-router";
+import Container from "../global/container";
+import Images from "../global/images";
 
 const SOCIAL_PLATFORMS = [
-  { icon: Icons.linkedin, position: "left-3", size: "small", iconSize: "small", className: "hidden lg:flex" },
-  { icon: Icons.tiktok, position: "left-2", size: "medium", iconSize: "medium" },
-  { icon: Icons.insta, position: "left-1", size: "large", iconSize: "large" },
-  { icon: Icons.youtube, position: "right-1", size: "large", iconSize: "large" },
-  { icon: Icons.x, position: "right-2", size: "medium", iconSize: "medium" },
-  { icon: Icons.facebook, position: "right-3", size: "small", iconSize: "small", className: "hidden lg:flex" },
+  { icon: Code, position: "left-3", size: "small", iconSize: "small", className: "hidden lg:flex" },
+  { icon: BrainCircuit, position: "left-2", size: "medium", iconSize: "medium" },
+  { icon: MessageSquare, position: "left-1", size: "large", iconSize: "large" },
+  { icon: Video, position: "right-1", size: "large", iconSize: "large" },
+  { icon: UsersRound, position: "right-2", size: "medium", iconSize: "medium" },
+  { icon: UserRound, position: "right-3", size: "small", iconSize: "small", className: "hidden lg:flex" },
 ];
 
 const Integration = () => {
@@ -76,12 +75,12 @@ const Integration = () => {
 
       <div className="inset-x-0 mx-auto mt-12 flex max-w-3xl flex-col items-center text-center lg:absolute lg:top-1/4 lg:mt-0">
         <h2 className="font-heading text-2xl leading-snug! font-semibold md:text-4xl lg:text-6xl">
-          Social Media Integration
+          Interview Practice
         </h2>
       </div>
       <div className="inset-x-0 z-20 mx-auto mt-8 flex max-w-3xl flex-col items-center text-center lg:absolute lg:bottom-1/4 lg:mt-0">
-        <Link to="#">
-          <Button size="lg">
+        <Link to="/login">
+          <Button size="lg" className="cursor-pointer">
             See all Integrations
             <ArrowRightIcon className="size-4" />
           </Button>

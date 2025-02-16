@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { NAV_LINKS } from "@/lib/constants";
+import { isUserAuthenticated } from "@/lib/utils";
 import { BrainCircuit } from "lucide-react";
 import { Link } from "react-router";
 import Wrapper from "../global/wrapper";
 import MobileMenu from "./mobile-menu";
-import { isUserAuthenticated } from "@/lib/utils";
 
 const Navbar = () => {
   const isAuthenticated = isUserAuthenticated();
@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="flex h-full items-center justify-between">
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2">
-              <BrainCircuit className="w-6" />
+              <BrainCircuit className="size-6" />
               <span className="hidden text-xl font-semibold lg:block">MockVerse</span>
             </Link>
           </div>
@@ -24,7 +24,7 @@ const Navbar = () => {
             <ul className="flex items-center gap-8">
               {NAV_LINKS.map((link, index) => (
                 <li key={index} className="-1 link text-sm font-medium">
-                  <Link to={link.href}>{link.name}</Link>
+                  <a href={link.href}>{link.name}</a>
                 </li>
               ))}
             </ul>
@@ -32,7 +32,9 @@ const Navbar = () => {
 
           <div className="flex items-center gap-3">
             <Link to={isAuthenticated ? "/dashboard" : "/login"} className="hidden lg:block">
-              <Button variant="blue">{isAuthenticated ? "Dashboard" : "Login"}</Button>
+              <Button variant="blue" className="cursor-pointer">
+                {isAuthenticated ? "Dashboard" : "Login"}
+              </Button>
             </Link>
             <MobileMenu />
           </div>

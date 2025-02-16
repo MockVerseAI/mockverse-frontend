@@ -27,14 +27,16 @@ const CTA = () => {
             }}
           />
           <h2 className="font-heading text-3xl leading-snug! font-medium md:text-5xl lg:text-6xl">
-            Ready to boost your <br /> <span className="font-subheading italic">marketing</span> ?
+            Ready to ace your <br /> <span className="font-subheading italic">interviews</span>?
           </h2>
           <p className="text-accent-foreground/80 mx-auto mt-4 max-w-2xl text-center text-sm md:text-lg">
-            Transform your marketing with AI-powered automation. Create campaigns faster, generate better content{" "}
-            <span className="hidden lg:inline">and make smarter decisions in minutes.</span>
+            Practice with our AI-powered mock interviews. Get real-time feedback, improve your skills{" "}
+            <span className="hidden lg:inline">and boost your confidence for your dream job.</span>
           </p>
-          <Link to="#pricing" className="mt-8">
-            <Button size="lg">Let&apos;s get started</Button>
+          <Link to="/login" className="mt-8">
+            <Button size="lg" className="cursor-pointer">
+              Start practicing now
+            </Button>
           </Link>
         </div>
       </Container>

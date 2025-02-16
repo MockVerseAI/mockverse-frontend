@@ -56,8 +56,8 @@ const Hero = () => {
           </Container>
           <Container delay={0.25} className="z-20">
             <div className="mt-6 flex items-center justify-center gap-x-4">
-              <Link to="#" className="group flex items-center gap-2">
-                <Button size="lg" variant="white">
+              <Link to="/login" className="group flex items-center gap-2">
+                <Button size="lg" variant="white" className="cursor-pointer">
                   Start Free Trial
                   <ArrowRightIcon className="size-4 transition-all duration-300 group-hover:translate-x-1" />
                 </Button>

@@ -18,7 +18,7 @@ const Pricing = () => {
   };
 
   return (
-    <div className="relative mx-auto flex max-w-5xl flex-col items-center justify-center py-20">
+    <div id="pricing" className="relative mx-auto flex max-w-5xl flex-col items-center justify-center py-20">
       <div className="mx-auto flex max-w-2xl flex-col items-center justify-center">
         <Container>
           <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
