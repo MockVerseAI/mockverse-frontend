@@ -27,7 +27,11 @@ const Interviews = () => {
 
       <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {!isPending ? (
-          interviews?.map((item: IInterview) => <InterviewCard key={item._id} interview={item} />)
+          interviews.length > 0 ? (
+            interviews.map((item: IInterview) => <InterviewCard key={item._id} interview={item} />)
+          ) : (
+            <div>No interview found</div>
+          )
         ) : (
           <LoadingSkeletons count={2} />
         )}

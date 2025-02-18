@@ -12,7 +12,8 @@ const DashboardHome = () => {
   const { data: interviews, isPending } = useQuery({
     queryKey: ["interviews"],
     queryFn: async () => {
-      return await InterviewService.get();
+      const res = await InterviewService.get();
+      return res.data?.data;
     },
   });
 
@@ -29,7 +30,11 @@ const DashboardHome = () => {
 
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {!isPending ? (
-            interviews?.data.data.map((item: IInterview) => <InterviewCard key={item._id} interview={item} />)
+            interviews?.data?.data?.length > 0 ? (
+              interviews.data.data.map((item: IInterview) => <InterviewCard key={item._id} interview={item} />)
+            ) : (
+              <div>No interview found</div>
+            )
           ) : (
             <LoadingSkeletons count={2} />
           )}
