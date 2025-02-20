@@ -30,15 +30,15 @@ const DashboardHome = () => {
   return (
     <div>
       <div className="flex flex-col">
-        <h1 className="text-2xl lg:text-3xl">Welcome, {user?.username} </h1>
+        <h1 className="font-heading text-2xl font-medium lg:text-3xl">Welcome, {user?.username}</h1>
       </div>
 
       <div className="mt-10 w-full">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl">Your Recent Interviews</h1>
+          <h1 className="title">Your Recent Interviews</h1>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {!isPending ? (
             interviews?.length > 0 ? (
               interviews.map((item: IInterview) => <InterviewCard key={item._id} interview={item} />)
@@ -61,7 +61,7 @@ const DashboardHome = () => {
 
       <div className="mt-10 w-full">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl">Your Recent Applications</h1>
+          <h1 className="title">Your Recent Applications</h1>
         </div>
 
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">

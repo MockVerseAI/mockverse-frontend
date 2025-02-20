@@ -18,15 +18,15 @@ const Pricing = () => {
   };
 
   return (
-    <div className="relative mx-auto flex max-w-5xl flex-col items-center justify-center py-20">
+    <div id="pricing" className="relative mx-auto flex max-w-5xl flex-col items-center justify-center py-20">
       <div className="mx-auto flex max-w-2xl flex-col items-center justify-center">
         <Container>
           <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-            <h2 className="mt-6 font-heading text-2xl font-medium !leading-snug md:text-4xl lg:text-5xl">
+            <h2 className="font-heading mt-6 text-2xl leading-snug! font-medium md:text-4xl lg:text-5xl">
               Find the right plan that suits <br className="hidden lg:block" />{" "}
               <span className="font-subheading italic">your needs</span>
             </h2>
-            <p className="mt-6 text-center text-base text-accent-foreground/80 md:text-lg">
+            <p className="text-accent-foreground/80 mt-6 text-center text-base md:text-lg">
               Transform your marketing with AI-powered automation. Create campaigns faster, generate better content, and
               make smarter decisions in minutes.
             </p>
@@ -36,11 +36,11 @@ const Pricing = () => {
         <Container delay={0.2}>
           <div className="mt-6 flex items-center justify-center space-x-4">
             <span className="text-base font-medium">Monthly</span>
-            <button onClick={handleSwitch} className="relative rounded-full focus:outline-none">
-              <div className="h-6 w-12 rounded-full bg-blue-500 shadow-md outline-none transition"></div>
+            <button onClick={handleSwitch} className="relative rounded-full focus:outline-hidden">
+              <div className="h-6 w-12 rounded-full bg-blue-500 shadow-md outline-hidden transition"></div>
               <div
                 className={cn(
-                  "absolute left-1 top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-white transition-all duration-500 ease-in-out",
+                  "absolute top-1 left-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-white transition-all duration-500 ease-in-out",
                   billPlan === "annually" ? "translate-x-6" : "translate-x-0"
                 )}
               />
@@ -65,7 +65,7 @@ const Plan = ({ plan, billPlan }: { plan: PLAN; billPlan: Plan }) => {
   return (
     <div
       className={cn(
-        "bg-background/ relative flex w-full flex-col items-start overflow-hidden rounded-2xl border border-foreground/10 transition-all lg:rounded-3xl",
+        "bg-background/ border-foreground/10 relative flex w-full flex-col items-start overflow-hidden rounded-2xl border transition-all lg:rounded-3xl",
         plan.title === "Mastermind" && "border-blue-500"
       )}
     >
@@ -74,7 +74,7 @@ const Plan = ({ plan, billPlan }: { plan: PLAN; billPlan: Plan }) => {
       )}
 
       <div className="relative flex w-full flex-col items-start rounded-t-2xl p-4 md:p-8 lg:rounded-t-3xl">
-        <h2 className="pt-5 text-xl font-medium text-foreground">{plan.title}</h2>
+        <h2 className="text-foreground pt-5 text-xl font-medium">{plan.title}</h2>
         <h3 className="mt-3 text-3xl font-medium md:text-5xl">
           <NumberFlow
             value={billPlan === "monthly" ? plan.monthlyPrice : plan.annuallyPrice}
@@ -89,7 +89,7 @@ const Plan = ({ plan, billPlan }: { plan: PLAN; billPlan: Plan }) => {
             }}
           />
         </h3>
-        <p className="mt-2 text-sm text-muted-foreground md:text-base">{plan.desc}</p>
+        <p className="text-muted-foreground mt-2 text-sm md:text-base">{plan.desc}</p>
       </div>
       <div className="flex w-full flex-col items-start px-4 py-2 md:px-8">
         <Button size="lg" variant={plan.title === "Mastermind" ? "blue" : "white"} className="w-full">
@@ -103,7 +103,7 @@ const Plan = ({ plan, billPlan }: { plan: PLAN; billPlan: Plan }) => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="mx-auto mt-3 block text-center text-sm text-muted-foreground"
+              className="text-muted-foreground mx-auto mt-3 block text-center text-sm"
             >
               {billPlan === "monthly" ? "Billed monthly" : "Billed in one annual payment"}
             </motion.span>
