@@ -24,6 +24,10 @@ const InterviewReport = () => {
     return <div>Generating Report....</div>;
   }
 
+  if (!data) {
+    return <div>No data found</div>;
+  }
+
   const { interviewReport, messages, interview } = data as {
     interviewReport: IInterviewReport;
     messages: IMessage[];
@@ -36,7 +40,7 @@ const InterviewReport = () => {
 
       <div className="container mx-auto py-4">
         <Tabs defaultValue="overview">
-          <div className="relative h-[52px] overflow-y-hidden overflow-x-scroll rounded-sm bg-muted lg:bg-transparent">
+          <div className="bg-muted relative h-[52px] overflow-x-scroll overflow-y-hidden rounded-sm lg:bg-transparent">
             <TabsList className="absolute flex w-full flex-row justify-stretch">
               <TabsTrigger className="w-full" value="overview">
                 Overview & Performance
