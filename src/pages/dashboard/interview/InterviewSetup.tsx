@@ -148,7 +148,7 @@ const InterviewSetup = () => {
                   </div>
                 </div>
                 <Button isLoading={isPending} type="submit" className="w-full">
-                  Get Feedback
+                  Start Interview
                 </Button>
               </form>
             </div>
