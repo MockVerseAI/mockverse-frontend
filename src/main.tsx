@@ -35,6 +35,9 @@ const ApplicationEnhancerReport = lazy(
 );
 const Account = lazy(() => import("./pages/dashboard/Account.tsx"));
 
+// Not Found
+const NotFound = lazy(() => import("./pages/NotFound.tsx"));
+
 createRoot(document.getElementById("root")!).render(
   <Providers>
     <BrowserRouter>
@@ -62,6 +65,8 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/dashboard/application-enhancer/report/:id" element={<ApplicationEnhancerReport />} />
             <Route path="/dashboard/account" element={<Account />} />
           </Route>
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

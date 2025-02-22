@@ -151,7 +151,7 @@ const Account = () => {
                       <ExternalLink className="size-4" />
                     </Link>
                     <Button
-                      isLoading={isDeleting}
+                      disabled={isDeleting}
                       size="icon"
                       className="bg-red-500 hover:bg-red-400"
                       onClick={() => deleteResume(item._id)}
