@@ -1,4 +1,4 @@
-import ConsentCard from "@/components/cards/ConsentCard";
+import ConsentCard from "@/components/ConsentCard";
 import Message from "@/components/Message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

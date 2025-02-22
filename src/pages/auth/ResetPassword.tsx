@@ -2,9 +2,13 @@ import AuthScreenWrapper from "@/components/AuthScreenWrapper";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import UserService from "@/services/userService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@radix-ui/react-label";
+import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { useNavigate, useSearchParams } from "react-router";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -12,6 +16,10 @@ const formSchema = z.object({
 });
 
 const ResetPassword = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const token = searchParams.get("token");
+
   const { handleSubmit, register } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -19,10 +27,20 @@ const ResetPassword = () => {
     },
   });
 
+  const { mutate: forgotPassword, isPending } = useMutation({
+    mutationFn: (payload: z.infer<typeof formSchema>) => UserService.resetPassword(payload, token || ""),
+    onError: (e: any) => {
+      const errObj = e?.response?.data;
+      toast.error(errObj.message);
+    },
+    onSuccess: () => {
+      toast.success("Password reset successfully");
+      navigate("/login");
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    forgotPassword(values);
   };
 
   return (
@@ -40,7 +58,7 @@ const ResetPassword = () => {
                   <Label htmlFor="newPassword">New Password</Label>
                   <Input id="newPassword" type="password" {...register("newPassword")} required />
                 </div>
-                <Button type="submit" className="w-full">
+                <Button disabled={isPending} isLoading={isPending} type="submit" className="w-full">
                   Submit
                 </Button>
               </form>

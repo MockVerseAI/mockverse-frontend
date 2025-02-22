@@ -36,6 +36,10 @@ export interface IChangeAvatar {
   avatar: File;
 }
 
+interface IResetPassword {
+  newPassword: string;
+}
+
 const UserService = {
   login: (payload: ILogin) => {
     return userAPI.post("/login", payload);
@@ -55,6 +59,10 @@ const UserService = {
 
   forgotPassword: (payload: IForgotPassword) => {
     return userAPI.post("/forgot-password", payload);
+  },
+
+  resetPassword: (payload: IResetPassword, token: string) => {
+    return userAPI.post(`/reset-password/${token}`, payload);
   },
 
   resendVerificationEmail: (userId: string) => {
