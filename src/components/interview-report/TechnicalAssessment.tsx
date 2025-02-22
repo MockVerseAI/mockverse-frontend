@@ -14,7 +14,6 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
   problemSolving,
   technicalCommunication,
 }) => {
-  // Add a function to check if a skill exists in both lists
   const isSkillInBothLists = (skill: string) => {
     return (
       skillsAnalysis.demonstrated.some((d) => d.skill === skill) &&
@@ -23,10 +22,10 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
   };
 
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid gap-4">
       <Card>
         <CardHeader>
-          <CardTitle>Skills Analysis</CardTitle>
+          <CardTitle className="text-lg">Skills Analysis</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -66,23 +65,33 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
 
       <Card>
         <CardHeader>
-          <CardTitle>Technical Communication & Problem Solving</CardTitle>
+          <CardTitle className="text-lg">Technical Communication & Problem Solving</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div>
               <h3 className="mb-2 font-semibold">Problem Solving Assessment</h3>
               <ul className="list-disc pl-4">
-                <li>Analytical: {problemSolving.analytical}</li>
-                <li>Design: {problemSolving.design}</li>
-                <li>Scalability: {problemSolving.scalability}</li>
+                <li>
+                  <span className="font-medium">Analytical:</span> {problemSolving.analytical}
+                </li>
+                <li>
+                  <span className="font-medium">Design:</span> {problemSolving.design}
+                </li>
+                <li>
+                  <span className="font-medium">Scalability:</span> {problemSolving.scalability}
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="mb-2 font-semibold">Technical Communication</h3>
               <ul className="list-disc pl-4">
-                <li>Clarity: {technicalCommunication.clarity}</li>
-                <li>Depth: {technicalCommunication.depth}</li>
+                <li>
+                  <span className="font-medium">Clarity:</span> {technicalCommunication.clarity}
+                </li>
+                <li>
+                  <span className="font-medium">Depth:</span> {technicalCommunication.depth}
+                </li>
               </ul>
             </div>
           </div>

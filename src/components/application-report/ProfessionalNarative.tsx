@@ -14,7 +14,7 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
     <div className="grid gap-4">
       <Card>
         <CardHeader>
-          <CardTitle>Professional Narrative</CardTitle>
+          <CardTitle className="text-lg">Professional Narrative</CardTitle>
         </CardHeader>
         <CardContent>
           <h3 className="mb-2 font-semibold">Summary Optimization:</h3>
@@ -54,7 +54,7 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Competitive Advantages</CardTitle>
+          <CardTitle className="text-lg">Competitive Advantages</CardTitle>
         </CardHeader>
         <CardContent>
           <h3 className="mb-2 font-semibold">Unique Selling Points:</h3>
@@ -65,22 +65,24 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
           </ul>
 
           <h3 className="mb-2 font-semibold">Differentiation Opportunities:</h3>
-          {competitiveAdvantages.differentiation_opportunities.map((opportunity, index) => (
-            <div key={index} className="mb-4 last:mb-0">
-              <p className="mb-2">
-                <strong>Area:</strong> {opportunity.area}
-              </p>
-              <p className="mb-2">
-                <strong>Current state:</strong> {opportunity.current_state}
-              </p>
-              <p className="mb-2">
-                <strong>Enhancement suggestion:</strong> {opportunity.enhancement_suggestion}
-              </p>
-              <p>
-                <strong>Expected impact:</strong> {opportunity.expected_impact}
-              </p>
-            </div>
-          ))}
+          <ul className="list-decimal pl-4">
+            {competitiveAdvantages.differentiation_opportunities.map((opportunity, index) => (
+              <li key={index} className="mb-4 last:mb-0">
+                <p className="mb-2">
+                  <strong>Area:</strong> {opportunity.area}
+                </p>
+                <p className="mb-2">
+                  <strong>Current state:</strong> {opportunity.current_state}
+                </p>
+                <p className="mb-2">
+                  <strong>Enhancement suggestion:</strong> {opportunity.enhancement_suggestion}
+                </p>
+                <p>
+                  <strong>Expected impact:</strong> {opportunity.expected_impact}
+                </p>
+              </li>
+            ))}
+          </ul>
         </CardContent>
       </Card>
     </div>

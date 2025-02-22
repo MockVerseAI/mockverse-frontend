@@ -11,7 +11,7 @@ const IndustryFit: React.FC<IndustryFitProps> = ({ industryAlignment }) => {
     <div className="grid gap-4 md:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle>Domain Expertise</CardTitle>
+          <CardTitle className="text-lg">Domain Expertise</CardTitle>
         </CardHeader>
         <CardContent>
           <h3 className="mb-2 font-semibold">Highlighted Areas:</h3>
@@ -40,7 +40,7 @@ const IndustryFit: React.FC<IndustryFitProps> = ({ industryAlignment }) => {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Company Culture Fit</CardTitle>
+          <CardTitle className="text-lg">Company Culture Fit</CardTitle>
         </CardHeader>
         <CardContent>
           <h3 className="mb-2 font-semibold">Alignment Points:</h3>

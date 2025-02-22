@@ -3,6 +3,8 @@ import IndustryFit from "@/components/application-report/IndustryFit";
 import Overview from "@/components/application-report/Overview";
 import ProfessionalNarrative from "@/components/application-report/ProfessionalNarative";
 import SkillsExperience from "@/components/application-report/SkillsExperience";
+import NoReportFound from "@/components/NoReportFound";
+import ReportSkeleton from "@/components/ReportSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { IApplication, IApplicationFeedback } from "@/lib/types";
 import ApplicationService from "@/services/applicationService";
@@ -21,19 +23,17 @@ const ApplicationEnhancerReport = () => {
   });
 
   if (isPending) {
-    return <div>Generating Report....</div>;
+    return <ReportSkeleton />;
   }
 
   if (!data) {
-    return <div>No data found</div>;
+    return <NoReportFound />;
   }
 
   const { application, applicationFeedback } = data as {
     application: IApplication;
     applicationFeedback: IApplicationFeedback;
   };
-
-  console.log({ application, applicationFeedback });
 
   return (
     <div>
@@ -44,22 +44,12 @@ const ApplicationEnhancerReport = () => {
       <div className="container mx-auto py-4">
         <Tabs defaultValue="overview">
           <div className="bg-muted relative h-[52px] overflow-x-scroll overflow-y-hidden rounded-sm lg:bg-transparent">
-            <TabsList className="absolute flex w-full flex-row justify-stretch">
-              <TabsTrigger className="w-full" value="overview">
-                Overview
-              </TabsTrigger>
-              <TabsTrigger className="w-full" value="skills">
-                Skills & Experience
-              </TabsTrigger>
-              <TabsTrigger className="w-full" value="impact">
-                Impact & Metrics
-              </TabsTrigger>
-              <TabsTrigger className="w-full" value="narrative">
-                Professional Narrative
-              </TabsTrigger>
-              <TabsTrigger className="w-full" value="alignment">
-                Industry Alignment
-              </TabsTrigger>
+            <TabsList className="absolute flex w-full flex-row justify-stretch *:w-full *:cursor-pointer">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="skills">Skills & Experience</TabsTrigger>
+              <TabsTrigger value="impact">Impact & Metrics</TabsTrigger>
+              <TabsTrigger value="narrative">Professional Narrative</TabsTrigger>
+              <TabsTrigger value="alignment">Industry Alignment</TabsTrigger>
             </TabsList>
           </div>
           <TabsContent value="overview">
