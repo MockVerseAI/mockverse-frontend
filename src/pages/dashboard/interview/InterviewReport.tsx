@@ -1,13 +1,15 @@
+import BehavioralAnalysis from "@/components/interview-report/BehavioralAnalysis";
+import DevelopmentPlan from "@/components/interview-report/DevelopmentPlan";
+import InterviewConversation from "@/components/interview-report/InterviewConversation";
+import Overview from "@/components/interview-report/Overview";
+import TechnicalAssessment from "@/components/interview-report/TechnicalAssessment";
+import NoReportFound from "@/components/NoReportFound";
+import ReportSkeleton from "@/components/ReportSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { IInterviewReport, IMessage } from "@/lib/types";
 import InterviewService from "@/services/interviewService";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
-import Overview from "@/components/interview-report/Overview";
-import TechnicalAssessment from "@/components/interview-report/TechnicalAssessment";
-import BehavioralAnalysis from "@/components/interview-report/BehavioralAnalysis";
-import DevelopmentPlan from "@/components/interview-report/DevelopmentPlan";
-import InterviewConversation from "@/components/interview-report/InterviewConversation";
 
 const InterviewReport = () => {
   const { id: interviewId = "" } = useParams();
@@ -21,11 +23,11 @@ const InterviewReport = () => {
   });
 
   if (isPending) {
-    return <div>Generating Report....</div>;
+    return <ReportSkeleton />;
   }
 
   if (!data) {
-    return <div>No data found</div>;
+    return <NoReportFound />;
   }
 
   const { interviewReport, messages, interview } = data as {
@@ -41,22 +43,12 @@ const InterviewReport = () => {
       <div className="container mx-auto py-4">
         <Tabs defaultValue="overview">
           <div className="bg-muted relative h-[52px] overflow-x-scroll overflow-y-hidden rounded-sm lg:bg-transparent">
-            <TabsList className="absolute flex w-full flex-row justify-stretch">
-              <TabsTrigger className="w-full" value="overview">
-                Overview & Performance
-              </TabsTrigger>
-              <TabsTrigger className="w-full" value="technical">
-                Technical Assessment
-              </TabsTrigger>
-              <TabsTrigger className="w-full" value="behavioral">
-                Behavioral Analysis
-              </TabsTrigger>
-              <TabsTrigger className="w-full" value="development">
-                Development Plan
-              </TabsTrigger>
-              <TabsTrigger className="w-full" value="conversation">
-                Interview Conversation
-              </TabsTrigger>
+            <TabsList className="absolute flex w-full flex-row justify-stretch *:w-full *:cursor-pointer">
+              <TabsTrigger value="overview">Overview & Performance</TabsTrigger>
+              <TabsTrigger value="technical">Technical Assessment</TabsTrigger>
+              <TabsTrigger value="behavioral">Behavioral Analysis</TabsTrigger>
+              <TabsTrigger value="development">Development Plan</TabsTrigger>
+              <TabsTrigger value="conversation">Interview Conversation</TabsTrigger>
             </TabsList>
           </div>
 

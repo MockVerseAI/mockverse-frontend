@@ -1,4 +1,4 @@
-import ConsentCard from "@/components/ConsentCard";
+import ConsentCard from "@/components/cards/ConsentCard";
 import Message from "@/components/Message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -164,7 +164,7 @@ export default function InterviewChat() {
 
   return (
     <>
-      <Button isLoading={isEndInterviewPending} onClick={() => endInterview()} className="fixed right-5 top-4">
+      <Button isLoading={isEndInterviewPending} onClick={() => endInterview()} className="fixed top-4 right-5">
         End Interview
       </Button>
       <div className="flex h-full flex-col items-center">
@@ -172,7 +172,7 @@ export default function InterviewChat() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="w-full max-w-4xl flex-1 overflow-y-auto p-4 scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500"
+            className="scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500 w-full max-w-4xl flex-1 overflow-y-auto p-4"
             style={{ maxHeight: "calc(100vh - 150px)" }}
             ref={chatContainerRef}
           >
@@ -186,7 +186,7 @@ export default function InterviewChat() {
                 exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
                 className="mb-4 flex justify-start"
               >
-                <div className="max-w-xs rounded-lg bg-muted px-4 py-2 md:max-w-md lg:max-w-lg xl:max-w-xl">
+                <div className="bg-muted max-w-xs rounded-lg px-4 py-2 md:max-w-md lg:max-w-lg xl:max-w-xl">
                   <Loader className="size-5 animate-spin" />
                 </div>
               </motion.div>
@@ -203,9 +203,9 @@ export default function InterviewChat() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend({ isFirst: false })}
                 placeholder="Type your response..."
-                className="w-full rounded-lg border-none bg-sidebar py-6 pr-24"
+                className="bg-sidebar w-full rounded-lg border-none py-6 pr-24"
               />
-              <div className="absolute right-2 top-1/2 flex -translate-y-1/2 items-center gap-2">
+              <div className="absolute top-1/2 right-2 flex -translate-y-1/2 items-center gap-2">
                 <Button
                   variant="ghost"
                   size="icon"

@@ -1,3 +1,4 @@
+import NoDataFound from "@/components/NoDataFound";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +10,7 @@ import UserService, { IChangeAvatar } from "@/services/userService";
 import { AppDispatch, RootState } from "@/store";
 import { getAllResumes, getUser } from "@/store/user/actions";
 import { useMutation } from "@tanstack/react-query";
-import { ExternalLink, Plus, SquarePen, Trash2, FileX } from "lucide-react";
+import { ExternalLink, Plus, SquarePen, Trash2 } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router";
@@ -110,7 +111,7 @@ const Account = () => {
           onClick={handleEditClick}
           size="icon"
           disabled={isPending}
-          className="absolute bottom-1 right-1 size-8 cursor-pointer rounded-full"
+          className="absolute right-1 bottom-1 size-8 cursor-pointer rounded-full"
         >
           <SquarePen className="size-4 text-white" />
         </Button>
@@ -136,15 +137,7 @@ const Account = () => {
         <CardContent>
           <div className="flex flex-col gap-2">
             {resumes.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-4 rounded-lg border border-border bg-card p-8 text-center">
-                <div className="rounded-full bg-muted p-3">
-                  <FileX className="size-6 text-muted-foreground" />
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold">No resumes found</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">Get started by uploading your first resume.</p>
-                </div>
-              </div>
+              <NoDataFound type="resume" />
             ) : (
               resumes?.map((item) => (
                 <div key={item._id} className="flex items-center justify-between">
