@@ -27,6 +27,8 @@ layer(base);
   --secondary-foreground: hsl(229 20% 30%);
   --accent: hsl(229 28% 85%);
   --accent-foreground: hsl(229 28% 25%);
+  --success: hsl(142 76% 42%);
+  --success-foreground: hsl(0 0% 100%);
   --destructive: hsl(3 100% 50%);
   --destructive-foreground: hsl(3 0% 100%);
   --ring: hsl(229 100% 62%);
@@ -63,6 +65,8 @@ layer(base);
   --secondary-foreground: hsl(229 14% 68%);
   --accent: hsl(229 23% 17%);
   --accent-foreground: hsl(229 23% 77%);
+  --success: hsl(142 72% 35%);
+  --success-foreground: hsl(0 0% 100%);
   --destructive: hsl(3 89% 54%);
   --destructive-foreground: hsl(0 0% 100%);
   --ring: hsl(229 100% 62%);
@@ -96,6 +100,8 @@ layer(base);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -280,6 +286,10 @@ layer(base);
 @layer components {
   .title {
     @apply font-heading text-xl font-medium tracking-wide lg:text-2xl;
+  }
+
+  p {
+    @apply text-pretty;
   }
 }
 

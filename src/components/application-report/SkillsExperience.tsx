@@ -13,7 +13,7 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
     <div className="grid gap-4 md:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle>Technical Skills</CardTitle>
+          <CardTitle className="text-lg">Technical Skills</CardTitle>
         </CardHeader>
         <CardContent>
           <h3 className="mb-2 font-semibold">Priority Additions:</h3>
@@ -46,7 +46,7 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Soft Skills</CardTitle>
+          <CardTitle className="text-lg">Soft Skills</CardTitle>
         </CardHeader>
         <CardContent>
           <h3 className="mb-2 font-semibold">Missing Critical:</h3>
@@ -66,7 +66,7 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
       </Card>
       <Card className="md:col-span-2">
         <CardHeader>
-          <CardTitle>Experience Enhancement</CardTitle>
+          <CardTitle className="text-lg">Experience Enhancement</CardTitle>
         </CardHeader>
         <CardContent>
           <h3 className="mb-2 font-semibold">Achievements Optimization:</h3>

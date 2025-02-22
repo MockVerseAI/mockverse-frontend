@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { IInterviewReport } from "@/lib/types";
+import { CheckCircleIcon, CheckIcon, XCircleIcon, XIcon } from "lucide-react";
 import { FC } from "react";
 
 interface OverviewProps {
@@ -14,7 +15,7 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       <Card>
         <CardHeader>
-          <CardTitle>Performance Metrics</CardTitle>
+          <CardTitle className="text-lg">Performance Metrics</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -50,37 +51,60 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle>Role Alignment</CardTitle>
+          <CardTitle className="text-lg">Role Alignment</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4">
-            <div>
-              <h3 className="mb-2 font-semibold">Essential Requirements</h3>
-              <ul className="list-disc pl-4">
-                {roleAlignment.requirements.essential.map((req) => (
-                  <li key={req.requirement} className={req.met ? "text-green-600" : "text-red-600"}>
-                    {req.requirement} - {req.notes}
-                  </li>
-                ))}
+          <div className="space-y-6">
+            {/* Met Requirements */}
+            <div className="rounded-lg bg-green-50 p-4 dark:bg-green-950/30">
+              <h3 className="mb-3 flex items-center gap-2 font-semibold text-green-800 dark:text-green-300">
+                <CheckCircleIcon className="h-5 w-5" />
+                Met Requirements
+              </h3>
+              <ul className="space-y-2">
+                {roleAlignment.requirements.essential
+                  .filter((req) => req.met)
+                  .map((req) => (
+                    <li key={req.requirement} className="flex items-start gap-2 text-green-700 dark:text-green-400">
+                      <CheckIcon className="mt-1 h-4 w-4 shrink-0" />
+                      <span>
+                        <span className="font-medium">{req.requirement}</span>
+                        {req.notes && <span className="text-green-600 dark:text-green-500"> - {req.notes}</span>}
+                      </span>
+                    </li>
+                  ))}
               </ul>
             </div>
-            <div>
-              <h3 className="mb-2 font-semibold">Cultural Fit</h3>
-              <ul className="list-disc pl-4">
-                {roleAlignment.cultural.fit.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
+
+            {/* Unmet Requirements */}
+            <div className="rounded-lg bg-red-50 p-4 dark:bg-red-950/30">
+              <h3 className="mb-3 flex items-center gap-2 font-semibold text-red-800 dark:text-red-300">
+                <XCircleIcon className="h-5 w-5" />
+                Unmet Requirements
+              </h3>
+              <ul className="space-y-2">
+                {roleAlignment.requirements.essential
+                  .filter((req) => !req.met)
+                  .map((req) => (
+                    <li key={req.requirement} className="flex items-start gap-2 text-red-700 dark:text-red-400">
+                      <XIcon className="mt-1 h-4 w-4 shrink-0" />
+                      <span>
+                        <span className="font-medium">{req.requirement}</span>
+                        {req.notes && <span className="text-red-600 dark:text-red-500"> - {req.notes}</span>}
+                      </span>
+                    </li>
+                  ))}
               </ul>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="lg:col-span-3">
         <CardHeader>
-          <CardTitle>Response Quality</CardTitle>
+          <CardTitle className="text-lg">Response Quality</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -96,10 +120,18 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
             <div>
               <h3 className="mb-2 font-semibold">STAR Method Analysis</h3>
               <ul className="list-disc pl-4 text-sm">
-                <li>Situation: {responseQuality.starMethod.situation}</li>
-                <li>Task: {responseQuality.starMethod.task}</li>
-                <li>Action: {responseQuality.starMethod.action}</li>
-                <li>Result: {responseQuality.starMethod.result}</li>
+                <li>
+                  <span className="font-medium">Situation:</span> {responseQuality.starMethod.situation}
+                </li>
+                <li>
+                  <span className="font-medium">Task:</span> {responseQuality.starMethod.task}
+                </li>
+                <li>
+                  <span className="font-medium">Action:</span> {responseQuality.starMethod.action}
+                </li>
+                <li>
+                  <span className="font-medium">Result:</span> {responseQuality.starMethod.result}
+                </li>
               </ul>
             </div>
           </div>

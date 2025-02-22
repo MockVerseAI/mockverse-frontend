@@ -10,10 +10,10 @@ interface BehavioralAnalysisProps {
 
 const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptability, collaboration }) => {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4">
       <Card>
         <CardHeader>
-          <CardTitle>Leadership</CardTitle>
+          <CardTitle className="text-lg">Leadership</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -40,27 +40,37 @@ const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptabil
 
       <Card>
         <CardHeader>
-          <CardTitle>Adaptability</CardTitle>
+          <CardTitle className="text-lg">Adaptability</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="list-disc pl-4">
-            <li>Change Response: {adaptability.changeResponse}</li>
-            <li>Learning: {adaptability.learning}</li>
-            <li>Growth: {adaptability.growth}</li>
+            <li>
+              <span className="font-medium">Change Response:</span> {adaptability.changeResponse}
+            </li>
+            <li>
+              <span className="font-medium">Learning:</span> {adaptability.learning}
+            </li>
+            <li>
+              <span className="font-medium">Growth:</span> {adaptability.growth}
+            </li>
           </ul>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Collaboration</CardTitle>
+          <CardTitle className="text-lg">Collaboration</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="list-disc pl-4">
-            <li>Teamwork: {collaboration.teamwork}</li>
-            <li>Communication: {collaboration.communication}</li>
             <li>
-              Cross-Team Collaboration:
+              <span className="font-medium">Teamwork:</span> {collaboration.teamwork}
+            </li>
+            <li>
+              <span className="font-medium">Communication:</span> {collaboration.communication}
+            </li>
+            <li>
+              <span className="font-medium">Cross-Team Collaboration:</span>
               <ul className="mt-2 list-disc pl-4">
                 {collaboration.crossTeam.map((item, index) => (
                   <li key={index}>{item}</li>

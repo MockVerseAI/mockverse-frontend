@@ -9,7 +9,7 @@ interface InterviewConversationProps {
 const InterviewConversation: FC<InterviewConversationProps> = ({ messages }) => {
   return (
     <div
-      className="w-full overflow-y-auto p-4 scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500"
+      className="scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500 w-full overflow-y-auto p-4"
       style={{ maxHeight: "calc(100vh - 200px)" }}
     >
       {messages.map((message: IMessage, index: number) => (

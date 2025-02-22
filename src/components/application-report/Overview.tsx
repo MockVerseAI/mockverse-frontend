@@ -13,7 +13,7 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       <Card>
         <CardHeader>
-          <CardTitle>Core Alignment Analysis</CardTitle>
+          <CardTitle className="text-lg">Core Alignment Analysis</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
@@ -27,7 +27,7 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Key Matches</CardTitle>
+          <CardTitle className="text-lg">Key Matches</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="list-disc pl-4">
@@ -39,7 +39,7 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Critical Gaps</CardTitle>
+          <CardTitle className="text-lg">Critical Gaps</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="list-disc pl-4">
@@ -51,10 +51,10 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
       </Card>
       <Card className="md:col-span-2 lg:col-span-3">
         <CardHeader>
-          <CardTitle>Action Priorities</CardTitle>
+          <CardTitle className="text-lg">Action Priorities</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4">
             <div>
               <h3 className="mb-2 font-semibold">Immediate Changes</h3>
               <ul className="list-disc pl-4">
