@@ -1,7 +1,7 @@
 import ConsentCard from "@/components/ConsentCard";
 import Message from "@/components/Message";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/intput";
+import { Input } from "@/components/ui/input";
 import WaveformIcon from "@/components/WaveformIcon";
 import { IMessage } from "@/lib/types";
 import { cn } from "@/lib/utils";
