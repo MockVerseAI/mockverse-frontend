@@ -1,7 +1,7 @@
-import ApplicationCard from "@/components/ApplicationCard";
-import InterviewCard from "@/components/InterviewCard";
-import LoadingSkeletons from "@/components/LoadingSkeletons";
-import NoDataFound from "@/components/NoDataFound";
+import ApplicationCard from "@/components/cards/ApplicationCard";
+import InterviewCard from "@/components/cards/InterviewCard";
+import NoDataFound from "@/components/cards/NoDataFound";
+import LoadingSkeletons from "@/components/loaders/LoadingSkeletons";
 import { IApplication, IInterview } from "@/lib/types";
 import ApplicationService from "@/services/applicationService";
 import InterviewService from "@/services/interviewService";

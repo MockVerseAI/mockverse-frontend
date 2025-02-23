@@ -1,6 +1,6 @@
-import ApplicationCard from "@/components/ApplicationCard";
-import LoadingSkeletons from "@/components/LoadingSkeletons";
-import NoDataFound from "@/components/NoDataFound";
+import ApplicationCard from "@/components/cards/ApplicationCard";
+import NoDataFound from "@/components/cards/NoDataFound";
+import LoadingSkeletons from "@/components/loaders/LoadingSkeletons";
 import { buttonVariants } from "@/components/ui/button";
 import { IApplication } from "@/lib/types";
 import { cn } from "@/lib/utils";

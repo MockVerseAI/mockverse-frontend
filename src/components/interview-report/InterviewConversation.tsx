@@ -1,4 +1,4 @@
-import Message from "@/components/Message";
+import Message from "@/components/cards/Message";
 import { IMessage } from "@/lib/types";
 import { FC } from "react";
 

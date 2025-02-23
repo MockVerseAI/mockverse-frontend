@@ -1,5 +1,5 @@
-import ConsentCard from "@/components/ConsentCard";
-import Message from "@/components/Message";
+import ConsentCard from "@/components/cards/ConsentCard";
+import Message from "@/components/cards/Message";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import WaveformIcon from "@/components/WaveformIcon";

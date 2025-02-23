@@ -293,6 +293,10 @@ layer(base);
   p {
     @apply text-pretty;
   }
+
+  .scrollbar {
+    @apply scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500;
+  }
 }
 
 :root {

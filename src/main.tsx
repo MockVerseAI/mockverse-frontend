@@ -3,7 +3,7 @@ import { lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
 import "regenerator-runtime/runtime";
-import FullScreenLoader from "./components/FullScreenLoader.tsx";
+import FullScreenLoader from "./components/loaders/FullScreenLoader";
 import "./index.css";
 
 // Layouts

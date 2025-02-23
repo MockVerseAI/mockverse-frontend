@@ -26,7 +26,7 @@ const ConsentCard = ({ onStart }: { onStart: () => void }) => {
             </ul>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-center">
+        <CardFooter className="mt-6 flex justify-center">
           <Button size="lg" onClick={onStart} className="gap-2">
             <Volume2 className="h-5 w-5" />
             Start Interview

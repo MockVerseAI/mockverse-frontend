@@ -1,14 +1,14 @@
 import { IApplication } from "@/lib/types";
 import moment from "moment";
 import { Link } from "react-router";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
-import { buttonVariants } from "./ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const ApplicationCard = ({ application }: { application: IApplication }) => {
   return (
     <Card>
-      <CardHeader className="pb-1">
+      <CardHeader className="mb-1">
         <CardTitle>
           <span className="overflow-hidden text-ellipsis whitespace-nowrap">
             {application.companyName} - {application.jobRole}
