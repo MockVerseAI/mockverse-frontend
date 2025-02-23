@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button1";
 import { NAV_LINKS } from "@/lib/constants";
 import { isUserAuthenticated } from "@/lib/utils";
 import { BrainCircuit } from "lucide-react";

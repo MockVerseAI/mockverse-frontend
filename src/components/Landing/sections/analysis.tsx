@@ -1,6 +1,6 @@
 import { DownloadIcon, FilterIcon, TrendingUpIcon } from "lucide-react";
 import Container from "../global/container";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button1";
 import { MagicCard } from "@/components/ui/magic-card";
 
 const Analysis = () => {

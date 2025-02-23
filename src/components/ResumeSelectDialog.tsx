@@ -88,7 +88,7 @@ const ResumeSelectDialog = ({
                 <a
                   href={selectedResume.url}
                   target="_black"
-                  className={cn(buttonVariants({ variant: "default", size: "icon" }), "absolute right-10 top-1 size-7")}
+                  className={cn(buttonVariants({ variant: "default", size: "icon" }), "absolute top-1 right-10 size-7")}
                 >
                   <ExternalLink className="size-4" />
                 </a>

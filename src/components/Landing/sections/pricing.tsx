@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckIcon } from "lucide-react";
 import { useState } from "react";
 import Container from "../global/container";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button1";
 
 type Plan = "monthly" | "annually";
 

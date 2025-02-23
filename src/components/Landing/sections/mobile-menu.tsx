@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button1";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { NAV_LINKS } from "@/lib/constants";
 import { Menu } from "lucide-react";
@@ -18,11 +18,11 @@ const MobileMenu = () => {
         </SheetHeader>
         <nav className="flex flex-col space-y-4">
           {NAV_LINKS.map((link, index) => (
-            <Link key={index} to={link.href} className="text-base font-medium transition-colors hover:text-primary">
+            <Link key={index} to={link.href} className="hover:text-primary text-base font-medium transition-colors">
               {link.name}
             </Link>
           ))}
-          <div className="mt-4 border-t border-border pt-4">
+          <div className="border-border mt-4 border-t pt-4">
             <Link to="#" className="w-full">
               <Button className="w-full">Get Started</Button>
             </Link>
