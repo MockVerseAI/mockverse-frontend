@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge1";
+import { Badge } from "@/components/ui/badge";
 import { IApplicationFeedback } from "@/lib/types";
 import React from "react";
 

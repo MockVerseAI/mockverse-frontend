@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Container from "../global/container";
-import { Button } from "@/components/ui/button1";
+import { Button } from "@/components/ui/button";
 import Particles from "@/components/ui/particles";
 import { Link } from "react-router";
 

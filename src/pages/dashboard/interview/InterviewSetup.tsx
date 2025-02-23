@@ -1,7 +1,7 @@
 import ResumeSelectDialog from "@/components/ResumeSelectDialog";
-import { Button, buttonVariants } from "@/components/ui/button1";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input1";
+import { Input } from "@/components/ui/intput";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Resume } from "@/lib/types";

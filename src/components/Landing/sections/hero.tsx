@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from "lucide-react";
 import Container from "../global/container";
 import Icons from "../global/icons";
-import { Button } from "@/components/ui/button1";
+import { Button } from "@/components/ui/button";
 import { OrbitingCircles } from "@/components/ui/orbiting-circles";
 import { Link } from "react-router";
 
