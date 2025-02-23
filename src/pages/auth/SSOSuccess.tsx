@@ -1,4 +1,4 @@
-import FullScreenLoader from "@/components/FullScreenLoader";
+import FullScreenLoader from "@/components/loaders/FullScreenLoader";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 

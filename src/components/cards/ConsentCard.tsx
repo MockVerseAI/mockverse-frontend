@@ -13,7 +13,7 @@ const ConsentCard = ({ onStart }: { onStart: () => void }) => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="rounded-lg bg-muted p-4">
+          <div className="bg-muted rounded-lg p-4">
             <h3 className="flex items-center gap-2 font-medium">
               <Headphones className="h-5 w-5" />
               Before we start:
@@ -26,7 +26,7 @@ const ConsentCard = ({ onStart }: { onStart: () => void }) => {
             </ul>
           </div>
         </CardContent>
-        <CardFooter className="flex justify-center">
+        <CardFooter className="mt-6 flex justify-center">
           <Button size="lg" onClick={onStart} className="gap-2">
             <Volume2 className="h-5 w-5" />
             Start Interview

@@ -1,6 +1,6 @@
 import { AppSidebar } from "@/components/AppSidebar";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import FullScreenLoader from "@/components/FullScreenLoader";
+import FullScreenLoader from "@/components/loaders/FullScreenLoader";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { isUserAuthenticated } from "@/lib/utils";

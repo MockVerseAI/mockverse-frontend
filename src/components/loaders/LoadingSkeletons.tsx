@@ -1,4 +1,4 @@
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const LoadingSkeletons = ({ count }: { count: number }) => {
   return Array(count)

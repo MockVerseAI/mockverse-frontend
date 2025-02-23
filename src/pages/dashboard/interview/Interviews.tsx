@@ -1,6 +1,6 @@
-import InterviewCard from "@/components/InterviewCard";
-import LoadingSkeletons from "@/components/LoadingSkeletons";
-import NoDataFound from "@/components/NoDataFound";
+import InterviewCard from "@/components/cards/InterviewCard";
+import NoDataFound from "@/components/cards/NoDataFound";
+import LoadingSkeletons from "@/components/loaders/LoadingSkeletons";
 import { buttonVariants } from "@/components/ui/button";
 import { IInterview } from "@/lib/types";
 import { cn } from "@/lib/utils";

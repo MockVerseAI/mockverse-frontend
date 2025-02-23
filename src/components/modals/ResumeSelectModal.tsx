@@ -8,10 +8,17 @@ import { ExternalLink } from "lucide-react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import { Button, buttonVariants } from "./ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
-import { FileUpload } from "./ui/file-upload";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { FileUpload } from "@/components/ui/file-upload";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type ResumeSelectProps = {
   resumeSelectOpen: boolean;
@@ -20,7 +27,7 @@ type ResumeSelectProps = {
   setSelectedResume: (resume: Resume) => void;
 };
 
-const ResumeSelectDialog = ({
+const ResumeSelectModal = ({
   resumeSelectOpen,
   setResumeSelectOpen,
   selectedResume,
@@ -88,7 +95,7 @@ const ResumeSelectDialog = ({
                 <a
                   href={selectedResume.url}
                   target="_black"
-                  className={cn(buttonVariants({ variant: "default", size: "icon" }), "absolute right-10 top-1 size-7")}
+                  className={cn(buttonVariants({ variant: "default", size: "icon" }), "absolute top-1 right-10 size-7")}
                 >
                   <ExternalLink className="size-4" />
                 </a>
@@ -121,4 +128,4 @@ const ResumeSelectDialog = ({
   );
 };
 
-export default ResumeSelectDialog;
+export default ResumeSelectModal;

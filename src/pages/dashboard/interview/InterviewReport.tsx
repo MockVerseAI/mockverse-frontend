@@ -1,10 +1,10 @@
+import NoReportFound from "@/components/cards/NoReportFound";
 import BehavioralAnalysis from "@/components/interview-report/BehavioralAnalysis";
 import DevelopmentPlan from "@/components/interview-report/DevelopmentPlan";
 import InterviewConversation from "@/components/interview-report/InterviewConversation";
 import Overview from "@/components/interview-report/Overview";
 import TechnicalAssessment from "@/components/interview-report/TechnicalAssessment";
-import NoReportFound from "@/components/NoReportFound";
-import ReportSkeleton from "@/components/ReportSkeleton";
+import ReportSkeleton from "@/components/loaders/ReportSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { IInterviewReport, IMessage } from "@/lib/types";
 import InterviewService from "@/services/interviewService";
