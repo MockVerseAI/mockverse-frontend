@@ -2,12 +2,16 @@ import ApplicationCard from "@/components/cards/ApplicationCard";
 import InterviewCard from "@/components/cards/InterviewCard";
 import NoDataFound from "@/components/cards/NoDataFound";
 import LoadingSkeletons from "@/components/loaders/LoadingSkeletons";
+import { buttonVariants } from "@/components/ui/button";
 import { IApplication, IInterview } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import ApplicationService from "@/services/applicationService";
 import InterviewService from "@/services/interviewService";
 import { RootState } from "@/store";
 import { useQuery } from "@tanstack/react-query";
+import { Plus } from "lucide-react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router";
 
 const DashboardHome = () => {
   const { user } = useSelector((state: RootState) => state.user);
@@ -15,7 +19,7 @@ const DashboardHome = () => {
   const { data: interviews, isPending } = useQuery({
     queryKey: ["interviews"],
     queryFn: async () => {
-      const res = await InterviewService.get();
+      const res = await InterviewService.getAll();
       return res?.data?.data || [];
     },
   });
@@ -23,7 +27,7 @@ const DashboardHome = () => {
   const { data: applications, isPending: isApplicationsPending } = useQuery({
     queryKey: ["applications"],
     queryFn: async () => {
-      const res = await ApplicationService.get();
+      const res = await ApplicationService.getAll();
       return res?.data?.data || [];
     },
   });
@@ -36,6 +40,9 @@ const DashboardHome = () => {
       <div className="mt-10 w-full">
         <div className="flex items-center justify-between">
           <h1 className="title">Your Recent Interviews</h1>
+          <Link to="/dashboard/interview/setup" className={cn(buttonVariants({ variant: "default" }))}>
+            <Plus /> New session
+          </Link>
         </div>
 
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -54,6 +61,9 @@ const DashboardHome = () => {
       <div className="mt-10 w-full">
         <div className="flex items-center justify-between">
           <h1 className="title">Your Recent Applications</h1>
+          <Link to="/dashboard/application-enhancer/setup" className={cn(buttonVariants({ variant: "default" }))}>
+            <Plus /> New application
+          </Link>
         </div>
 
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">

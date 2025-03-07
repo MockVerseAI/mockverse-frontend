@@ -12,7 +12,7 @@ const Interviews = () => {
   const { data: interviews, isPending } = useQuery({
     queryKey: ["interviews"],
     queryFn: async () => {
-      const res = await InterviewService.get();
+      const res = await InterviewService.getAll();
       return res.data?.data;
     },
   });

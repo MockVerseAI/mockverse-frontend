@@ -1,23 +1,12 @@
-import { getAuthToken } from "@/lib/utils";
+import apiClient from "@/lib/axios";
 import axios from "axios";
 
-const userAPI = axios.create({
+// This axios instance is for endpoints that don't need authentication
+// Like login, register, etc.
+const authAPI = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/v1/user`,
   withCredentials: true,
 });
-
-userAPI.interceptors.request.use(
-  (config) => {
-    const authToken = getAuthToken();
-    if (authToken) {
-      config.headers.Authorization = authToken;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
 
 interface ILogin {
   email: string;
@@ -40,49 +29,57 @@ interface IResetPassword {
   newPassword: string;
 }
 
+interface IRefreshToken {
+  refreshToken: string;
+}
+
 const UserService = {
   login: (payload: ILogin) => {
-    return userAPI.post("/login", payload);
+    return authAPI.post("/login", payload);
+  },
+
+  refreshToken: (payload: IRefreshToken) => {
+    return authAPI.post("/refresh-token", payload);
   },
 
   googleLogin: () => {
-    return userAPI.get("/google");
+    return authAPI.get("/google");
   },
 
   githubLogin: () => {
-    return userAPI.get("/github");
+    return authAPI.get("/github");
   },
 
   register: (payload: IRegister) => {
-    return userAPI.post("/register", payload);
+    return authAPI.post("/register", payload);
   },
 
   forgotPassword: (payload: IForgotPassword) => {
-    return userAPI.post("/forgot-password", payload);
+    return authAPI.post("/forgot-password", payload);
   },
 
   resetPassword: (payload: IResetPassword, token: string) => {
-    return userAPI.post(`/reset-password/${token}`, payload);
+    return authAPI.post(`/reset-password/${token}`, payload);
   },
 
   resendVerificationEmail: (userId: string) => {
-    return userAPI.post(`/resend-email-verification/${userId}`);
+    return authAPI.post(`/resend-email-verification/${userId}`);
   },
 
   verifyEmail: (verificationToken: string) => {
-    return userAPI.get(`/verify-email/${verificationToken}`);
+    return authAPI.get(`/verify-email/${verificationToken}`);
   },
 
   currentUser: () => {
-    return userAPI.get("/current-user");
+    return apiClient.get("/api/v1/user/current-user");
   },
 
   logout: () => {
-    return userAPI.post("/logout");
+    return apiClient.post("/api/v1/user/logout");
   },
 
   changeAvatar: (payload: IChangeAvatar) => {
-    return userAPI.postForm("/avatar", payload);
+    return apiClient.postForm("/api/v1/user/avatar", payload);
   },
 };
 

@@ -20,14 +20,14 @@ const InterviewCard = ({ interview }: { interview: IInterview }) => {
         {interview.isCompleted ? (
           <Link
             to={`/dashboard/interview/report/${interview._id}`}
-            className={cn(buttonVariants({ variant: "default" }))}
+            className={cn(buttonVariants({ variant: "secondary" }))}
           >
             Report
           </Link>
         ) : (
           <Link
             to={`/dashboard/interview/chat/${interview._id}`}
-            className={cn(buttonVariants({ variant: "default" }))}
+            className={cn(buttonVariants({ variant: "secondary" }))}
           >
             Resume Interview
           </Link>

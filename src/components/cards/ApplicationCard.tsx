@@ -19,7 +19,7 @@ const ApplicationCard = ({ application }: { application: IApplication }) => {
       <CardFooter className="mt-3 justify-end">
         <Link
           to={`/dashboard/application-enhancer/report/${application._id}`}
-          className={cn(buttonVariants({ variant: "default" }))}
+          className={cn(buttonVariants({ variant: "secondary" }))}
         >
           Feedback
         </Link>

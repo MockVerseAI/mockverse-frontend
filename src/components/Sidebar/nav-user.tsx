@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { useTheme } from "@/hooks/useTheme";
+import { clearAuthTokens } from "@/lib/utils";
 import { User } from "@/lib/types";
 import UserService from "@/services/userService";
 import { useCallback } from "react";
@@ -26,8 +27,7 @@ export function NavUser({ user }: { user: User | null }) {
   const logoutUser = useCallback(async () => {
     try {
       await UserService.logout();
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      clearAuthTokens();
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -79,14 +79,10 @@ export function NavUser({ user }: { user: User | null }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={toggleTheme}>
                 {theme === "dark" ? <Moon /> : <Sun />}
                 Dark Mode
-                <Switch
-                  className="data-[state=checked]:bg-muted-foreground"
-                  checked={theme === "dark"}
-                  onCheckedChange={toggleTheme}
-                />
+                <Switch className="data-[state=checked]:bg-muted-foreground" checked={theme === "dark"} />
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

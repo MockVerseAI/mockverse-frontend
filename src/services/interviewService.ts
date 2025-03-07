@@ -1,55 +1,34 @@
-import { getAuthToken } from "@/lib/utils";
-import axios from "axios";
+import apiClient from "@/lib/axios";
 
-const interviewAPI = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/v1/interview`,
-  withCredentials: true,
-});
-
-interviewAPI.interceptors.request.use(
-  (config) => {
-    const authToken = getAuthToken();
-    if (authToken) {
-      config.headers.Authorization = authToken;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-export interface IInterviewSetup {
-  jobRole: string;
-  jobDescription: string;
-  resumeId: string;
+export interface IInterviewCreate {
+  applicationId: string;
 }
 
-export interface IChat {
-  message: string;
+export interface IInterviewStart {
   interviewId: string;
-  isFirst: boolean;
 }
 
-export interface IInterviewEnd {
+export interface IInterviewAnswer {
   interviewId: string;
+  questionId: string;
+  answer: string;
 }
 
 const InterviewService = {
-  get: () => {
-    return interviewAPI.get("/");
+  create: (payload: IInterviewCreate) => {
+    return apiClient.post("/api/v1/interview/", payload);
   },
-  setup: (payload: IInterviewSetup) => {
-    return interviewAPI.post("/setup", payload);
+  getAll: () => {
+    return apiClient.get("/api/v1/interview");
   },
-  chat: ({ interviewId, ...rest }: IChat) => {
-    return interviewAPI.post(`/chat/${interviewId}`, rest);
+  start: ({ interviewId }: IInterviewStart) => {
+    return apiClient.post(`/api/v1/interview/start/${interviewId}`);
   },
-  end: ({ interviewId }: IInterviewEnd) => {
-    return interviewAPI.post(`/end/${interviewId}`);
+  answer: (payload: IInterviewAnswer) => {
+    return apiClient.post("/api/v1/interview/answer", payload);
   },
-  report: ({ interviewId }: IInterviewEnd) => {
-    return interviewAPI.get(`/report/${interviewId}`);
+  get: (interviewId: string) => {
+    return apiClient.get(`/api/v1/interview/${interviewId}`);
   },
 };
 
