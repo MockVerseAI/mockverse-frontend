@@ -1,39 +1,31 @@
-import { getAuthToken } from "@/lib/utils";
-import axios from "axios";
+import apiClient from "@/lib/axios";
 
-const resumeAPI = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/v1/resume`,
-  withCredentials: true,
-});
-
-resumeAPI.interceptors.request.use(
-  (config) => {
-    const authToken = getAuthToken();
-    if (authToken) {
-      config.headers.Authorization = authToken;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-export interface IResume {
+export interface IResumeCreate {
   resume: File;
+  name: string;
+}
+
+export interface IResumeDelete {
+  resumeId: string;
+}
+
+export interface IResumeUpdate {
+  resumeId: string;
+  name: string;
 }
 
 const ResumeService = {
-  create: (payload: IResume) => {
-    return resumeAPI.postForm("/", payload);
+  create: (payload: IResumeCreate) => {
+    return apiClient.postForm("/api/v1/resume/", payload);
   },
-
   getAll: () => {
-    return resumeAPI.get("/");
+    return apiClient.get("/api/v1/resume/");
   },
-
-  delete: (id: string) => {
-    return resumeAPI.delete(`/${id}`);
+  delete: ({ resumeId }: IResumeDelete) => {
+    return apiClient.delete(`/api/v1/resume/${resumeId}`);
+  },
+  update: ({ resumeId, ...rest }: IResumeUpdate) => {
+    return apiClient.patch(`/api/v1/resume/${resumeId}`, rest);
   },
 };
 

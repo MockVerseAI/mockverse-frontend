@@ -12,7 +12,7 @@ const ApplicationEnhancer = () => {
   const { data: applications, isPending } = useQuery({
     queryKey: ["applications"],
     queryFn: async () => {
-      const res = await ApplicationService.get();
+      const res = await ApplicationService.getAll();
       return res?.data?.data;
     },
   });

@@ -1,23 +1,4 @@
-import { getAuthToken } from "@/lib/utils";
-import axios from "axios";
-
-const applicationAPI = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/v1/application`,
-  withCredentials: true,
-});
-
-applicationAPI.interceptors.request.use(
-  (config) => {
-    const authToken = getAuthToken();
-    if (authToken) {
-      config.headers.Authorization = authToken;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+import apiClient from "@/lib/axios";
 
 export interface IApplicationCreate {
   companyName: string;
@@ -31,14 +12,14 @@ export interface IApplicationReport {
 }
 
 const ApplicationService = {
-  get: () => {
-    return applicationAPI.get("/");
+  getAll: () => {
+    return apiClient.get("/api/v1/application/");
   },
   create: (payload: IApplicationCreate) => {
-    return applicationAPI.post("/", payload);
+    return apiClient.post("/api/v1/application/", payload);
   },
   report: ({ applicationId }: IApplicationReport) => {
-    return applicationAPI.get(`/report/${applicationId}`);
+    return apiClient.get(`/api/v1/application/report/${applicationId}`);
   },
 };
 
