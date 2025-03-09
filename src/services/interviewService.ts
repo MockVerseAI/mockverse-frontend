@@ -1,34 +1,36 @@
 import apiClient from "@/lib/axios";
 
-export interface IInterviewCreate {
-  applicationId: string;
+export interface IInterviewSetup {
+  jobRole: string;
+  jobDescription: string;
+  resumeId: string;
 }
 
-export interface IInterviewStart {
+export interface IChat {
+  message: string;
   interviewId: string;
+  isFirst: boolean;
 }
 
-export interface IInterviewAnswer {
+export interface IInterviewEnd {
   interviewId: string;
-  questionId: string;
-  answer: string;
 }
 
 const InterviewService = {
-  create: (payload: IInterviewCreate) => {
-    return apiClient.post("/api/v1/interview/", payload);
-  },
   getAll: () => {
     return apiClient.get("/api/v1/interview");
   },
-  start: ({ interviewId }: IInterviewStart) => {
-    return apiClient.post(`/api/v1/interview/start/${interviewId}`);
+  setup: (payload: IInterviewSetup) => {
+    return apiClient.post("/api/v1/interview/setup", payload);
   },
-  answer: (payload: IInterviewAnswer) => {
-    return apiClient.post("/api/v1/interview/answer", payload);
+  chat: ({ interviewId, ...rest }: IChat) => {
+    return apiClient.post(`/api/v1/interview/chat/${interviewId}`, rest);
   },
-  get: (interviewId: string) => {
-    return apiClient.get(`/api/v1/interview/${interviewId}`);
+  end: ({ interviewId }: IInterviewEnd) => {
+    return apiClient.post(`/api/v1/interview/end/${interviewId}`);
+  },
+  report: ({ interviewId }: IInterviewEnd) => {
+    return apiClient.get(`/api/v1/interview/report/${interviewId}`);
   },
 };
 

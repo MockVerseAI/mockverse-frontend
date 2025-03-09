@@ -1,7 +1,7 @@
 import ConsentCard from "@/components/cards/ConsentCard";
 import Message from "@/components/cards/Message";
+import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import WaveformIcon from "@/components/WaveformIcon";
 import { IMessage } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -36,6 +36,10 @@ export default function InterviewChat() {
     SpeechRecognition.startListening({ continuous: true, language: "en-US" });
   }, []);
   const stopListening = useCallback(() => SpeechRecognition.stopListening(), []);
+
+  const closeRecognition = useCallback(() => {
+    SpeechRecognition.abortListening();
+  }, []);
 
   const playAudioBuffer = useCallback(
     async (base64Audio: string) => {
@@ -147,6 +151,9 @@ export default function InterviewChat() {
 
   const { mutate: endInterview, isPending: isEndInterviewPending } = useMutation({
     mutationFn: () => {
+      if (isVoiceMode) {
+        closeRecognition();
+      }
       return InterviewService.end({ interviewId });
     },
     onError: (e: any) => {
@@ -197,13 +204,14 @@ export default function InterviewChat() {
         <div className="mb-5 w-full">
           <div className="mx-auto max-w-4xl">
             <div className="relative">
-              <Input
+              <AutosizeTextarea
                 value={input}
                 disabled={isSpeaking}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSend({ isFirst: false })}
                 placeholder="Type your response..."
                 className="bg-sidebar w-full rounded-lg border-none py-6 pr-24"
+                maxHeight={200}
               />
               <div className="absolute top-1/2 right-2 flex -translate-y-1/2 items-center gap-2">
                 <Button

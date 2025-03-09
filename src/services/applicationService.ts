@@ -13,10 +13,10 @@ export interface IApplicationReport {
 
 const ApplicationService = {
   getAll: () => {
-    return apiClient.get("/api/v1/application/");
+    return apiClient.get("/api/v1/application");
   },
   create: (payload: IApplicationCreate) => {
-    return apiClient.post("/api/v1/application/", payload);
+    return apiClient.post("/api/v1/application", payload);
   },
   report: ({ applicationId }: IApplicationReport) => {
     return apiClient.get(`/api/v1/application/report/${applicationId}`);
