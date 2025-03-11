@@ -197,10 +197,22 @@ export default function InterviewChat() {
         source.buffer = audioBuffer;
         source.connect(audioContext.destination);
 
+        const buffer = source.buffer;
+        if (buffer) {
+          const duration = buffer.duration;
+          const preStartTime = 1.5; // Start listening 1.5 seconds before end
+
+          setTimeout(
+            () => {
+              if (isVoiceMode) {
+                startListening(deepgramKeyData?.key);
+              }
+            },
+            (duration - preStartTime) * 1000
+          );
+        }
+
         source.onended = () => {
-          if (isVoiceMode) {
-            startListening(deepgramKeyData?.key);
-          }
           setIsSpeaking(false);
         };
 
@@ -228,7 +240,7 @@ export default function InterviewChat() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500 w-full max-w-4xl flex-1 overflow-y-auto p-4"
+            className="scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500 w-full max-w-4xl flex-1 overflow-y-auto p-4 pb-0"
             style={{ maxHeight: "calc(100vh - 150px)" }}
             ref={chatContainerRef}
           >
@@ -250,7 +262,7 @@ export default function InterviewChat() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="mb-5 w-full">
+        <div className="w-full">
           <div className="mx-auto max-w-4xl">
             <div className="relative">
               <AutosizeTextarea

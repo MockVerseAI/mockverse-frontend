@@ -40,15 +40,20 @@ const DashboardHome = () => {
       <div className="mt-10 w-full">
         <div className="flex items-center justify-between">
           <h1 className="title">Your Recent Interviews</h1>
-          <Link to="/dashboard/interview/setup" className={cn(buttonVariants({ variant: "default" }))}>
-            <Plus /> New session
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/interview" className={cn(buttonVariants({ variant: "ghost" }))}>
+              View all
+            </Link>
+            <Link to="/dashboard/interview/setup" className={cn(buttonVariants({ variant: "default" }))}>
+              <Plus /> New session
+            </Link>
+          </div>
         </div>
 
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {!isPending ? (
             interviews?.length > 0 ? (
-              interviews.map((item: IInterview) => <InterviewCard key={item._id} interview={item} />)
+              interviews.slice(0, 3).map((item: IInterview) => <InterviewCard key={item._id} interview={item} />)
             ) : (
               <NoDataFound type="interview" />
             )
@@ -61,9 +66,14 @@ const DashboardHome = () => {
       <div className="mt-10 w-full">
         <div className="flex items-center justify-between">
           <h1 className="title">Your Recent Applications</h1>
-          <Link to="/dashboard/application-enhancer/setup" className={cn(buttonVariants({ variant: "default" }))}>
-            <Plus /> New application
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link to="/dashboard/application-enhancer" className={cn(buttonVariants({ variant: "ghost" }))}>
+              View all
+            </Link>
+            <Link to="/dashboard/application-enhancer/setup" className={cn(buttonVariants({ variant: "default" }))}>
+              <Plus /> New application
+            </Link>
+          </div>
         </div>
 
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">

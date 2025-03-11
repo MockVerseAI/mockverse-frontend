@@ -107,7 +107,7 @@ export function useDeepgramTranscription({
 
         // Create a live transcription with proper configuration
         const connection = deepgram.listen.live({
-          model: "nova",
+          model: "nova-3",
           smart_format: true,
           punctuate: true,
           interim_results: true,

@@ -111,8 +111,6 @@ export const checkAudioSupport = (): {
     reasons.push("Not running in a secure context (HTTPS or localhost)");
   }
 
-  console.log("Reasons:", reasons);
-
   return {
     isSupported: reasons.length === 0,
     reasons,
