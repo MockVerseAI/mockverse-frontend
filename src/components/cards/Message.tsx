@@ -1,5 +1,6 @@
 import { IMessage } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import Markdown from "react-markdown";
 
 interface MessageProps {
   message: IMessage;
@@ -16,7 +17,7 @@ export default function Message({ message, className }: MessageProps) {
           className
         )}
       >
-        {message.content}
+        <Markdown>{message.content}</Markdown>
       </div>
     </div>
   );
