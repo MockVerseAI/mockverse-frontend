@@ -1,8 +1,8 @@
 import apiClient from "@/lib/axios";
 
 const PositionsService = {
-  get: () => {
-    return apiClient.get("/api/v1/positions/");
+  get: ({ search }: { search: string }) => {
+    return apiClient.get("/api/v1/positions/", { params: { search } });
   },
 };
 
