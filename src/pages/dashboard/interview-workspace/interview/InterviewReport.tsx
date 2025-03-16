@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 
 const InterviewReport = () => {
-  const { id: interviewId = "" } = useParams();
+  const { interviewId = "" } = useParams();
 
   const { data, isPending } = useQuery({
     queryKey: [`report-${interviewId}`],

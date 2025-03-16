@@ -2,7 +2,7 @@ import { CalendarX, FileX } from "lucide-react";
 import { useMemo } from "react";
 
 interface NoDataFoundProps {
-  type: "interview" | "application" | "resume";
+  type: "interview" | "application" | "resume" | "interview-workspace";
   title?: string;
   description?: string;
 }
@@ -10,6 +10,8 @@ interface NoDataFoundProps {
 const NoDataFound = ({ type, title, description }: NoDataFoundProps) => {
   const icon = useMemo(() => {
     switch (type) {
+      case "interview-workspace":
+        return <CalendarX className="text-muted-foreground size-6" />;
       case "interview":
         return <CalendarX className="text-muted-foreground size-6" />;
       case "application":
@@ -23,6 +25,8 @@ const NoDataFound = ({ type, title, description }: NoDataFoundProps) => {
 
   const defaultTitle = useMemo(() => {
     switch (type) {
+      case "interview-workspace":
+        return "No Interview Spaces Found";
       case "interview":
         return "No Interviews Found";
       case "application":
@@ -36,6 +40,8 @@ const NoDataFound = ({ type, title, description }: NoDataFoundProps) => {
 
   const defaultDescription = useMemo(() => {
     switch (type) {
+      case "interview-workspace":
+        return "No interview spaces found. Create a new interview space to get started.";
       case "interview":
         return "No interviews found. Create a new interview to get started.";
       case "application":

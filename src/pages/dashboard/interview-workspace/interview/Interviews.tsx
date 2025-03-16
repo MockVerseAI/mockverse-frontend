@@ -6,13 +6,15 @@ import { IInterview } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import InterviewService from "@/services/interviewService";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
 
 const Interviews = () => {
+  const { id: interviewWorkspaceId = "" } = useParams();
+
   const { data: interviews, isPending } = useQuery({
-    queryKey: ["interviews"],
+    queryKey: ["interviews", interviewWorkspaceId],
     queryFn: async () => {
-      const res = await InterviewService.getAll();
+      const res = await InterviewService.getAll(interviewWorkspaceId);
       return res.data?.data;
     },
   });
@@ -20,8 +22,11 @@ const Interviews = () => {
   return (
     <div className="w-full">
       <div className="flex items-center justify-between">
-        <h1 className="title">Your Recent Interviews</h1>
-        <Link to="/dashboard/interview/setup" className={cn(buttonVariants({ variant: "default" }))}>
+        <h1 className="title">Your Recent Interview Sessions</h1>
+        <Link
+          to={`/dashboard/interview-workspace/${interviewWorkspaceId}/interview/setup`}
+          className={cn(buttonVariants({ variant: "default" }))}
+        >
           Start new session
         </Link>
       </div>

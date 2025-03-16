@@ -22,10 +22,12 @@ const SSOSuccess = lazy(() => import("./pages/auth/SSOSuccess.tsx"));
 
 // Dashboard Pages
 const DashboardHome = lazy(() => import("./pages/dashboard/DashboardHome.tsx"));
-const Interviews = lazy(() => import("./pages/dashboard/interview/Interviews.tsx"));
-const InterviewSetup = lazy(() => import("./pages/dashboard/interview/InterviewSetup.tsx"));
-const InterviewChat = lazy(() => import("./pages/dashboard/interview/InterviewChat.tsx"));
-const InterviewReport = lazy(() => import("./pages/dashboard/interview/InterviewReport.tsx"));
+const InterviewWorkspaces = lazy(() => import("./pages/dashboard/interview-workspace/InterviewWorkspaces.tsx"));
+const InterviewWorkspaceSetup = lazy(() => import("./pages/dashboard/interview-workspace/InterviewWorkspaceSetup.tsx"));
+const Interviews = lazy(() => import("./pages/dashboard/interview-workspace/interview/Interviews.tsx"));
+const InterviewSetup = lazy(() => import("./pages/dashboard/interview-workspace/interview/InterviewSetup.tsx"));
+const InterviewChat = lazy(() => import("./pages/dashboard/interview-workspace/interview/InterviewChat.tsx"));
+const InterviewReport = lazy(() => import("./pages/dashboard/interview-workspace/interview/InterviewReport.tsx"));
 const ApplicationEnhancer = lazy(() => import("./pages/dashboard/application-enhancer/ApplicationEnhancer.tsx"));
 const ApplicationEnhancerSetup = lazy(
   () => import("./pages/dashboard/application-enhancer/ApplicationEnhancerSetup.tsx")
@@ -56,10 +58,15 @@ createRoot(document.getElementById("root")!).render(
 
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<DashboardHome />} />
-            <Route path="/dashboard/interview" element={<Interviews />} />
-            <Route path="/dashboard/interview/setup" element={<InterviewSetup />} />
-            <Route path="/dashboard/interview/chat/:id" element={<InterviewChat />} />
-            <Route path="/dashboard/interview/report/:id" element={<InterviewReport />} />
+            <Route path="/dashboard/interview-workspace" element={<InterviewWorkspaces />} />
+            <Route path="/dashboard/interview-workspace/setup" element={<InterviewWorkspaceSetup />} />
+            <Route path="/dashboard/interview-workspace/:id" element={<Interviews />} />
+            <Route path="/dashboard/interview-workspace/:id/interview/setup" element={<InterviewSetup />} />
+            <Route path="/dashboard/interview-workspace/:id/interview/chat/:interviewId" element={<InterviewChat />} />
+            <Route
+              path="/dashboard/interview-workspace/:id/interview/report/:interviewId"
+              element={<InterviewReport />}
+            />
             <Route path="/dashboard/application-enhancer" element={<ApplicationEnhancer />} />
             <Route path="/dashboard/application-enhancer/setup" element={<ApplicationEnhancerSetup />} />
             <Route path="/dashboard/application-enhancer/report/:id" element={<ApplicationEnhancerReport />} />
