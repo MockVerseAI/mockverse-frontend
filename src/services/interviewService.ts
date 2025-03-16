@@ -1,9 +1,10 @@
 import apiClient from "@/lib/axios";
 
-export interface IInterviewSetup {
-  jobRole: string;
-  jobDescription: string;
+export interface IInterviewCreate {
+  duration: number;
+  difficulty: string;
   resumeId: string;
+  interviewTemplateId: string;
 }
 
 export interface IChat {
@@ -17,11 +18,11 @@ export interface IInterviewEnd {
 }
 
 const InterviewService = {
-  getAll: () => {
-    return apiClient.get("/api/v1/interview");
+  getAll: (interviewWorkspaceId: string) => {
+    return apiClient.get(`/api/v1/interview/${interviewWorkspaceId}`);
   },
-  setup: (payload: IInterviewSetup) => {
-    return apiClient.post("/api/v1/interview/setup", payload);
+  setup: (interviewWorkspaceId: string, payload: IInterviewCreate) => {
+    return apiClient.post(`/api/v1/interview/${interviewWorkspaceId}/setup`, payload);
   },
   chat: ({ interviewId, ...rest }: IChat) => {
     return apiClient.post(`/api/v1/interview/chat/${interviewId}`, rest);

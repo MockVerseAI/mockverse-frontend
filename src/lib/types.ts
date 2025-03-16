@@ -28,14 +28,28 @@ export interface IMessage {
   role: "user" | "assistant";
 }
 
-export interface IInterview {
+export interface IInterviewWorkspace {
   _id: string;
   companyName: string;
   jobRole: string;
   jobDescription: string;
+  userId: string;
+  isDeleted: boolean;
+  __v: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IInterview {
+  _id: string;
+  duration: number;
+  difficulty: string;
+  interviewWorkspaceId: string;
+  interviewTemplateId: string;
   resumeId: string;
   userId: string;
   isCompleted: boolean;
+  isDeleted: boolean;
   __v: number;
   createdAt: string;
   updatedAt: string;

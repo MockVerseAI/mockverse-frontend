@@ -1,12 +1,12 @@
 import ApplicationCard from "@/components/cards/ApplicationCard";
-import InterviewCard from "@/components/cards/InterviewCard";
+import InterviewWorkspaceCard from "@/components/cards/InterviewWorkspaceCard";
 import NoDataFound from "@/components/cards/NoDataFound";
 import LoadingSkeletons from "@/components/loaders/LoadingSkeletons";
 import { buttonVariants } from "@/components/ui/button";
-import { IApplication, IInterview } from "@/lib/types";
+import { IApplication, IInterviewWorkspace } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import ApplicationService from "@/services/applicationService";
-import InterviewService from "@/services/interviewService";
+import InterviewWorkspaceService from "@/services/interviewWorkspaceService";
 import { RootState } from "@/store";
 import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
@@ -16,10 +16,10 @@ import { Link } from "react-router";
 const DashboardHome = () => {
   const { user } = useSelector((state: RootState) => state.user);
 
-  const { data: interviews, isPending } = useQuery({
-    queryKey: ["interviews"],
+  const { data: interviewWorkspaces, isPending } = useQuery({
+    queryKey: ["interviewWorkspaces"],
     queryFn: async () => {
-      const res = await InterviewService.getAll();
+      const res = await InterviewWorkspaceService.getAll();
       return res?.data?.data || [];
     },
   });
@@ -41,10 +41,10 @@ const DashboardHome = () => {
         <div className="flex items-center justify-between">
           <h1 className="title">Your Recent Interviews</h1>
           <div className="flex items-center gap-2">
-            <Link to="/dashboard/interview" className={cn(buttonVariants({ variant: "ghost" }))}>
+            <Link to="/dashboard/interview-workspace" className={cn(buttonVariants({ variant: "ghost" }))}>
               View all
             </Link>
-            <Link to="/dashboard/interview/setup" className={cn(buttonVariants({ variant: "default" }))}>
+            <Link to="/dashboard/interview-workspace/setup" className={cn(buttonVariants({ variant: "default" }))}>
               <Plus /> New session
             </Link>
           </div>
@@ -52,10 +52,12 @@ const DashboardHome = () => {
 
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {!isPending ? (
-            interviews?.length > 0 ? (
-              interviews.slice(0, 3).map((item: IInterview) => <InterviewCard key={item._id} interview={item} />)
+            interviewWorkspaces?.length > 0 ? (
+              interviewWorkspaces
+                .slice(0, 3)
+                .map((item: IInterviewWorkspace) => <InterviewWorkspaceCard key={item._id} interviewWorkspace={item} />)
             ) : (
-              <NoDataFound type="interview" />
+              <NoDataFound type="interview-workspace" />
             )
           ) : (
             <LoadingSkeletons count={2} />

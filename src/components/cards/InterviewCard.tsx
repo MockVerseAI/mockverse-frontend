@@ -1,9 +1,9 @@
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { IInterview } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import moment from "moment";
 import { Link } from "react-router";
-import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 const InterviewCard = ({ interview }: { interview: IInterview }) => {
   return (
@@ -11,7 +11,7 @@ const InterviewCard = ({ interview }: { interview: IInterview }) => {
       <CardHeader className="mb-1">
         <CardTitle>
           <span className="overflow-hidden text-ellipsis whitespace-nowrap">
-            {interview?.companyName} - {interview?.jobRole}
+            {/* {interview?.companyName} - {interview?.jobRole} */}
           </span>
         </CardTitle>
       </CardHeader>

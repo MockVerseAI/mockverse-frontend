@@ -22,7 +22,7 @@ export default function InterviewChat() {
   const [input, setInput] = useState("");
   const [isVoiceMode, setIsVoiceMode] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
-  const { id: interviewId = "" } = useParams();
+  const { id: interviewWorkspaceId = "", interviewId = "" } = useParams();
   const navigate = useNavigate();
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -170,7 +170,7 @@ export default function InterviewChat() {
       toast.error(errObj.message || "Failed to end interview");
     },
     onSuccess: async () => {
-      navigate(`/dashboard/interview/report/${interviewId}`);
+      navigate(`/dashboard/interview-workspace/${interviewWorkspaceId}/report/${interviewId}`);
     },
   });
 
