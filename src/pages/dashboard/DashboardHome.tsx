@@ -39,7 +39,7 @@ const DashboardHome = () => {
 
       <div className="mt-10 w-full">
         <div className="flex items-center justify-between">
-          <h1 className="title">Your Recent Interviews</h1>
+          <h1 className="title">Your Recent Interview Spaces</h1>
           <div className="flex items-center gap-2">
             <Link to="/dashboard/interview-workspace" className={cn(buttonVariants({ variant: "ghost" }))}>
               View all

@@ -22,7 +22,7 @@ type ComboboxSelectProps = {
 };
 
 const Combobox = ({
-  options,
+  options = [],
   value,
   onChange,
   placeholder = "Select an option",
@@ -33,10 +33,10 @@ const Combobox = ({
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [buttonWidth, setButtonWidth] = useState<number>(0);
   const [open, setOpen] = useState<boolean>(false);
-  const selectedOption = options.find((option) => option.value === value);
+  const selectedOption = options?.find((option) => option.value === value);
 
   const handleSelect = (label: string) => {
-    const option = options.find((option) => option.label === label);
+    const option = options?.find((option) => option.label === label);
     if (option) {
       onChange(option.value);
       setOpen(false);
@@ -77,7 +77,7 @@ const Combobox = ({
           <CommandList>
             <CommandEmpty>{emptyText}</CommandEmpty>
             <CommandGroup>
-              {options.map((option) => (
+              {options?.map((option) => (
                 <CommandItem value={option.label} key={option.value} onSelect={handleSelect}>
                   {option.label}
                   <Check className={cn("ml-auto", option.value === value ? "opacity-100" : "opacity-0")} />
