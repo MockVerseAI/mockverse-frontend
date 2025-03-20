@@ -7,11 +7,12 @@ import { Label } from "@/components/ui/label";
 import { Resume } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import InterviewService, { IInterviewCreate } from "@/services/interviewService";
+import InterviewTemplateService from "@/services/interviewTemplateService";
 import { RootState } from "@/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChevronDown, ExternalLink } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
@@ -35,6 +36,7 @@ const difficulties = [
 const formSchema = z.object({
   duration: z.enum(["15", "30", "45", "60"]),
   difficulty: z.enum(["beginner", "intermediate", "advanced", "expert"]),
+  interviewTemplateId: z.string(),
 });
 
 const InterviewSetup = () => {
@@ -46,6 +48,7 @@ const InterviewSetup = () => {
     defaultValues: {
       duration: "15",
       difficulty: "beginner",
+      interviewTemplateId: "",
     },
   });
 
@@ -72,6 +75,28 @@ const InterviewSetup = () => {
     },
   });
 
+  const { data: interviewTemplates } = useQuery({
+    queryKey: ["interview-templates"],
+    queryFn: async () => {
+      const res = await InterviewTemplateService.get({
+        params: {
+          page: 1,
+          limit: 1000,
+        },
+      });
+      return res?.data?.data?.templates || [];
+    },
+  });
+
+  const interviewTemplateOptions = useMemo(() => {
+    return (
+      interviewTemplates?.map((template: any) => ({
+        label: template.name,
+        value: template._id,
+      })) || []
+    );
+  }, [interviewTemplates]);
+
   const onSubmit = useCallback(
     (values: z.infer<typeof formSchema>) => {
       if (!selectedResume) return toast.error("Please select a resume");
@@ -80,7 +105,7 @@ const InterviewSetup = () => {
         ...values,
         duration: parseInt(values.duration),
         resumeId: selectedResume._id,
-        interviewTemplateId: "asdas",
+        interviewTemplateId: values.interviewTemplateId,
       };
       createInterview(payload);
     },
@@ -102,6 +127,24 @@ const InterviewSetup = () => {
           <div className="grid gap-6">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+                <FormField
+                  control={form.control}
+                  name="interviewTemplateId"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Interview Template</FormLabel>
+                      <Combobox
+                        options={interviewTemplateOptions}
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="Select interview template"
+                        searchPlaceholder="Search interview template..."
+                        emptyText="No interview template found."
+                      />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="duration"
