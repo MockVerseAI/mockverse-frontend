@@ -31,7 +31,7 @@ const Interviews = () => {
         </Link>
       </div>
 
-      <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-5 grid grid-cols-1 gap-5">
         {!isPending ? (
           interviews?.length > 0 ? (
             interviews.map((item: IInterview) => <InterviewCard key={item._id} interview={item} />)

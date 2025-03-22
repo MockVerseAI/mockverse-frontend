@@ -13,7 +13,7 @@ const InterviewConversation: FC<InterviewConversationProps> = ({ messages }) => 
       style={{ maxHeight: "calc(100vh - 200px)" }}
     >
       {messages.map((message: IMessage, index: number) => (
-        <Message key={index} message={message} className="max-w-xs md:max-w-xs lg:max-w-md xl:max-w-md" />
+        <Message key={index} message={message} className="max-w-xs md:max-w-xs lg:max-w-md xl:max-w-xl" />
       ))}
     </div>
   );

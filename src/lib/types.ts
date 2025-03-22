@@ -45,7 +45,7 @@ export interface IInterview {
   duration: number;
   difficulty: string;
   interviewWorkspaceId: string;
-  interviewTemplateId: string;
+  interviewTemplateId: IInterviewTemplate;
   resumeId: string;
   userId: string;
   isCompleted: boolean;
