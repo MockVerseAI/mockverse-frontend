@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import AiIcon from "@/assets/ai-icon";
 
 export type ComboboxOption = {
   label: string;
   value: string;
+  aiIcon?: boolean;
 };
 
 type ComboboxSelectProps = {
@@ -67,7 +69,10 @@ const Combobox = ({
           aria-label={placeholder}
           className={cn("justify-between", !value && "text-muted-foreground", className)}
         >
-          {selectedOption?.label || placeholder}
+          <div className="flex items-center gap-2">
+            {selectedOption?.aiIcon && <AiIcon className="size-3" />}
+            {selectedOption?.label || placeholder}
+          </div>
           <ChevronDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -79,6 +84,7 @@ const Combobox = ({
             <CommandGroup>
               {options?.map((option) => (
                 <CommandItem value={option.label} key={option.value} onSelect={handleSelect}>
+                  {option.aiIcon && <AiIcon className="size-3" />}
                   {option.label}
                   <Check className={cn("ml-auto", option.value === value ? "opacity-100" : "opacity-0")} />
                 </CommandItem>

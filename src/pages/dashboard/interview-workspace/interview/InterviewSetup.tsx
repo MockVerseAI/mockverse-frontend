@@ -1,10 +1,11 @@
+import AiSuggestionCard from "@/components/cards/AiSuggestionCard";
 import ResumeSelectModal from "@/components/modals/ResumeSelectModal";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Combobox from "@/components/ui/combobox";
+import Combobox, { ComboboxOption } from "@/components/ui/combobox";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
-import { Resume } from "@/lib/types";
+import { IInterviewTemplate, Resume } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import InterviewService, { IInterviewCreate } from "@/services/interviewService";
 import InterviewTemplateService from "@/services/interviewTemplateService";
@@ -52,6 +53,8 @@ const InterviewSetup = () => {
     },
   });
 
+  const formWatch = form.watch();
+
   const [selectedResume, setSelectedResume] = useState<Resume | null>(null);
   const [resumeSelectOpen, setResumeSelectOpen] = useState<boolean>(false);
 
@@ -88,14 +91,54 @@ const InterviewSetup = () => {
     },
   });
 
+  const { data: relevantTemplate, isPending: isRelevantTemplatePending } = useQuery({
+    queryKey: ["relevant-template", interviewWorkspaceId],
+    queryFn: async () => {
+      const res = await InterviewTemplateService.getRelevantTemplate(interviewWorkspaceId);
+      return res?.data?.data;
+    },
+  });
+
   const interviewTemplateOptions = useMemo(() => {
+    const relevantTemplateIds = relevantTemplate?.templates?.map((template: any) => template._id) || [];
+
     return (
-      interviewTemplates?.map((template: any) => ({
-        label: template.name,
-        value: template._id,
-      })) || []
+      interviewTemplates
+        ?.map((template: IInterviewTemplate) => ({
+          label: template.name,
+          value: template._id,
+          aiIcon: relevantTemplateIds.includes(template._id),
+        }))
+        .sort((a: ComboboxOption, b: ComboboxOption) => {
+          if (a.aiIcon && !b.aiIcon) return -1;
+          if (!a.aiIcon && b.aiIcon) return 1;
+          return 0;
+        }) || []
     );
-  }, [interviewTemplates]);
+  }, [interviewTemplates, relevantTemplate]);
+
+  const difficultyOptions = useMemo(() => {
+    const relevantDifficulty = relevantTemplate?.recommendedDifficulty;
+
+    let options = difficulties;
+
+    if (relevantDifficulty) {
+      options = difficulties
+        .map((option: ComboboxOption) => {
+          if (option.value === relevantDifficulty) {
+            option.aiIcon = true;
+          }
+          return option;
+        })
+        .sort((a: ComboboxOption, b: ComboboxOption) => {
+          if (a.aiIcon && !b.aiIcon) return -1;
+          if (!a.aiIcon && b.aiIcon) return 1;
+          return 0;
+        });
+    }
+
+    return options;
+  }, [relevantTemplate]);
 
   const onSubmit = useCallback(
     (values: z.infer<typeof formSchema>) => {
@@ -141,6 +184,24 @@ const InterviewSetup = () => {
                         searchPlaceholder="Search interview template..."
                         emptyText="No interview template found."
                       />
+                      {!isRelevantTemplatePending ? (
+                        relevantTemplate?.templates
+                          .filter(
+                            (template: IInterviewTemplate) => !formWatch.interviewTemplateId.includes(template._id)
+                          )
+                          .map((template: IInterviewTemplate) => (
+                            <AiSuggestionCard
+                              key={template._id}
+                              label={template.name}
+                              isGenerating={false}
+                              onChange={() => {
+                                form.setValue("interviewTemplateId", template._id);
+                              }}
+                            />
+                          ))
+                      ) : (
+                        <AiSuggestionCard label="Generating" isGenerating={true} />
+                      )}
                       <FormMessage />
                     </FormItem>
                   )}
@@ -170,13 +231,27 @@ const InterviewSetup = () => {
                     <FormItem className="flex flex-col">
                       <FormLabel>Difficulty</FormLabel>
                       <Combobox
-                        options={difficulties}
+                        options={difficultyOptions}
                         value={field.value}
                         onChange={field.onChange}
                         placeholder="Select difficulty"
                         searchPlaceholder="Search difficulty..."
                         emptyText="No difficulty found."
                       />
+                      {!isRelevantTemplatePending ? (
+                        relevantTemplate?.recommendedDifficulty &&
+                        formWatch.difficulty !== relevantTemplate?.recommendedDifficulty && (
+                          <AiSuggestionCard
+                            label={`${relevantTemplate?.recommendedDifficulty}`}
+                            isGenerating={false}
+                            onChange={() => {
+                              form.setValue("difficulty", relevantTemplate?.recommendedDifficulty);
+                            }}
+                          />
+                        )
+                      ) : (
+                        <AiSuggestionCard label="Generating" isGenerating={true} />
+                      )}
                       <FormMessage />
                     </FormItem>
                   )}
