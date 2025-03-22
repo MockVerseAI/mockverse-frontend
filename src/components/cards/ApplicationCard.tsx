@@ -10,7 +10,7 @@ const ApplicationCard = ({ application }: { application: IApplication }) => {
     <Card>
       <CardHeader className="mb-1">
         <CardTitle>
-          <span className="overflow-hidden text-ellipsis whitespace-nowrap">
+          <span className="line-clamp-1 overflow-hidden text-ellipsis">
             {application.companyName} - {application.jobRole}
           </span>
         </CardTitle>
