@@ -170,7 +170,7 @@ export default function InterviewChat() {
       toast.error(errObj.message || "Failed to end interview");
     },
     onSuccess: async () => {
-      navigate(`/dashboard/interview-workspace/${interviewWorkspaceId}/report/${interviewId}`);
+      navigate(`/dashboard/interview-workspace/${interviewWorkspaceId}/interview/report/${interviewId}`);
     },
   });
 
