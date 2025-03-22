@@ -411,3 +411,21 @@ export interface IDevelopmentPlan {
     skills: IDevelopmentSkill[];
   };
 }
+
+export interface IInterviewTemplate {
+  _id: string;
+  name: string;
+  description: string;
+  category: string;
+  relevanceScore?: number;
+}
+
+export interface IRelevantTemplatesResponse {
+  templates: IInterviewTemplate[];
+  recommendedDifficulty: string;
+  experienceLevel: string;
+  jobContext: {
+    role: string;
+    description: string;
+  };
+}
