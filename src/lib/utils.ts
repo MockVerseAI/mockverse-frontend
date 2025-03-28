@@ -1,3 +1,4 @@
+import Vapi from "@vapi-ai/web";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -25,3 +26,5 @@ export const clearAuthTokens = () => {
 export const isUserAuthenticated = () => {
   return !!getAuthToken();
 };
+
+export const vapi = new Vapi(import.meta.env.VITE_VAPI_API_KEY);
