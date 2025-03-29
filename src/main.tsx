@@ -5,10 +5,12 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import "regenerator-runtime/runtime";
 import FullScreenLoader from "./components/loaders/FullScreenLoader";
 import "./index.css";
+import Test from "./pages/Test.tsx";
 
 // Layouts
 const DashboardLayout = lazy(() => import("./layouts/DashboardLayout.tsx"));
 const PublicLayout = lazy(() => import("./layouts/PublicLayout.tsx"));
+const PrivateLayout = lazy(() => import("./layouts/PrivateLayout.tsx"));
 
 // Public Pages
 const Home = lazy(() => import("./pages/Home.tsx"));
@@ -27,6 +29,7 @@ const InterviewWorkspaceSetup = lazy(() => import("./pages/dashboard/interview-w
 const Interviews = lazy(() => import("./pages/dashboard/interview-workspace/interview/Interviews.tsx"));
 const InterviewSetup = lazy(() => import("./pages/dashboard/interview-workspace/interview/InterviewSetup.tsx"));
 const InterviewChat = lazy(() => import("./pages/dashboard/interview-workspace/interview/InterviewChat.tsx"));
+const InterviewAgent = lazy(() => import("./pages/dashboard/interview-workspace/interview/InterviewAgent.tsx"));
 const InterviewReport = lazy(() => import("./pages/dashboard/interview-workspace/interview/InterviewReport.tsx"));
 const ApplicationEnhancer = lazy(() => import("./pages/dashboard/application-enhancer/ApplicationEnhancer.tsx"));
 const ApplicationEnhancerSetup = lazy(
@@ -56,22 +59,33 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/sso-success" element={<SSOSuccess />} />
           </Route>
 
-          <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<DashboardHome />} />
-            <Route path="/dashboard/interview-workspace" element={<InterviewWorkspaces />} />
-            <Route path="/dashboard/interview-workspace/setup" element={<InterviewWorkspaceSetup />} />
-            <Route path="/dashboard/interview-workspace/:id" element={<Interviews />} />
-            <Route path="/dashboard/interview-workspace/:id/interview/setup" element={<InterviewSetup />} />
-            <Route path="/dashboard/interview-workspace/:id/interview/chat/:interviewId" element={<InterviewChat />} />
+          <Route element={<PrivateLayout />}>
+            <Route element={<DashboardLayout />}>
+              <Route path="/dashboard" element={<DashboardHome />} />
+              <Route path="/dashboard/interview-workspace" element={<InterviewWorkspaces />} />
+              <Route path="/dashboard/interview-workspace/setup" element={<InterviewWorkspaceSetup />} />
+              <Route path="/dashboard/interview-workspace/:id" element={<Interviews />} />
+              <Route path="/dashboard/interview-workspace/:id/interview/setup" element={<InterviewSetup />} />
+              <Route
+                path="/dashboard/interview-workspace/:id/interview/chat/:interviewId"
+                element={<InterviewChat />}
+              />
+              <Route
+                path="/dashboard/interview-workspace/:id/interview/report/:interviewId"
+                element={<InterviewReport />}
+              />
+              <Route path="/dashboard/application-enhancer" element={<ApplicationEnhancer />} />
+              <Route path="/dashboard/application-enhancer/setup" element={<ApplicationEnhancerSetup />} />
+              <Route path="/dashboard/application-enhancer/report/:id" element={<ApplicationEnhancerReport />} />
+              <Route path="/dashboard/account" element={<Account />} />
+            </Route>
+
             <Route
-              path="/dashboard/interview-workspace/:id/interview/report/:interviewId"
-              element={<InterviewReport />}
+              path="/dashboard/interview-workspace/:id/interview/agent/:interviewId"
+              element={<InterviewAgent />}
             />
-            <Route path="/dashboard/application-enhancer" element={<ApplicationEnhancer />} />
-            <Route path="/dashboard/application-enhancer/setup" element={<ApplicationEnhancerSetup />} />
-            <Route path="/dashboard/application-enhancer/report/:id" element={<ApplicationEnhancerReport />} />
-            <Route path="/dashboard/account" element={<Account />} />
           </Route>
+          <Route path="/test" element={<Test />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>

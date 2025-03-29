@@ -5,6 +5,7 @@ export interface IInterviewCreate {
   difficulty: string;
   resumeId: string;
   interviewTemplateId: string;
+  isAgentMode: boolean;
 }
 
 export interface IChat {
@@ -15,6 +16,14 @@ export interface IChat {
 
 export interface IInterviewEnd {
   interviewId: string;
+}
+
+export interface IInterviewAgentEnd {
+  interviewId: string;
+  messages: {
+    role: string;
+    content: string;
+  }[];
 }
 
 const InterviewService = {
@@ -32,6 +41,12 @@ const InterviewService = {
   },
   report: ({ interviewId }: IInterviewEnd) => {
     return apiClient.get(`/api/v1/interview/report/${interviewId}`);
+  },
+  agent: ({ interviewId }: IInterviewEnd) => {
+    return apiClient.get(`/api/v1/interview/agent/${interviewId}`);
+  },
+  endAgent: ({ interviewId, messages }: IInterviewAgentEnd) => {
+    return apiClient.post(`/api/v1/interview/end-agent/${interviewId}`, { messages });
   },
 };
 

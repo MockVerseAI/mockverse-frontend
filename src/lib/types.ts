@@ -50,6 +50,7 @@ export interface IInterview {
   userId: string;
   isCompleted: boolean;
   isDeleted: boolean;
+  isAgentMode: boolean;
   __v: number;
   createdAt: string;
   updatedAt: string;

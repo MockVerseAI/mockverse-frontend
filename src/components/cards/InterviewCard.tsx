@@ -4,11 +4,22 @@ import { IInterview } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ArrowRightCircle, Bookmark, Check, Clock } from "lucide-react";
 import moment from "moment";
+import { useMemo } from "react";
 import { Link } from "react-router";
 import { Badge } from "../ui/badge";
 
 const InterviewCard = ({ interview }: { interview: IInterview }) => {
   const isCompleted = interview.isCompleted;
+
+  const url = useMemo(() => {
+    if (!interview.isCompleted) {
+      if (interview.isAgentMode)
+        return `/dashboard/interview-workspace/${interview.interviewWorkspaceId}/interview/agent/${interview._id}`;
+      else return `/dashboard/interview-workspace/${interview.interviewWorkspaceId}/interview/chat/${interview._id}`;
+    } else {
+      return `/dashboard/interview-workspace/${interview.interviewWorkspaceId}/interview/report/${interview._id}`;
+    }
+  }, [interview]);
 
   return (
     <Card className="h-full transition-all hover:shadow-md">
@@ -41,11 +52,7 @@ const InterviewCard = ({ interview }: { interview: IInterview }) => {
 
       <CardFooter className="justify-end">
         <Link
-          to={
-            isCompleted
-              ? `/dashboard/interview-workspace/${interview.interviewWorkspaceId}/interview/report/${interview._id}`
-              : `/dashboard/interview-workspace/${interview.interviewWorkspaceId}/interview/chat/${interview._id}`
-          }
+          to={url}
           className={cn(
             buttonVariants({
               variant: "default",

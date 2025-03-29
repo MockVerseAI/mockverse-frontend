@@ -4,7 +4,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn, vapi } from "@/lib/utils";
+import InterviewService from "@/services/interviewService";
+import { RootState } from "@/store";
+import { useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router";
+import { toast } from "sonner";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -18,19 +24,25 @@ interface SavedMessage {
   content: string;
 }
 
-const Test = () => {
+const InterviewAgent = () => {
+  const { user } = useSelector((state: RootState) => state.user);
+  const { id: interviewWorkspaceId = "", interviewId = "" } = useParams();
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const [lastMessage, setLastMessage] = useState<string>("");
   const [agentVolumeLevel, setAgentVolumeLevel] = useState<number>(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onCallStart = () => {
+      console.log("call-start");
       setCallStatus(CallStatus.ACTIVE);
     };
 
     const onCallEnd = () => {
+      console.log("call-end");
       setCallStatus(CallStatus.FINISHED);
+      endInterview();
     };
 
     const onMessage = (message: Message) => {
@@ -82,15 +94,48 @@ const Test = () => {
     }
   }, [messages]);
 
-  const handleCall = async () => {
-    vapi.start(import.meta.env.VITE_INTERVIEW_ID);
+  const handleStartInterview = async (assistantId: string) => {
+    vapi.start(assistantId);
     setCallStatus(CallStatus.CONNECTING);
   };
 
-  const handleDisconnect = () => {
+  const handleDisconnect = async () => {
+    await vapi.stop();
     setCallStatus(CallStatus.FINISHED);
-    vapi.stop();
   };
+
+  const { mutate: endInterview, isPending: isEndInterviewPending } = useMutation({
+    mutationFn: async () => {
+      console.log("end-interview");
+      const res = await InterviewService.endAgent({ interviewId, messages });
+      return res?.data;
+    },
+    onError: (e: any) => {
+      const errObj = e?.response?.data;
+      toast.error(errObj.message || "Failed to start interview");
+    },
+    onSuccess: async () => {
+      toast.success("Interview ended successfully");
+      navigate(`/dashboard/interview-workspace/${interviewWorkspaceId}/interview/report/${interviewId}`);
+    },
+  });
+
+  const { mutate: startInterview, isPending } = useMutation({
+    mutationFn: async () => {
+      const res = await InterviewService.agent({ interviewId });
+      return res?.data;
+    },
+    onError: (e: any) => {
+      const errObj = e?.response?.data;
+      toast.error(errObj.message || "Failed to start interview");
+    },
+    onSuccess: async (response) => {
+      const assistantId = response?.data?.assistantId;
+      console.log(response);
+      toast.success("Starting interview...");
+      handleStartInterview(assistantId);
+    },
+  });
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center px-4 py-4 lg:px-10">
@@ -99,7 +144,10 @@ const Test = () => {
           <motion.div
             animate={{ scale: 1 + agentVolumeLevel, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="bg-accent absolute top-1/2 left-1/2 z-10 flex size-36 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
+            className={cn(
+              "bg-accent absolute top-1/2 left-1/2 z-10 flex size-36 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full",
+              callStatus === CallStatus.CONNECTING && "animate-ping"
+            )}
           />
           <Avatar className="relative z-20 size-36">
             <AvatarImage src="/icon.svg" />
@@ -110,8 +158,8 @@ const Test = () => {
         {/* User Profile Card */}
         <Card className="flex min-h-96 items-center justify-center">
           <Avatar className="size-36">
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src={user?.avatar} />
+            <AvatarFallback>{user?.username}</AvatarFallback>
           </Avatar>
         </Card>
       </div>
@@ -133,19 +181,13 @@ const Test = () => {
       </Card>
 
       <div className="mt-8 flex w-full justify-center">
-        {callStatus !== "ACTIVE" ? (
-          <Button className="btn-call relative" onClick={() => handleCall()}>
-            <span
-              className={cn("absolute animate-ping rounded-full opacity-75", callStatus !== "CONNECTING" && "hidden")}
-            />
-
-            <span className="relative">
-              {callStatus === "INACTIVE" || callStatus === "FINISHED" ? "Call" : ". . ."}
-            </span>
+        {callStatus !== CallStatus.ACTIVE ? (
+          <Button isLoading={isPending} className="btn-call relative" onClick={() => startInterview()}>
+            Start Interview
           </Button>
         ) : (
-          <Button className="btn-disconnect" onClick={() => handleDisconnect()}>
-            End
+          <Button isLoading={isEndInterviewPending} className="btn-disconnect" onClick={() => handleDisconnect()}>
+            End Interview
           </Button>
         )}
       </div>
@@ -153,4 +195,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default InterviewAgent;
