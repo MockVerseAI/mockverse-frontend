@@ -161,8 +161,8 @@ const InterviewAgent = () => {
 
         <div className="flex flex-col items-start justify-start">
           <h1 className="text-2xl font-bold">{interview?.interviewTemplateId?.name}</h1>
-          <p className="text-muted-foreground text-sm capitalize">
-            {interview?.difficulty} - {interview?.duration} minutes
+          <p className="text-muted-foreground text-sm">
+            <span className="capitalize">{interview?.difficulty}</span> - {interview?.duration} minutes
           </p>
         </div>
       </div>
