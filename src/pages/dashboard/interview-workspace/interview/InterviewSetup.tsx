@@ -7,6 +7,7 @@ import Combobox, { ComboboxOption } from "@/components/ui/combobox";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import { IInterviewTemplate, Resume } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import InterviewService, { IInterviewCreate } from "@/services/interviewService";
@@ -14,7 +15,7 @@ import InterviewTemplateService from "@/services/interviewTemplateService";
 import { RootState } from "@/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { ChevronDown, ExternalLink, Info } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -293,12 +294,20 @@ const InterviewSetup = () => {
                   control={form.control}
                   name="isAgentMode"
                   render={({ field }) => (
-                    <FormItem className="flex items-center justify-start gap-4">
-                      <FormLabel className="flex items-center gap-2">
-                        <AiIcon className="size-3" />
-                        Agent Mode
-                      </FormLabel>
-                      <Switch className="cursor-pointer" onCheckedChange={field.onChange} checked={field.value} />
+                    <FormItem className="flex flex-col items-start justify-start gap-4">
+                      <div className="flex w-full items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <FormLabel className="flex items-center gap-2">
+                            <AiIcon className="size-3" />
+                            Agent Mode
+                          </FormLabel>
+                          <Switch className="cursor-pointer" onCheckedChange={field.onChange} checked={field.value} />
+                        </div>
+                        <TooltipButton title="Try out the agent mode to see how it works. A hands free experience just like a real interview">
+                          <Info className="size-4" />
+                        </TooltipButton>
+                      </div>
+
                       <FormMessage />
                     </FormItem>
                   )}

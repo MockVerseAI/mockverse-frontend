@@ -6,7 +6,7 @@ function TooltipButton({ children, title }: { children: React.ReactNode; title: 
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent>
-          <p>{title}</p>
+          <p className="text-justify">{title}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
