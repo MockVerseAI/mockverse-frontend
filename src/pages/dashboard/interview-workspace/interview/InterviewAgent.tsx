@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -33,76 +33,22 @@ const InterviewAgent = () => {
   const [agentVolumeLevel, setAgentVolumeLevel] = useState<number>(0);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const onCallStart = () => {
-      console.log("call-start");
-      setCallStatus(CallStatus.ACTIVE);
-    };
-
-    const onCallEnd = () => {
-      console.log("call-end");
-      setCallStatus(CallStatus.FINISHED);
-      endInterview();
-    };
-
-    const onMessage = (message: Message) => {
-      if (message.type === "transcript" && message.transcriptType === "final") {
-        const newMessage = { role: message.role, content: message.transcript };
-        setMessages((prev) => [...prev, newMessage]);
-      }
-    };
-
-    const onSpeechStart = () => {
-      console.log("speech start");
-    };
-
-    const onSpeechEnd = () => {
-      console.log("speech end");
-    };
-
-    const onError = (error: Error) => {
-      console.log("Error:", error);
-    };
-
-    const onVolumeLevelChange = (volumeLevel: number) => {
-      console.log("volume level", volumeLevel);
-      setAgentVolumeLevel(volumeLevel);
-    };
-
-    vapi.on("call-start", onCallStart);
-    vapi.on("call-end", onCallEnd);
-    vapi.on("message", onMessage);
-    vapi.on("speech-start", onSpeechStart);
-    vapi.on("speech-end", onSpeechEnd);
-    vapi.on("error", onError);
-    vapi.on("volume-level", onVolumeLevelChange);
-
-    return () => {
-      vapi.off("call-start", onCallStart);
-      vapi.off("call-end", onCallEnd);
-      vapi.off("message", onMessage);
-      vapi.off("speech-start", onSpeechStart);
-      vapi.off("speech-end", onSpeechEnd);
-      vapi.off("error", onError);
-      vapi.off("volume-level", onVolumeLevelChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (messages.length > 0) {
-      setLastMessage(messages[messages.length - 1].content);
-    }
-  }, [messages]);
-
-  const handleStartInterview = async (assistantId: string) => {
-    vapi.start(assistantId);
-    setCallStatus(CallStatus.CONNECTING);
-  };
-
-  const handleDisconnect = async () => {
-    await vapi.stop();
-    setCallStatus(CallStatus.FINISHED);
-  };
+  const { mutate: startInterview, isPending } = useMutation({
+    mutationFn: async () => {
+      const res = await InterviewService.agent({ interviewId });
+      return res?.data;
+    },
+    onError: (e: any) => {
+      const errObj = e?.response?.data;
+      toast.error(errObj.message || "Failed to start interview");
+    },
+    onSuccess: async (response) => {
+      const assistantId = response?.data?.assistantId;
+      console.log(response);
+      toast.success("Starting interview...");
+      handleStartInterview(assistantId);
+    },
+  });
 
   const { mutate: endInterview, isPending: isEndInterviewPending } = useMutation({
     mutationFn: async () => {
@@ -120,22 +66,82 @@ const InterviewAgent = () => {
     },
   });
 
-  const { mutate: startInterview, isPending } = useMutation({
-    mutationFn: async () => {
-      const res = await InterviewService.agent({ interviewId });
-      return res?.data;
-    },
-    onError: (e: any) => {
-      const errObj = e?.response?.data;
-      toast.error(errObj.message || "Failed to start interview");
-    },
-    onSuccess: async (response) => {
-      const assistantId = response?.data?.assistantId;
-      console.log(response);
-      toast.success("Starting interview...");
-      handleStartInterview(assistantId);
-    },
-  });
+  const onCallStart = useCallback(() => {
+    console.log("call-start");
+    setCallStatus(CallStatus.ACTIVE);
+  }, []);
+
+  const onCallEnd = useCallback(() => {
+    console.log("call-end");
+    setCallStatus(CallStatus.FINISHED);
+    endInterview();
+  }, [endInterview]);
+
+  const onMessage = useCallback((message: Message) => {
+    if (message.type === "transcript" && message.transcriptType === "final") {
+      const newMessage = { role: message.role, content: message.transcript };
+      setMessages((prev) => [...prev, newMessage]);
+    }
+  }, []);
+
+  const onSpeechStart = useCallback(() => {
+    console.log("speech start");
+  }, []);
+
+  const onSpeechEnd = useCallback(() => {
+    console.log("speech end");
+  }, []);
+
+  const onError = useCallback((error: Error) => {
+    console.log("Error:", error);
+  }, []);
+
+  const onVolumeLevelChange = useCallback((volumeLevel: number) => {
+    console.log("volume level", volumeLevel);
+    setAgentVolumeLevel(volumeLevel);
+  }, []);
+
+  const setupVapiEvents = useCallback(() => {
+    vapi.on("call-start", onCallStart);
+    vapi.on("call-end", onCallEnd);
+    vapi.on("message", onMessage);
+    vapi.on("speech-start", onSpeechStart);
+    vapi.on("speech-end", onSpeechEnd);
+    vapi.on("error", onError);
+    vapi.on("volume-level", onVolumeLevelChange);
+  }, [onCallEnd, onCallStart, onError, onMessage, onSpeechEnd, onSpeechStart, onVolumeLevelChange]);
+
+  const cleanupVapiEvents = useCallback(() => {
+    vapi.off("call-start", onCallStart);
+    vapi.off("call-end", onCallEnd);
+    vapi.off("message", onMessage);
+    vapi.off("speech-start", onSpeechStart);
+    vapi.off("speech-end", onSpeechEnd);
+  }, [onCallEnd, onCallStart, onMessage, onSpeechEnd, onSpeechStart]);
+
+  useEffect(() => {
+    setupVapiEvents();
+
+    return () => {
+      cleanupVapiEvents();
+    };
+  }, [cleanupVapiEvents, setupVapiEvents]);
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      setLastMessage(messages[messages.length - 1].content);
+    }
+  }, [messages]);
+
+  const handleStartInterview = async (assistantId: string) => {
+    vapi.start(assistantId);
+    setCallStatus(CallStatus.CONNECTING);
+  };
+
+  const handleDisconnect = async () => {
+    await vapi.stop();
+    setCallStatus(CallStatus.FINISHED);
+  };
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center px-4 py-4 lg:px-10">
