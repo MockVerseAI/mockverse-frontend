@@ -30,6 +30,9 @@ const InterviewService = {
   getAll: (interviewWorkspaceId: string) => {
     return apiClient.get(`/api/v1/interview/${interviewWorkspaceId}`);
   },
+  getById: (interviewId: string) => {
+    return apiClient.get(`/api/v1/interview/get/${interviewId}`);
+  },
   setup: (interviewWorkspaceId: string, payload: IInterviewCreate) => {
     return apiClient.post(`/api/v1/interview/${interviewWorkspaceId}/setup`, payload);
   },

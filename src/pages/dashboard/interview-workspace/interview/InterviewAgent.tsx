@@ -6,8 +6,9 @@ import { Card } from "@/components/ui/card";
 import { cn, vapi } from "@/lib/utils";
 import InterviewService from "@/services/interviewService";
 import { RootState } from "@/store";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import { Laptop } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "sonner";
@@ -63,6 +64,14 @@ const InterviewAgent = () => {
     onSuccess: async () => {
       toast.success("Interview ended successfully");
       navigate(`/dashboard/interview-workspace/${interviewWorkspaceId}/interview/report/${interviewId}`);
+    },
+  });
+
+  const { data: interview } = useQuery({
+    queryKey: ["interview", interviewId],
+    queryFn: async () => {
+      const res = await InterviewService.getById(interviewId);
+      return res?.data?.data;
     },
   });
 
@@ -144,8 +153,20 @@ const InterviewAgent = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center px-4 py-4 lg:px-10">
-      <div className="grid w-full grid-cols-2 gap-8">
+    <div className="flex w-full flex-col px-4 py-4 lg:px-10 lg:py-8">
+      <div className="flex items-center gap-4">
+        <div className="bg-primary/10 flex-shrink-0 rounded-md p-2">
+          <Laptop className="text-primary size-10" />
+        </div>
+
+        <div className="flex flex-col items-start justify-start">
+          <h1 className="text-2xl font-bold">{interview?.interviewTemplateId?.name}</h1>
+          <p className="text-muted-foreground text-sm capitalize">
+            {interview?.difficulty} - {interview?.duration} minutes
+          </p>
+        </div>
+      </div>
+      <div className="mt-20 grid w-full grid-cols-2 gap-8">
         <Card className="relative flex min-h-96 items-center justify-center">
           <motion.div
             animate={{ scale: 1 + agentVolumeLevel, opacity: 1 }}
