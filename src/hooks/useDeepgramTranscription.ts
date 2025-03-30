@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect, useCallback } from "react";
 import { checkAudioSupport, createOptimalRecorder } from "@/lib/utils/audio";
-import { DeepgramTranscriptionResult } from "@/lib/types/deepgram";
-import { createClient, LiveTranscriptionEvents, LiveClient } from "@deepgram/sdk";
+import { DeepgramTranscriptionResult } from "@/types/deepgram";
+import { createClient, LiveClient, LiveTranscriptionEvents } from "@deepgram/sdk";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 interface UseDeepgramTranscriptionReturn {
   transcript: string;
