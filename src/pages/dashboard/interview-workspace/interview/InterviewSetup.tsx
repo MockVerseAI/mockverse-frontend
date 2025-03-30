@@ -1,3 +1,4 @@
+import AiIcon from "@/assets/ai-icon";
 import AiSuggestionCard from "@/components/cards/AiSuggestionCard";
 import ResumeSelectModal from "@/components/modals/ResumeSelectModal";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -5,6 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import Combobox, { ComboboxOption } from "@/components/ui/combobox";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { TooltipButton } from "@/components/ui/tooltip-button";
 import { IInterviewTemplate, Resume } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import InterviewService, { IInterviewCreate } from "@/services/interviewService";
@@ -12,7 +15,7 @@ import InterviewTemplateService from "@/services/interviewTemplateService";
 import { RootState } from "@/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { ChevronDown, ExternalLink, Info } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -38,6 +41,7 @@ const formSchema = z.object({
   duration: z.enum(["15", "30", "45", "60"]),
   difficulty: z.enum(["beginner", "intermediate", "advanced", "expert"]),
   interviewTemplateId: z.string(),
+  isAgentMode: z.boolean().default(false),
 });
 
 const InterviewSetup = () => {
@@ -50,6 +54,7 @@ const InterviewSetup = () => {
       duration: "15",
       difficulty: "beginner",
       interviewTemplateId: "",
+      isAgentMode: false,
     },
   });
 
@@ -65,8 +70,9 @@ const InterviewSetup = () => {
   }, [resumes, selectedResume]);
 
   const { mutate: createInterview, isPending } = useMutation({
-    mutationFn: (payload: IInterviewCreate) => {
-      return InterviewService.setup(interviewWorkspaceId, payload);
+    mutationFn: async (payload: IInterviewCreate) => {
+      const res = await InterviewService.setup(interviewWorkspaceId, payload);
+      return res?.data;
     },
     onError: (e: any) => {
       const errObj = e?.response?.data;
@@ -74,7 +80,11 @@ const InterviewSetup = () => {
     },
     onSuccess: (res: any) => {
       const { data } = res;
-      navigate(`/dashboard/interview-workspace/${interviewWorkspaceId}/interview/chat/${data?.data?._id}`);
+      if (data?.isAgentMode) {
+        navigate(`/dashboard/interview-workspace/${interviewWorkspaceId}/interview/agent/${data?._id}`);
+      } else {
+        navigate(`/dashboard/interview-workspace/${interviewWorkspaceId}/interview/chat/${data?._id}`);
+      }
     },
   });
 
@@ -280,6 +290,28 @@ const InterviewSetup = () => {
                     <ChevronDown className="absolute top-1/2 right-2 size-4 -translate-y-1/2 opacity-50" />
                   </div>
                 </div>
+                <FormField
+                  control={form.control}
+                  name="isAgentMode"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col items-start justify-start gap-4">
+                      <div className="flex w-full items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <FormLabel className="flex items-center gap-2">
+                            <AiIcon className="size-3" />
+                            Agent Mode
+                          </FormLabel>
+                          <Switch className="cursor-pointer" onCheckedChange={field.onChange} checked={field.value} />
+                        </div>
+                        <TooltipButton title="Try out the agent mode to see how it works. A hands free experience just like a real interview">
+                          <Info className="size-4" />
+                        </TooltipButton>
+                      </div>
+
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <Button isLoading={isPending} type="submit" className="w-full">
                   Start Interview
                 </Button>
