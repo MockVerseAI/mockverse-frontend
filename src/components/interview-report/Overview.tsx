@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { IInterviewReport } from "@/lib/types";
+import { IInterviewReport } from "@/types";
 import { CheckCircleIcon, CheckIcon, XCircleIcon, XIcon } from "lucide-react";
 import { FC } from "react";
 

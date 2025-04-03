@@ -8,7 +8,7 @@ import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/components/
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { TooltipButton } from "@/components/ui/tooltip-button";
-import { IInterviewTemplate, Resume } from "@/lib/types";
+import { IInterviewTemplate, Resume } from "@/types";
 import { cn } from "@/lib/utils";
 import InterviewService, { IInterviewCreate } from "@/services/interviewService";
 import InterviewTemplateService from "@/services/interviewTemplateService";

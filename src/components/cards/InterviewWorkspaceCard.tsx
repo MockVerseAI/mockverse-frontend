@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { IInterviewWorkspace } from "@/lib/types";
+import { IInterviewWorkspace } from "@/types";
 import { cn } from "@/lib/utils";
 import { ArrowRightCircle, Building, Clock } from "lucide-react";
 import moment from "moment";

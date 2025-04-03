@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { IInterview } from "@/lib/types";
+import { IInterview } from "@/types";
 import { cn } from "@/lib/utils";
 import { ArrowRightCircle, Bookmark, Check, Clock } from "lucide-react";
 import moment from "moment";

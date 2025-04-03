@@ -1,5 +1,5 @@
 import { PLANS } from "@/lib/constants";
-import { PLAN } from "@/lib/types";
+import { PLAN } from "@/types";
 import { cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
 import { AnimatePresence, motion } from "framer-motion";
