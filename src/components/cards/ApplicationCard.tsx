@@ -1,4 +1,4 @@
-import { IApplication } from "@/lib/types";
+import { IApplication } from "@/types";
 import moment from "moment";
 import { Link } from "react-router";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";

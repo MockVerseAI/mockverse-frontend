@@ -3,7 +3,7 @@ import Message from "@/components/cards/Message";
 import { AutosizeTextarea } from "@/components/ui/autosize-textarea";
 import { Button } from "@/components/ui/button";
 import WaveformIcon from "@/components/WaveformIcon";
-import { IMessage } from "@/lib/types";
+import { IMessage } from "@/types";
 import { cn } from "@/lib/utils";
 import InterviewService from "@/services/interviewService";
 import { useMutation, useQuery } from "@tanstack/react-query";

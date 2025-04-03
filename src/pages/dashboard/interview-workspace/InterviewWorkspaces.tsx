@@ -2,7 +2,7 @@ import InterviewWorkspaceCard from "@/components/cards/InterviewWorkspaceCard";
 import NoDataFound from "@/components/cards/NoDataFound";
 import LoadingSkeletons from "@/components/loaders/LoadingSkeletons";
 import { buttonVariants } from "@/components/ui/button";
-import { IInterviewWorkspace } from "@/lib/types";
+import { IInterviewWorkspace } from "@/types";
 import { cn } from "@/lib/utils";
 import InterviewWorkspaceService from "@/services/interviewWorkspaceService";
 import { useQuery } from "@tanstack/react-query";

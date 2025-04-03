@@ -1,5 +1,5 @@
 import { ChartColumnBigIcon, DatabaseIcon, TrendingUpIcon, WandSparklesIcon, ZapIcon } from "lucide-react";
-import { PLAN } from "./types";
+import { PLAN } from "@/types";
 
 export const NAV_LINKS = [
   {
