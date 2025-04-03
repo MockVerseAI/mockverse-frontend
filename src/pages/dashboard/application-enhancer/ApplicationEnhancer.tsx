@@ -2,7 +2,7 @@ import ApplicationCard from "@/components/cards/ApplicationCard";
 import NoDataFound from "@/components/cards/NoDataFound";
 import LoadingSkeletons from "@/components/loaders/LoadingSkeletons";
 import { buttonVariants } from "@/components/ui/button";
-import { IApplication } from "@/lib/types";
+import { IApplication } from "@/types";
 import { cn } from "@/lib/utils";
 import ApplicationService from "@/services/applicationService";
 import { useQuery } from "@tanstack/react-query";

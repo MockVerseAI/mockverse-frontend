@@ -6,7 +6,7 @@ import SkillsExperience from "@/components/application-report/SkillsExperience";
 import NoReportFound from "@/components/cards/NoReportFound";
 import ReportSkeleton from "@/components/loaders/ReportSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IApplication, IApplicationFeedback } from "@/lib/types";
+import { IApplication, IApplicationFeedback } from "@/types";
 import ApplicationService from "@/services/applicationService";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";

@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { FileUpload } from "@/components/ui/file-upload";
-import { Resume } from "@/lib/types";
+import { Resume } from "@/types";
 import { cn } from "@/lib/utils";
 import ResumeService from "@/services/resumeService";
 import { AppDispatch, RootState } from "@/store";

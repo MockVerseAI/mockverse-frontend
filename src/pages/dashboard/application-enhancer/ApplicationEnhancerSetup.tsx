@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { TooltipButton } from "@/components/ui/tooltip-button";
-import { Resume } from "@/lib/types";
+import { Resume } from "@/types";
 import { cn } from "@/lib/utils";
 import ApplicationService, { IApplicationCreate } from "@/services/applicationService";
 import { RootState } from "@/store";

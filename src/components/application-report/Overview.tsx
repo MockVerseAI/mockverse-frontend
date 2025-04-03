@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IApplicationFeedback } from "@/lib/types";
+import { IApplicationFeedback } from "@/types";
 import React from "react";
 import { Progress } from "../ui/progress";
 

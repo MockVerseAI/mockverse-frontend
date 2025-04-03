@@ -3,7 +3,7 @@ import InterviewWorkspaceCard from "@/components/cards/InterviewWorkspaceCard";
 import NoDataFound from "@/components/cards/NoDataFound";
 import LoadingSkeletons from "@/components/loaders/LoadingSkeletons";
 import { buttonVariants } from "@/components/ui/button";
-import { IApplication, IInterviewWorkspace } from "@/lib/types";
+import { IApplication, IInterviewWorkspace } from "@/types";
 import { cn } from "@/lib/utils";
 import ApplicationService from "@/services/applicationService";
 import InterviewWorkspaceService from "@/services/interviewWorkspaceService";

@@ -2,7 +2,7 @@ import InterviewCard from "@/components/cards/InterviewCard";
 import NoDataFound from "@/components/cards/NoDataFound";
 import LoadingSkeletons from "@/components/loaders/LoadingSkeletons";
 import { buttonVariants } from "@/components/ui/button";
-import { IInterview } from "@/lib/types";
+import { IInterview } from "@/types";
 import { cn } from "@/lib/utils";
 import InterviewService from "@/services/interviewService";
 import { useQuery } from "@tanstack/react-query";

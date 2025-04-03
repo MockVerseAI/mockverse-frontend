@@ -1,4 +1,4 @@
-import { IMessage } from "@/lib/types";
+import { IMessage } from "@/types";
 import { cn } from "@/lib/utils";
 import Markdown from "react-markdown";
 

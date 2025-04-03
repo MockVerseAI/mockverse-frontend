@@ -1,5 +1,5 @@
 import Message from "@/components/cards/Message";
-import { IMessage } from "@/lib/types";
+import { IMessage } from "@/types";
 import { FC } from "react";
 
 interface InterviewConversationProps {

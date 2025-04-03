@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IInterviewReport } from "@/lib/types";
+import { IInterviewReport } from "@/types";
 import { FC } from "react";
 
 interface DevelopmentPlanProps {

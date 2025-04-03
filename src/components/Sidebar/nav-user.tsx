@@ -13,7 +13,7 @@ import {
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar";
 import { useTheme } from "@/hooks/useTheme";
 import { clearAuthTokens } from "@/lib/utils";
-import { User } from "@/lib/types";
+import { User } from "@/types";
 import UserService from "@/services/userService";
 import { useCallback } from "react";
 import { useNavigate } from "react-router";

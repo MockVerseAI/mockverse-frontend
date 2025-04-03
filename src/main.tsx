@@ -3,9 +3,10 @@ import { lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
 import "regenerator-runtime/runtime";
-import FullScreenLoader from "./components/loaders/FullScreenLoader";
 import "./index.css";
-import Test from "./pages/Test.tsx";
+
+// Fullscreen Loader
+const FullScreenLoader = lazy(() => import("./components/loaders/FullScreenLoader.tsx"));
 
 // Layouts
 const DashboardLayout = lazy(() => import("./layouts/DashboardLayout.tsx"));
@@ -85,7 +86,6 @@ createRoot(document.getElementById("root")!).render(
               element={<InterviewAgent />}
             />
           </Route>
-          <Route path="/test" element={<Test />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
