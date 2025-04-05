@@ -1,4 +1,4 @@
-import Providers from "@/providers/Providers.tsx";
+import Providers from "@/providers";
 import { lazy, Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router";
