@@ -51,6 +51,7 @@ export interface IInterview {
   isCompleted: boolean;
   isDeleted: boolean;
   isAgentMode: boolean;
+  isVideoEnabled: boolean;
   __v: number;
   createdAt: string;
   updatedAt: string;

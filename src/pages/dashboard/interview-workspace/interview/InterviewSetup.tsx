@@ -42,6 +42,7 @@ const formSchema = z.object({
   difficulty: z.enum(["beginner", "intermediate", "advanced", "expert"]),
   interviewTemplateId: z.string(),
   isAgentMode: z.boolean().default(false),
+  isVideoEnabled: z.boolean().default(false),
 });
 
 const InterviewSetup = () => {
@@ -55,6 +56,7 @@ const InterviewSetup = () => {
       difficulty: "beginner",
       interviewTemplateId: "",
       isAgentMode: false,
+      isVideoEnabled: false,
     },
   });
 
@@ -312,6 +314,29 @@ const InterviewSetup = () => {
                     </FormItem>
                   )}
                 />
+                {formWatch.isAgentMode ? (
+                  <FormField
+                    control={form.control}
+                    name="isVideoEnabled"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-col items-start justify-start gap-4">
+                        <div className="flex w-full items-center justify-between gap-2">
+                          <div className="flex items-center gap-2">
+                            <FormLabel className="flex items-center gap-2">
+                              <AiIcon className="size-3" />
+                              Video
+                            </FormLabel>
+                            <Switch className="cursor-pointer" onCheckedChange={field.onChange} checked={field.value} />
+                          </div>
+                          <TooltipButton title="Enable video to get a more immersive experience">
+                            <Info className="size-4" />
+                          </TooltipButton>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                ) : null}
                 <Button isLoading={isPending} type="submit" className="w-full">
                   Start Interview
                 </Button>
