@@ -2,7 +2,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { IInterview } from "@/types";
 import { cn } from "@/lib/utils";
-import { ArrowRightCircle, Bookmark, Check, Clock } from "lucide-react";
+import { ArrowRightCircle, Bookmark, Bot, Check, Clock } from "lucide-react";
 import moment from "moment";
 import { useMemo } from "react";
 import { Link } from "react-router";
@@ -28,10 +28,17 @@ const InterviewCard = ({ interview }: { interview: IInterview }) => {
           <CardTitle className="text-lg font-semibold">
             <span className="line-clamp-1 overflow-hidden text-ellipsis">{interview?.interviewTemplateId?.name}</span>
           </CardTitle>
-          <Badge variant={isCompleted ? "success" : "secondary"} className="ml-2 px-2">
-            {isCompleted ? <Check className="mr-1 h-3 w-3" /> : <Clock className="mr-1 h-3 w-3" />}
-            {isCompleted ? "Completed" : "In Progress"}
-          </Badge>
+          <div className="flex items-center gap-2">
+            {interview.isAgentMode ? (
+              <Badge variant="outline" className="py-1">
+                <Bot className="h-3 w-3" />
+              </Badge>
+            ) : null}
+            <Badge variant={isCompleted ? "success" : "secondary"} className="ml-2 px-2">
+              {isCompleted ? <Check className="mr-1 h-3 w-3" /> : <Clock className="mr-1 h-3 w-3" />}
+              {isCompleted ? "Completed" : "In Progress"}
+            </Badge>
+          </div>
         </div>
       </CardHeader>
 
