@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,8 @@ const InterviewAgent = () => {
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const [lastMessage, setLastMessage] = useState<string>("");
   const [agentVolumeLevel, setAgentVolumeLevel] = useState<number>(0);
+  const [webcamStream, setWebcamStream] = useState<MediaStream | null>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const navigate = useNavigate();
 
   const { mutate: startInterview, isPending } = useMutation({
@@ -142,6 +144,32 @@ const InterviewAgent = () => {
     }
   }, [messages]);
 
+  useEffect(() => {
+    if (videoRef.current && webcamStream) {
+      videoRef.current.srcObject = webcamStream;
+    }
+  }, [webcamStream]);
+
+  useEffect(() => {
+    if (callStatus === CallStatus.ACTIVE) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          setWebcamStream(stream);
+        })
+        .catch((error) => {
+          console.error("Error accessing webcam:", error);
+        });
+    }
+
+    return () => {
+      if (webcamStream) {
+        webcamStream.getTracks().forEach((track) => track.stop());
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [callStatus]);
+
   const handleStartInterview = async (assistantId: string) => {
     vapi.start(assistantId);
     setCallStatus(CallStatus.CONNECTING);
@@ -183,11 +211,17 @@ const InterviewAgent = () => {
         </Card>
 
         {/* User Profile Card */}
-        <Card className="flex min-h-96 items-center justify-center">
-          <Avatar className="size-36">
-            <AvatarImage src={user?.avatar} />
-            <AvatarFallback>{user?.username}</AvatarFallback>
-          </Avatar>
+        <Card
+          className={cn("flex max-h-96 min-h-96 items-center justify-center overflow-hidden", webcamStream && "py-0")}
+        >
+          {webcamStream ? (
+            <video ref={videoRef} autoPlay muted className="h-full w-full object-cover" />
+          ) : (
+            <Avatar className="size-36">
+              <AvatarImage src={user?.avatar} />
+              <AvatarFallback>{user?.username}</AvatarFallback>
+            </Avatar>
+          )}
         </Card>
       </div>
 
