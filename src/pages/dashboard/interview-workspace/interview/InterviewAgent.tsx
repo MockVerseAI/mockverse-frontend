@@ -55,7 +55,6 @@ const InterviewAgent = () => {
 
   const { mutate: endInterview, isPending: isEndInterviewPending } = useMutation({
     mutationFn: async () => {
-      console.log("end-interview");
       const res = await InterviewService.endAgent({ interviewId, messages });
       return res?.data;
     },
@@ -78,12 +77,10 @@ const InterviewAgent = () => {
   });
 
   const onCallStart = useCallback(() => {
-    console.log("call-start");
     setCallStatus(CallStatus.ACTIVE);
   }, []);
 
   const onCallEnd = useCallback(() => {
-    console.log("call-end");
     setCallStatus(CallStatus.FINISHED);
     endInterview();
   }, [endInterview]);
@@ -95,20 +92,15 @@ const InterviewAgent = () => {
     }
   }, []);
 
-  const onSpeechStart = useCallback(() => {
-    console.log("speech start");
-  }, []);
+  const onSpeechStart = useCallback(() => {}, []);
 
-  const onSpeechEnd = useCallback(() => {
-    console.log("speech end");
-  }, []);
+  const onSpeechEnd = useCallback(() => {}, []);
 
   const onError = useCallback((error: Error) => {
-    console.log("Error:", error);
+    console.error("Error:", error);
   }, []);
 
   const onVolumeLevelChange = useCallback((volumeLevel: number) => {
-    console.log("volume level", volumeLevel);
     setAgentVolumeLevel(volumeLevel);
   }, []);
 
@@ -151,7 +143,7 @@ const InterviewAgent = () => {
   }, [webcamStream]);
 
   useEffect(() => {
-    if (callStatus === CallStatus.ACTIVE) {
+    if (callStatus === CallStatus.ACTIVE && interview?.isVideoEnabled) {
       navigator.mediaDevices
         .getUserMedia({ video: true })
         .then((stream) => {
@@ -168,7 +160,7 @@ const InterviewAgent = () => {
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [callStatus]);
+  }, [callStatus, interview?.isVideoEnabled]);
 
   const handleStartInterview = async (assistantId: string) => {
     vapi.start(assistantId);
