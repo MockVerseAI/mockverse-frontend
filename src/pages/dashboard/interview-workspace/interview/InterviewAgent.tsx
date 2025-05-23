@@ -1,9 +1,11 @@
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { cn, vapi } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { LiveKitService } from "@/lib/livekit";
+import { RoomEvent, RemoteParticipant, ConnectionState, Participant, DataPacket_Kind } from "livekit-client";
 import InterviewService from "@/services/interviewService";
 import { RootState } from "@/store";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -32,11 +34,15 @@ const InterviewAgent = () => {
   const [messages, setMessages] = useState<SavedMessage[]>([]);
   const [lastMessage, setLastMessage] = useState<string>("");
   const [agentVolumeLevel, setAgentVolumeLevel] = useState<number>(0);
+  const [agentIdentity, setAgentIdentity] = useState<string | null>(null);
   const [webcamStream, setWebcamStream] = useState<MediaStream | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const navigate = useNavigate();
 
-  const { mutate: startInterview, isPending } = useMutation({
+  const livekitService = LiveKitService.getInstance();
+  const room = livekitService.getRoom();
+
+  const { mutate: startInterviewMutation, isPending } = useMutation({
     mutationFn: async () => {
       const res = await InterviewService.agent({ interviewId });
       return res?.data;
@@ -47,9 +53,15 @@ const InterviewAgent = () => {
     },
     onSuccess: async (response) => {
       const assistantId = response?.data?.assistantId;
-      console.log(response);
-      toast.success("Starting interview...");
-      handleStartInterview(assistantId);
+      console.log("Mutation response, assistantId:", assistantId);
+      if (assistantId) {
+        setAgentIdentity(assistantId);
+        toast.success("Preparing interview session...");
+        handleStartInterview(assistantId);
+      } else {
+        toast.error("Failed to get Assistant ID from server.");
+        setCallStatus(CallStatus.INACTIVE);
+      }
     },
   });
 
@@ -76,67 +88,6 @@ const InterviewAgent = () => {
       return res?.data?.data;
     },
   });
-
-  const onCallStart = useCallback(() => {
-    console.log("call-start");
-    setCallStatus(CallStatus.ACTIVE);
-  }, []);
-
-  const onCallEnd = useCallback(() => {
-    console.log("call-end");
-    setCallStatus(CallStatus.FINISHED);
-    endInterview();
-  }, [endInterview]);
-
-  const onMessage = useCallback((message: Message) => {
-    if (message.type === "transcript" && message.transcriptType === "final") {
-      const newMessage = { role: message.role, content: message.transcript };
-      setMessages((prev) => [...prev, newMessage]);
-    }
-  }, []);
-
-  const onSpeechStart = useCallback(() => {
-    console.log("speech start");
-  }, []);
-
-  const onSpeechEnd = useCallback(() => {
-    console.log("speech end");
-  }, []);
-
-  const onError = useCallback((error: Error) => {
-    console.log("Error:", error);
-  }, []);
-
-  const onVolumeLevelChange = useCallback((volumeLevel: number) => {
-    console.log("volume level", volumeLevel);
-    setAgentVolumeLevel(volumeLevel);
-  }, []);
-
-  const setupVapiEvents = useCallback(() => {
-    vapi.on("call-start", onCallStart);
-    vapi.on("call-end", onCallEnd);
-    vapi.on("message", onMessage);
-    vapi.on("speech-start", onSpeechStart);
-    vapi.on("speech-end", onSpeechEnd);
-    vapi.on("error", onError);
-    vapi.on("volume-level", onVolumeLevelChange);
-  }, [onCallEnd, onCallStart, onError, onMessage, onSpeechEnd, onSpeechStart, onVolumeLevelChange]);
-
-  const cleanupVapiEvents = useCallback(() => {
-    vapi.off("call-start", onCallStart);
-    vapi.off("call-end", onCallEnd);
-    vapi.off("message", onMessage);
-    vapi.off("speech-start", onSpeechStart);
-    vapi.off("speech-end", onSpeechEnd);
-  }, [onCallEnd, onCallStart, onMessage, onSpeechEnd, onSpeechStart]);
-
-  useEffect(() => {
-    setupVapiEvents();
-
-    return () => {
-      cleanupVapiEvents();
-    };
-  }, [cleanupVapiEvents, setupVapiEvents]);
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -170,15 +121,109 @@ const InterviewAgent = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [callStatus]);
 
-  const handleStartInterview = async (assistantId: string) => {
-    vapi.start(assistantId);
+  const handleStartInterview = async (currentAgentId: string) => {
+    if (!currentAgentId) {
+      toast.error("Agent ID not available. Cannot start interview.");
+      setCallStatus(CallStatus.INACTIVE);
+      return;
+    }
     setCallStatus(CallStatus.CONNECTING);
+    const roomName = `interview-${interviewId}`;
+    const localParticipantIdentity = user?.id?.toString() || `user-${Date.now()}`;
+
+    console.log(`Attempting to connect to LiveKit room: ${roomName} as participant: ${localParticipantIdentity}`);
+    console.log("The agent for this session is expected to have identity:", currentAgentId);
+
+    try {
+      await livekitService.connectToRoom(roomName, localParticipantIdentity);
+    } catch (error) {
+      console.error("Failed to connect to LiveKit room:", error);
+      toast.error("Error connecting to the interview room.");
+      setCallStatus(CallStatus.INACTIVE);
+    }
   };
 
   const handleDisconnect = async () => {
-    await vapi.stop();
-    setCallStatus(CallStatus.FINISHED);
+    console.log("Disconnecting from LiveKit room.");
+    livekitService.disconnectFromRoom();
   };
+
+  useEffect(() => {
+    if (!room || !agentIdentity) {
+      return;
+    }
+
+    console.log(`Setting up LiveKit event listeners. Expecting agent: ${agentIdentity}`);
+
+    const onConnectionStateChanged = (connectionState: ConnectionState) => {
+      console.log("LiveKit Connection state changed:", connectionState);
+      if (connectionState === ConnectionState.Connected) {
+        setCallStatus(CallStatus.ACTIVE);
+        toast.success("Connected to interview room.");
+      } else if (connectionState === ConnectionState.Connecting || connectionState === ConnectionState.Reconnecting) {
+        setCallStatus(CallStatus.CONNECTING);
+      } else if (connectionState === ConnectionState.Disconnected) {
+        setCallStatus(CallStatus.FINISHED);
+        toast.info("Disconnected from interview room.");
+        endInterview();
+      }
+    };
+
+    const onDataReceived = (payload: Uint8Array, rcvParticipant?: Participant, kind?: DataPacket_Kind) => {
+      if (rcvParticipant && rcvParticipant.identity === agentIdentity) {
+        try {
+          const messageStr = new TextDecoder().decode(payload);
+          const messageData = JSON.parse(messageStr);
+          console.log("Data received from agent:", messageData);
+          if (messageData.type === "transcript" && typeof messageData.transcript === "string") {
+            const newMessage: SavedMessage = { role: "assistant", content: messageData.transcript };
+            setMessages((prev) => [...prev, newMessage]);
+          } else {
+            console.warn("Received unexpected message structure from agent:", messageData);
+          }
+        } catch (e) {
+          console.error("Failed to parse message from agent:", e);
+        }
+      }
+    };
+
+    const onParticipantConnected = (participant: Participant) => {
+      console.log("LiveKit Participant connected:", participant.identity);
+      if (participant.identity === agentIdentity) {
+        console.log("Agent has joined the room.");
+        toast.success("Agent connected.");
+      }
+    };
+
+    const onParticipantDisconnected = (participant: Participant) => {
+      console.log("LiveKit Participant disconnected:", participant.identity);
+      if (participant.identity === agentIdentity) {
+        console.log("Agent has left the room.");
+        toast.info("Agent has disconnected.");
+        setCallStatus(CallStatus.FINISHED);
+      }
+    };
+
+    const onActiveSpeakerChanged = (speakers: Participant[]) => {
+      const agentIsSpeaking = speakers.some((s) => s.identity === agentIdentity);
+      setAgentVolumeLevel(agentIsSpeaking ? 1 : 0);
+    };
+
+    room.on(RoomEvent.ConnectionStateChanged, onConnectionStateChanged);
+    room.on(RoomEvent.DataReceived, onDataReceived);
+    room.on(RoomEvent.ParticipantConnected, onParticipantConnected);
+    room.on(RoomEvent.ParticipantDisconnected, onParticipantDisconnected);
+    room.on(RoomEvent.ActiveSpeakerChanged, onActiveSpeakerChanged);
+
+    return () => {
+      console.log("Cleaning up LiveKit event listeners.");
+      room.off(RoomEvent.ConnectionStateChanged, onConnectionStateChanged);
+      room.off(RoomEvent.DataReceived, onDataReceived);
+      room.off(RoomEvent.ParticipantConnected, onParticipantConnected);
+      room.off(RoomEvent.ParticipantDisconnected, onParticipantDisconnected);
+      room.off(RoomEvent.ActiveSpeakerChanged, onActiveSpeakerChanged);
+    };
+  }, [room, agentIdentity, endInterview]);
 
   return (
     <div className="flex w-full flex-col px-4 py-4 lg:px-10 lg:py-8">
@@ -243,7 +288,7 @@ const InterviewAgent = () => {
 
       <div className="mt-8 flex w-full justify-center">
         {callStatus !== CallStatus.ACTIVE ? (
-          <Button isLoading={isPending} className="btn-call relative" onClick={() => startInterview()}>
+          <Button isLoading={isPending} className="btn-call relative" onClick={() => startInterviewMutation()}>
             Start Interview
           </Button>
         ) : (
