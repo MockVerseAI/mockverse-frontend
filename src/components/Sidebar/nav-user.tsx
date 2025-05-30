@@ -18,21 +18,29 @@ import UserService from "@/services/userService";
 import { useCallback } from "react";
 import { useNavigate } from "react-router";
 import { Switch } from "../ui/switch";
+import { useDispatch } from "react-redux";
+import { removeUser } from "@/store/user/slice";
+import { AppDispatch } from "@/store";
 
 export function NavUser({ user }: { user: User | null }) {
   const { isMobile } = useSidebar();
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const { theme, setTheme } = useTheme();
 
   const logoutUser = useCallback(async () => {
     try {
       await UserService.logout();
       clearAuthTokens();
+      dispatch(removeUser());
       navigate("/");
     } catch (error) {
       console.error(error);
+      clearAuthTokens();
+      dispatch(removeUser());
+      navigate("/");
     }
-  }, [navigate]);
+  }, [navigate, dispatch]);
 
   const toggleTheme = useCallback(() => {
     if (theme === "dark") setTheme("light");
