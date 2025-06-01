@@ -1,13 +1,13 @@
 import NoReportFound from "@/components/cards/NoReportFound";
 import BehavioralAnalysis from "@/components/interview-report/BehavioralAnalysis";
 import DevelopmentPlan from "@/components/interview-report/DevelopmentPlan";
-import InterviewConversation from "@/components/interview-report/InterviewConversation";
+import InterviewAnalysis from "@/components/interview-report/InterviewAnalysis";
 import Overview from "@/components/interview-report/Overview";
 import TechnicalAssessment from "@/components/interview-report/TechnicalAssessment";
 import ReportSkeleton from "@/components/loaders/ReportSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IInterviewReport, IMessage } from "@/types";
 import InterviewService from "@/services/interviewService";
+import { IInterviewReport, IMessage } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
 
@@ -48,7 +48,7 @@ const InterviewReport = () => {
               <TabsTrigger value="technical">Technical Assessment</TabsTrigger>
               <TabsTrigger value="behavioral">Behavioral Analysis</TabsTrigger>
               <TabsTrigger value="development">Development Plan</TabsTrigger>
-              <TabsTrigger value="conversation">Interview Conversation</TabsTrigger>
+              <TabsTrigger value="analysis">Interview Analysis</TabsTrigger>
             </TabsList>
           </div>
 
@@ -83,8 +83,13 @@ const InterviewReport = () => {
             />
           </TabsContent>
 
-          <TabsContent value="conversation">
-            <InterviewConversation messages={messages} />
+          <TabsContent value="analysis">
+            <InterviewAnalysis
+              messages={messages}
+              recordings={interview?.recordings}
+              analysis={interviewReport?.videoAnalysis?.analysis}
+              isVideoEnabled={interview?.isVideoEnabled}
+            />
           </TabsContent>
         </Tabs>
       </div>

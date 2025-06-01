@@ -52,6 +52,14 @@ export interface IInterview {
   isDeleted: boolean;
   isAgentMode: boolean;
   isVideoEnabled: boolean;
+  recordings: {
+    voice: {
+      combined: string;
+      assistant: string;
+      user: string;
+    };
+    video?: string;
+  };
   __v: number;
   createdAt: string;
   updatedAt: string;
@@ -373,6 +381,9 @@ export interface IInterviewReport {
       responses: Record<string, any>;
       scenarios: IPreparationScenario[];
     };
+  };
+  videoAnalysis: {
+    analysis?: string;
   };
   _id: string;
   interviewId: string;
