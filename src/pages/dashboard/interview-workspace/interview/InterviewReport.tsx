@@ -6,13 +6,17 @@ import Overview from "@/components/interview-report/Overview";
 import TechnicalAssessment from "@/components/interview-report/TechnicalAssessment";
 import ReportSkeleton from "@/components/loaders/ReportSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useSocket } from "@/hooks/useSocket";
 import InterviewService from "@/services/interviewService";
 import { IInterviewReport, IMessage } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect } from "react";
 import { useParams } from "react-router";
 
 const InterviewReport = () => {
   const { interviewId = "" } = useParams();
+  const queryClient = useQueryClient();
+  const { socket } = useSocket();
 
   const { data, isPending } = useQuery({
     queryKey: [`report-${interviewId}`],
@@ -21,6 +25,22 @@ const InterviewReport = () => {
       return res?.data?.data;
     },
   });
+
+  const invalidateReport = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: [`report-${interviewId}`] });
+  }, [queryClient, interviewId]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on(`analysis:completed:${interviewId}`, invalidateReport);
+    }
+
+    return () => {
+      if (socket) {
+        socket.off(`analysis:completed:${interviewId}`, invalidateReport);
+      }
+    };
+  }, [socket, interviewId, invalidateReport]);
 
   if (isPending) {
     return <ReportSkeleton />;
@@ -87,8 +107,7 @@ const InterviewReport = () => {
             <InterviewAnalysis
               messages={messages}
               recordings={interview?.recordings}
-              analysis={interviewReport?.videoAnalysis?.analysis}
-              isVideoEnabled={interview?.isVideoEnabled}
+              analysis={interviewReport?.mediaAnalysis}
             />
           </TabsContent>
         </Tabs>
