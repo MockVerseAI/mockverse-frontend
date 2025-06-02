@@ -74,6 +74,8 @@ class SocketService {
 
   disconnect(): void {
     if (this.socket) {
+      // Remove every listener attached during previous sessions
+      this.socket.removeAllListeners();
       this.socket.disconnect();
       this.socket = null;
       this.isConnecting = false;

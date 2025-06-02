@@ -1,24 +1,23 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { IInterviewReport } from "@/types";
-import { FC } from "react";
 import {
-  ZapIcon,
-  CalendarIcon,
+  AwardIcon,
   BookOpenIcon,
-  TargetIcon,
-  TrendingUpIcon,
-  CheckCircleIcon,
-  ExternalLinkIcon,
-  ClockIcon,
-  StarIcon,
   BrainIcon,
-  ArrowRightIcon,
+  CalendarIcon,
+  CheckCircleIcon,
+  ClockIcon,
+  ExternalLinkIcon,
   FlagIcon,
   LinkIcon,
-  AwardIcon,
+  StarIcon,
+  TargetIcon,
+  TrendingUpIcon,
+  ZapIcon,
 } from "lucide-react";
+import { FC } from "react";
 
 interface DevelopmentPlanProps {
   immediate: IInterviewReport["developmentPlan"]["immediate"];
@@ -101,17 +100,7 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
     </div>
   );
 
-  const ResourceCard = ({
-    type,
-    description,
-    link,
-    index,
-  }: {
-    type: string;
-    description: string;
-    link: string;
-    index: number;
-  }) => (
+  const ResourceCard = ({ type, description, link }: { type: string; description: string; link: string }) => (
     <div className="rounded-lg border bg-gradient-to-r from-green-50 to-emerald-50 p-4 dark:from-green-950/30 dark:to-emerald-950/30">
       <div className="flex items-start gap-3">
         <div className="rounded-full bg-green-100 p-2 dark:bg-green-900/50">
@@ -145,12 +134,10 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
     objective,
     timeline,
     success_criteria,
-    index,
   }: {
     objective: string;
     timeline: string;
     success_criteria: string;
-    index: number;
   }) => (
     <div className="rounded-lg border bg-gradient-to-r from-purple-50 to-indigo-50 p-4 dark:from-purple-950/30 dark:to-indigo-950/30">
       <div className="space-y-3">
@@ -196,13 +183,11 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
     current_level,
     target_level,
     timeline,
-    index,
   }: {
     skill: string;
     current_level: string;
     target_level: string;
     timeline: string;
-    index: number;
   }) => {
     const progress = getSkillProgress(current_level, target_level);
 
@@ -285,7 +270,6 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
                       type={resource.type}
                       description={resource.description}
                       link={resource.link}
-                      index={index}
                     />
                   ))}
                 </div>
@@ -318,7 +302,6 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
                     objective={goal.objective}
                     timeline={goal.timeline}
                     success_criteria={goal.success_criteria}
-                    index={index}
                   />
                 ))}
               </div>
@@ -338,7 +321,6 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
                     current_level={skill.current_level}
                     target_level={skill.target_level}
                     timeline={skill.timeline}
-                    index={index}
                   />
                 ))}
               </div>

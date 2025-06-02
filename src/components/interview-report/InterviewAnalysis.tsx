@@ -35,7 +35,7 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
   const analysisData: IMediaAnalysisData = analysis?.analysis;
 
   const getScoreBadgeVariant = (score: number | null) => {
-    if (!score) return "secondary";
+    if (score === null || score === undefined) return "secondary";
     if (score >= 8) return "success";
     if (score >= 6) return "secondary";
     return "destructive";
@@ -73,7 +73,7 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
         </div>
         <Badge variant={getScoreBadgeVariant(score)}>{score ? `${score}/10` : "N/A"}</Badge>
       </div>
-      {score && <Progress value={score * 10} className="h-2" />}
+      {score !== null && score !== undefined && <Progress value={score * 10} className="h-2" />}
       {feedback && <p className="text-muted-foreground text-sm">{feedback}</p>}
     </div>
   );

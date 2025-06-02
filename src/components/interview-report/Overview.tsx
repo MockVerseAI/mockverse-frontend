@@ -145,7 +145,9 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
 
   const metRequirements = roleAlignment.requirements.essential.filter((req) => req.met);
   const unmetRequirements = roleAlignment.requirements.essential.filter((req) => !req.met);
-  const alignmentPercentage = Math.round((metRequirements.length / roleAlignment.requirements.essential.length) * 100);
+  const alignmentPercentage = roleAlignment.requirements.essential.length
+    ? Math.round((metRequirements.length / roleAlignment.requirements.essential.length) * 100)
+    : 0;
 
   return (
     <div className="space-y-6">

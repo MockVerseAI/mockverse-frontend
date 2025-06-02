@@ -517,9 +517,6 @@ export interface IInterviewReport {
       scenarios: IPreparationScenario[];
     };
   };
-  videoAnalysis: {
-    analysis?: string;
-  };
   mediaAnalysis: IMediaAnalysis;
   _id: string;
   interviewId: string;

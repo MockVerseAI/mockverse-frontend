@@ -250,7 +250,7 @@ const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptabil
               <CrownIcon className="mx-auto mb-2 h-8 w-8 text-amber-600" />
               <h3 className="font-semibold text-amber-800 dark:text-amber-300">Leadership</h3>
               <p className="text-sm text-amber-700 dark:text-amber-400">
-                {leadership.initiative.length > 0 ? "Strong initiative demonstrated" : "Potential for growth"}
+                {(leadership.initiative?.length ?? 0) > 0 ? "Strong initiative demonstrated" : "Potential for growth"}
               </p>
             </div>
             <div className="rounded-lg bg-purple-50 p-4 text-center dark:bg-purple-950/30">
