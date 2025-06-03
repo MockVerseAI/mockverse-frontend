@@ -1,18 +1,22 @@
 import NoReportFound from "@/components/cards/NoReportFound";
 import BehavioralAnalysis from "@/components/interview-report/BehavioralAnalysis";
 import DevelopmentPlan from "@/components/interview-report/DevelopmentPlan";
-import InterviewConversation from "@/components/interview-report/InterviewConversation";
+import InterviewAnalysis from "@/components/interview-report/InterviewAnalysis";
 import Overview from "@/components/interview-report/Overview";
 import TechnicalAssessment from "@/components/interview-report/TechnicalAssessment";
 import ReportSkeleton from "@/components/loaders/ReportSkeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { IInterviewReport, IMessage } from "@/types";
+import { useSocket } from "@/hooks/useSocket";
 import InterviewService from "@/services/interviewService";
-import { useQuery } from "@tanstack/react-query";
+import { IInterviewReport, IMessage } from "@/types";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect } from "react";
 import { useParams } from "react-router";
 
 const InterviewReport = () => {
   const { interviewId = "" } = useParams();
+  const queryClient = useQueryClient();
+  const { socket } = useSocket();
 
   const { data, isPending } = useQuery({
     queryKey: [`report-${interviewId}`],
@@ -21,6 +25,22 @@ const InterviewReport = () => {
       return res?.data?.data;
     },
   });
+
+  const invalidateReport = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: [`report-${interviewId}`] });
+  }, [queryClient, interviewId]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on(`analysis:completed:${interviewId}`, invalidateReport);
+    }
+
+    return () => {
+      if (socket) {
+        socket.off(`analysis:completed:${interviewId}`, invalidateReport);
+      }
+    };
+  }, [socket, interviewId, invalidateReport]);
 
   if (isPending) {
     return <ReportSkeleton />;
@@ -48,7 +68,7 @@ const InterviewReport = () => {
               <TabsTrigger value="technical">Technical Assessment</TabsTrigger>
               <TabsTrigger value="behavioral">Behavioral Analysis</TabsTrigger>
               <TabsTrigger value="development">Development Plan</TabsTrigger>
-              <TabsTrigger value="conversation">Interview Conversation</TabsTrigger>
+              <TabsTrigger value="analysis">Interview Analysis</TabsTrigger>
             </TabsList>
           </div>
 
@@ -83,8 +103,12 @@ const InterviewReport = () => {
             />
           </TabsContent>
 
-          <TabsContent value="conversation">
-            <InterviewConversation messages={messages} />
+          <TabsContent value="analysis">
+            <InterviewAnalysis
+              messages={messages}
+              recordings={interview?.recordings}
+              analysis={interviewReport?.mediaAnalysis}
+            />
           </TabsContent>
         </Tabs>
       </div>

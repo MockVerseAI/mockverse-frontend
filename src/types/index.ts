@@ -52,6 +52,14 @@ export interface IInterview {
   isDeleted: boolean;
   isAgentMode: boolean;
   isVideoEnabled: boolean;
+  recordings: {
+    voice: {
+      combined: string;
+      assistant: string;
+      user: string;
+    };
+    video?: string;
+  };
   __v: number;
   createdAt: string;
   updatedAt: string;
@@ -335,6 +343,141 @@ export interface IPreparationScenario {
   evaluation_criteria: string[];
 }
 
+export interface IScoreWithFeedback {
+  score: number | null;
+  feedback: string | null;
+}
+
+export interface IClarityAnalysis extends IScoreWithFeedback {
+  examples: string[];
+}
+
+export interface IArticulationAnalysis extends IScoreWithFeedback {
+  examples: string[];
+}
+
+export interface IPaceAnalysis extends IScoreWithFeedback {
+  examples: string[];
+}
+
+export interface IConfidenceAnalysis extends IScoreWithFeedback {
+  indicators: string[];
+}
+
+export interface ICommunicationSkills {
+  clarity: IClarityAnalysis;
+  articulation: IArticulationAnalysis;
+  pace: IPaceAnalysis;
+  confidence: IConfidenceAnalysis;
+}
+
+export interface IPostureAnalysis extends IScoreWithFeedback {
+  observations: string[];
+}
+
+export interface IEyeContactAnalysis extends IScoreWithFeedback {
+  observations: string[];
+}
+
+export interface IGesturesAnalysis extends IScoreWithFeedback {
+  observations: string[];
+}
+
+export interface IPresenceAnalysis extends IScoreWithFeedback {
+  observations: string[];
+}
+
+export interface IBodyLanguage {
+  posture: IPostureAnalysis;
+  eyeContact: IEyeContactAnalysis;
+  gestures: IGesturesAnalysis;
+  presence: IPresenceAnalysis;
+}
+
+export interface IAudioClarityAnalysis extends IScoreWithFeedback {
+  issues: string[];
+}
+
+export interface IVolumeAnalysis extends IScoreWithFeedback {
+  notes: string[];
+}
+
+export interface IBackgroundAnalysis extends IScoreWithFeedback {
+  distractions: string[];
+}
+
+export interface IAudioQuality {
+  clarity: IAudioClarityAnalysis;
+  volume: IVolumeAnalysis;
+  background: IBackgroundAnalysis;
+}
+
+export interface IProfessionalismAnalysis extends IScoreWithFeedback {
+  examples: string[];
+}
+
+export interface IEngagementAnalysis extends IScoreWithFeedback {
+  indicators: string[];
+}
+
+export interface IReadinessAnalysis extends IScoreWithFeedback {
+  assessment: string | null;
+}
+
+export interface IOverallPerformance {
+  professionalism: IProfessionalismAnalysis;
+  engagement: IEngagementAnalysis;
+  readiness: IReadinessAnalysis;
+}
+
+export interface IImmediateRecommendation {
+  area: string;
+  suggestion: string;
+  priority: "high" | "medium" | "low";
+}
+
+export interface IPracticeRecommendation {
+  skill: string;
+  exercise: string;
+  frequency: string;
+}
+
+export interface IResourceRecommendation {
+  type: string;
+  description: string;
+  link: string;
+}
+
+export interface IRecommendations {
+  immediate: IImmediateRecommendation[];
+  practice: IPracticeRecommendation[];
+  resources: IResourceRecommendation[];
+}
+
+export interface IAnalysisSummary {
+  strengths: string[];
+  weaknesses: string[];
+  keyInsights: string[];
+  overallScore: number | null;
+}
+
+export interface IMediaAnalysisData {
+  communicationSkills: ICommunicationSkills;
+  bodyLanguage: IBodyLanguage;
+  audioQuality: IAudioQuality;
+  overallPerformance: IOverallPerformance;
+  recommendations: IRecommendations;
+  summary: IAnalysisSummary;
+}
+
+export interface IMediaAnalysis {
+  type: "video" | "audio" | null;
+  analysis: IMediaAnalysisData;
+  analyzedAt: string | null;
+  isCompleted: boolean;
+  processingDuration: number | null;
+}
+
 export interface IInterviewReport {
   technicalAssessment: {
     skillsAnalysis: {
@@ -374,6 +517,7 @@ export interface IInterviewReport {
       scenarios: IPreparationScenario[];
     };
   };
+  mediaAnalysis: IMediaAnalysis;
   _id: string;
   interviewId: string;
   userId: string;
