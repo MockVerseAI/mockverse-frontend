@@ -131,16 +131,16 @@ const IndustryFit: React.FC<IndustryFitProps> = ({ industryAlignment }) => {
             <div className="space-y-6">
               {/* Highlighted Areas */}
               {industryAlignment?.domain_expertise?.highlighted_areas &&
-                industryAlignment.domain_expertise.highlighted_areas.length > 0 && (
+                industryAlignment?.domain_expertise?.highlighted_areas?.length > 0 && (
                   <div>
                     <div className="mb-3 flex items-center gap-2">
                       <CheckCircleIcon className="h-4 w-4 text-green-600" />
                       <h3 className="font-semibold text-green-800 dark:text-green-300">
-                        Highlighted Strengths ({industryAlignment.domain_expertise.highlighted_areas.length})
+                        Highlighted Strengths ({industryAlignment?.domain_expertise?.highlighted_areas?.length})
                       </h3>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {industryAlignment.domain_expertise.highlighted_areas.map((area) => (
+                      {industryAlignment?.domain_expertise?.highlighted_areas?.map((area) => (
                         <DomainBadge
                           key={area}
                           area={area}
@@ -154,16 +154,16 @@ const IndustryFit: React.FC<IndustryFitProps> = ({ industryAlignment }) => {
 
               {/* Areas to Emphasize */}
               {industryAlignment?.domain_expertise?.areas_to_emphasize &&
-                industryAlignment.domain_expertise.areas_to_emphasize.length > 0 && (
+                industryAlignment?.domain_expertise?.areas_to_emphasize?.length > 0 && (
                   <div>
                     <div className="mb-3 flex items-center gap-2">
                       <TrendingUpIcon className="h-4 w-4 text-blue-600" />
                       <h3 className="font-semibold text-blue-800 dark:text-blue-300">
-                        Areas to Emphasize ({industryAlignment.domain_expertise.areas_to_emphasize.length})
+                        Areas to Emphasize ({industryAlignment?.domain_expertise?.areas_to_emphasize?.length})
                       </h3>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {industryAlignment.domain_expertise.areas_to_emphasize.map((area) => (
+                      {industryAlignment?.domain_expertise?.areas_to_emphasize?.map((area) => (
                         <DomainBadge
                           key={area}
                           area={area}
@@ -177,16 +177,16 @@ const IndustryFit: React.FC<IndustryFitProps> = ({ industryAlignment }) => {
 
               {/* Knowledge Gaps */}
               {industryAlignment?.domain_expertise?.knowledge_gaps &&
-                industryAlignment.domain_expertise.knowledge_gaps.length > 0 && (
+                industryAlignment?.domain_expertise?.knowledge_gaps?.length > 0 && (
                   <div>
                     <div className="mb-3 flex items-center gap-2">
                       <AlertTriangleIcon className="h-4 w-4 text-red-600" />
                       <h3 className="font-semibold text-red-800 dark:text-red-300">
-                        Knowledge Gaps to Address ({industryAlignment.domain_expertise.knowledge_gaps.length})
+                        Knowledge Gaps to Address ({industryAlignment?.domain_expertise?.knowledge_gaps?.length})
                       </h3>
                     </div>
                     <div className="space-y-2">
-                      {industryAlignment.domain_expertise.knowledge_gaps.map((gap) => (
+                      {industryAlignment?.domain_expertise?.knowledge_gaps?.map((gap) => (
                         <div key={gap} className="flex items-center gap-3 rounded-md bg-red-50 p-3 dark:bg-red-950/30">
                           <AlertTriangleIcon className="h-4 w-4 shrink-0 text-red-600" />
                           <span className="text-red-800 dark:text-red-300">{gap}</span>
@@ -211,16 +211,16 @@ const IndustryFit: React.FC<IndustryFitProps> = ({ industryAlignment }) => {
             <div className="space-y-6">
               {/* Alignment Points */}
               {industryAlignment?.company_culture_fit?.alignment_points &&
-                industryAlignment.company_culture_fit.alignment_points.length > 0 && (
+                industryAlignment?.company_culture_fit?.alignment_points?.length > 0 && (
                   <div>
                     <div className="mb-4 flex items-center gap-2">
                       <HeartIcon className="h-4 w-4 text-purple-600" />
                       <h3 className="font-semibold text-purple-800 dark:text-purple-300">
-                        Cultural Alignment Points ({industryAlignment.company_culture_fit.alignment_points.length})
+                        Cultural Alignment Points ({industryAlignment?.company_culture_fit?.alignment_points?.length})
                       </h3>
                     </div>
                     <div className="space-y-3">
-                      {industryAlignment.company_culture_fit.alignment_points.map((point, index) => (
+                      {industryAlignment?.company_culture_fit?.alignment_points?.map((point, index) => (
                         <AlignmentPointCard key={index} point={point} index={index} />
                       ))}
                     </div>
@@ -229,16 +229,16 @@ const IndustryFit: React.FC<IndustryFitProps> = ({ industryAlignment }) => {
 
               {/* Areas to Highlight */}
               {industryAlignment?.company_culture_fit?.areas_to_highlight &&
-                industryAlignment.company_culture_fit.areas_to_highlight.length > 0 && (
+                industryAlignment?.company_culture_fit?.areas_to_highlight?.length > 0 && (
                   <div>
                     <div className="mb-4 flex items-center gap-2">
                       <StarIcon className="h-4 w-4 text-amber-600" />
                       <h3 className="font-semibold text-amber-800 dark:text-amber-300">
-                        Areas to Highlight ({industryAlignment.company_culture_fit.areas_to_highlight.length})
+                        Areas to Highlight ({industryAlignment?.company_culture_fit?.areas_to_highlight?.length})
                       </h3>
                     </div>
                     <div className="space-y-3">
-                      {industryAlignment.company_culture_fit.areas_to_highlight.map((area, index) => (
+                      {industryAlignment?.company_culture_fit?.areas_to_highlight?.map((area, index) => (
                         <HighlightAreaCard key={index} area={area} index={index} />
                       ))}
                     </div>

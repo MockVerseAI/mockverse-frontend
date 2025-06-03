@@ -33,20 +33,20 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
   technicalCommunication,
 }) => {
   const getSkillLevelBadge = (level: string) => {
-    const normalizedLevel = level.toLowerCase();
-    if (normalizedLevel.includes("expert") || normalizedLevel.includes("advanced")) return "success";
-    if (normalizedLevel.includes("intermediate") || normalizedLevel.includes("proficient")) return "secondary";
+    const normalizedLevel = level?.toLowerCase();
+    if (normalizedLevel?.includes("expert") || normalizedLevel?.includes("advanced")) return "success";
+    if (normalizedLevel?.includes("intermediate") || normalizedLevel?.includes("proficient")) return "secondary";
     return "outline";
   };
 
   const getSkillLevelProgress = (level: string) => {
-    const normalizedLevel = level.toLowerCase();
-    if (normalizedLevel.includes("expert")) return 100;
-    if (normalizedLevel.includes("advanced")) return 85;
-    if (normalizedLevel.includes("proficient")) return 70;
-    if (normalizedLevel.includes("intermediate")) return 55;
-    if (normalizedLevel.includes("basic")) return 40;
-    if (normalizedLevel.includes("beginner")) return 25;
+    const normalizedLevel = level?.toLowerCase();
+    if (normalizedLevel?.includes("expert")) return 100;
+    if (normalizedLevel?.includes("advanced")) return 85;
+    if (normalizedLevel?.includes("proficient")) return 70;
+    if (normalizedLevel?.includes("intermediate")) return 55;
+    if (normalizedLevel?.includes("basic")) return 40;
+    if (normalizedLevel?.includes("beginner")) return 25;
     return 50;
   };
 
@@ -149,15 +149,17 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
     </div>
   );
 
-  const demonstratedSkills = skillsAnalysis.demonstrated || [];
-  const requiredSkills = skillsAnalysis.required || [];
-  const skillGaps = skillsAnalysis.gaps || [];
+  const demonstratedSkills = skillsAnalysis?.demonstrated || [];
+  const requiredSkills = skillsAnalysis?.required || [];
+  const skillGaps = skillsAnalysis?.gaps || [];
 
-  const matchedSkills = requiredSkills.filter((req) => demonstratedSkills.some((demo) => demo.skill === req.skill));
-  const missingSkills = requiredSkills.filter((req) => !demonstratedSkills.some((demo) => demo.skill === req.skill));
+  const matchedSkills = requiredSkills?.filter((req) => demonstratedSkills?.some((demo) => demo?.skill === req?.skill));
+  const missingSkills = requiredSkills?.filter(
+    (req) => !demonstratedSkills?.some((demo) => demo?.skill === req?.skill)
+  );
 
   const skillMatchPercentage =
-    requiredSkills.length > 0 ? Math.round((matchedSkills.length / requiredSkills.length) * 100) : 0;
+    requiredSkills?.length > 0 ? Math.round((matchedSkills?.length / requiredSkills?.length) * 100) : 0;
 
   return (
     <div className="space-y-6">
@@ -174,21 +176,21 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
             <div className="rounded-lg bg-green-50 p-4 text-center dark:bg-green-950/30">
               <CheckCircleIcon className="mx-auto mb-2 h-8 w-8 text-green-600" />
               <h3 className="font-semibold text-green-800 dark:text-green-300">Demonstrated</h3>
-              <p className="text-2xl font-bold text-green-700 dark:text-green-400">{demonstratedSkills.length}</p>
+              <p className="text-2xl font-bold text-green-700 dark:text-green-400">{demonstratedSkills?.length}</p>
               <p className="text-sm text-green-600 dark:text-green-500">Skills shown</p>
             </div>
 
             <div className="rounded-lg bg-blue-50 p-4 text-center dark:bg-blue-950/30">
               <ClipboardListIcon className="mx-auto mb-2 h-8 w-8 text-blue-600" />
               <h3 className="font-semibold text-blue-800 dark:text-blue-300">Required</h3>
-              <p className="text-2xl font-bold text-blue-700 dark:text-blue-400">{requiredSkills.length}</p>
+              <p className="text-2xl font-bold text-blue-700 dark:text-blue-400">{requiredSkills?.length}</p>
               <p className="text-sm text-blue-600 dark:text-blue-500">Skills needed</p>
             </div>
 
             <div className="rounded-lg bg-orange-50 p-4 text-center dark:bg-orange-950/30">
               <AlertTriangleIcon className="mx-auto mb-2 h-8 w-8 text-orange-600" />
               <h3 className="font-semibold text-orange-800 dark:text-orange-300">Gaps</h3>
-              <p className="text-2xl font-bold text-orange-700 dark:text-orange-400">{skillGaps.length}</p>
+              <p className="text-2xl font-bold text-orange-700 dark:text-orange-400">{skillGaps?.length}</p>
               <p className="text-sm text-orange-600 dark:text-orange-500">Areas to improve</p>
             </div>
           </div>
@@ -209,16 +211,16 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
             <div>
               <h3 className="mb-4 flex items-center gap-2 font-semibold">
                 <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                Demonstrated Skills ({demonstratedSkills.length})
+                Demonstrated Skills ({demonstratedSkills?.length})
               </h3>
-              {demonstratedSkills.length > 0 ? (
+              {demonstratedSkills?.length > 0 ? (
                 <div className="grid gap-4 md:grid-cols-2">
-                  {demonstratedSkills.map((skill, index) => (
+                  {demonstratedSkills?.map((skill, index) => (
                     <SkillCard
                       key={index}
-                      skill={skill.skill}
-                      level={skill.level}
-                      evidence={skill.evidence}
+                      skill={skill?.skill}
+                      level={skill?.level}
+                      evidence={skill?.evidence}
                       type="demonstrated"
                     />
                   ))}
@@ -232,27 +234,27 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
             <div>
               <h3 className="mb-4 flex items-center gap-2 font-semibold">
                 <ClipboardListIcon className="h-4 w-4 text-blue-600" />
-                Required Skills Analysis ({requiredSkills.length})
+                Required Skills Analysis ({requiredSkills?.length})
               </h3>
-              {requiredSkills.length > 0 ? (
+              {requiredSkills?.length > 0 ? (
                 <div className="space-y-4">
-                  {matchedSkills.length > 0 && (
+                  {matchedSkills?.length > 0 && (
                     <div>
                       <h4 className="mb-2 font-medium text-green-800 dark:text-green-300">✓ Met Requirements</h4>
                       <div className="grid gap-2 md:grid-cols-3">
-                        {matchedSkills.map((skill, index) => (
-                          <SkillMatchCard key={index} skill={skill.skill} isMatched={true} />
+                        {matchedSkills?.map((skill, index) => (
+                          <SkillMatchCard key={index} skill={skill?.skill} isMatched={true} />
                         ))}
                       </div>
                     </div>
                   )}
 
-                  {missingSkills.length > 0 && (
+                  {missingSkills?.length > 0 && (
                     <div>
                       <h4 className="mb-2 font-medium text-red-800 dark:text-red-300">⚠ Unmet Requirements</h4>
                       <div className="grid gap-2 md:grid-cols-3">
-                        {missingSkills.map((skill, index) => (
-                          <SkillMatchCard key={index} skill={skill.skill} isMatched={false} />
+                        {missingSkills?.map((skill, index) => (
+                          <SkillMatchCard key={index} skill={skill?.skill} isMatched={false} />
                         ))}
                       </div>
                     </div>
@@ -264,20 +266,20 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
             </div>
 
             {/* Skill Gaps */}
-            {skillGaps.length > 0 && (
+            {skillGaps?.length > 0 && (
               <div>
                 <h3 className="mb-4 flex items-center gap-2 font-semibold">
                   <AlertTriangleIcon className="h-4 w-4 text-orange-600" />
-                  Skill Development Areas ({skillGaps.length})
+                  Skill Development Areas ({skillGaps?.length})
                 </h3>
                 <div className="space-y-3">
-                  {skillGaps.map((gap, index) => (
+                  {skillGaps?.map((gap, index) => (
                     <div key={index} className="rounded-lg border bg-orange-50 p-4 dark:bg-orange-950/30">
                       <div className="flex items-start gap-3">
                         <TrendingUpIcon className="mt-1 h-4 w-4 text-orange-600" />
                         <div className="flex-1">
-                          <h4 className="font-semibold text-orange-900 dark:text-orange-100">{gap.skill}</h4>
-                          <p className="mt-1 text-sm text-orange-700 dark:text-orange-300">{gap.recommendation}</p>
+                          <h4 className="font-semibold text-orange-900 dark:text-orange-100">{gap?.skill}</h4>
+                          <p className="mt-1 text-sm text-orange-700 dark:text-orange-300">{gap?.recommendation}</p>
                         </div>
                       </div>
                     </div>
@@ -301,19 +303,19 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
           <div className="grid gap-4 md:grid-cols-3">
             <AnalysisSection
               title="Analytical Thinking"
-              content={problemSolving.analytical}
+              content={problemSolving?.analytical}
               icon={<SearchIcon className="h-4 w-4 text-blue-500" />}
               accentColor="blue"
             />
             <AnalysisSection
               title="Design Approach"
-              content={problemSolving.design}
+              content={problemSolving?.design}
               icon={<PaletteIcon className="h-4 w-4 text-purple-500" />}
               accentColor="purple"
             />
             <AnalysisSection
               title="Scalability Thinking"
-              content={problemSolving.scalability}
+              content={problemSolving?.scalability}
               icon={<ScaleIcon className="h-4 w-4 text-green-500" />}
               accentColor="green"
             />
@@ -333,13 +335,13 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
           <div className="grid gap-4 md:grid-cols-2">
             <AnalysisSection
               title="Communication Clarity"
-              content={technicalCommunication.clarity}
+              content={technicalCommunication?.clarity}
               icon={<LightbulbIcon className="h-4 w-4 text-blue-500" />}
               accentColor="blue"
             />
             <AnalysisSection
               title="Technical Depth"
-              content={technicalCommunication.depth}
+              content={technicalCommunication?.depth}
               icon={<LayersIcon className="h-4 w-4 text-green-500" />}
               accentColor="green"
             />
@@ -376,7 +378,7 @@ const TechnicalAssessment: FC<TechnicalAssessmentProps> = ({
               <TrendingUpIcon className="mx-auto mb-2 h-6 w-6 text-orange-600" />
               <h3 className="text-sm font-semibold text-orange-800 dark:text-orange-300">Growth Areas</h3>
               <p className="text-xs text-orange-700 dark:text-orange-400">
-                {skillGaps.length} recommendation{skillGaps.length !== 1 ? "s" : ""}
+                {skillGaps?.length} recommendation{skillGaps?.length !== 1 ? "s" : ""}
               </p>
             </div>
           </div>

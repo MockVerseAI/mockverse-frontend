@@ -25,12 +25,12 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
   const totalMetricsToEnhance = impactMetrics?.metrics_to_enhance?.length || 0;
   const totalDataPoints =
     impactMetrics?.additions_needed?.reduce(
-      (total, addition) => total + (addition.data_points_to_gather?.length || 0),
+      (total, addition) => total + (addition?.data_points_to_gather?.length || 0),
       0
     ) || 0;
   const totalSuggestedMetrics =
     impactMetrics?.additions_needed?.reduce(
-      (total, addition) => total + (addition.suggested_metrics?.length || 0),
+      (total, addition) => total + (addition?.suggested_metrics?.length || 0),
       0
     ) || 0;
 
@@ -41,23 +41,23 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
           {index + 1}
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-blue-800 dark:text-blue-300">{addition.achievement}</h3>
+          <h3 className="font-semibold text-blue-800 dark:text-blue-300">{addition?.achievement}</h3>
         </div>
         <PlusIcon className="h-5 w-5 text-blue-600" />
       </div>
 
       <div className="space-y-4">
         {/* Suggested Metrics */}
-        {addition.suggested_metrics && addition.suggested_metrics.length > 0 && (
+        {addition?.suggested_metrics && addition?.suggested_metrics?.length > 0 && (
           <div>
             <div className="mb-3 flex items-center gap-2">
               <BarChart3Icon className="h-4 w-4 text-green-600" />
               <h4 className="font-semibold text-green-800 dark:text-green-300">
-                Suggested Metrics ({addition.suggested_metrics.length})
+                Suggested Metrics ({addition?.suggested_metrics?.length})
               </h4>
             </div>
             <div className="space-y-2">
-              {addition.suggested_metrics.map((metric: string, idx: number) => (
+              {addition?.suggested_metrics?.map((metric: string, idx: number) => (
                 <div key={idx} className="flex items-start gap-3 rounded-md bg-green-100 p-3 dark:bg-green-900/40">
                   <CheckCircleIcon className="mt-0.5 h-4 w-4 shrink-0 text-green-600" />
                   <span className="text-sm text-green-800 dark:text-green-300">{metric}</span>
@@ -68,16 +68,16 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
         )}
 
         {/* Data Points to Gather */}
-        {addition.data_points_to_gather && addition.data_points_to_gather.length > 0 && (
+        {addition?.data_points_to_gather && addition?.data_points_to_gather?.length > 0 && (
           <div>
             <div className="mb-3 flex items-center gap-2">
               <DatabaseIcon className="h-4 w-4 text-purple-600" />
               <h4 className="font-semibold text-purple-800 dark:text-purple-300">
-                Data Points to Gather ({addition.data_points_to_gather.length})
+                Data Points to Gather ({addition?.data_points_to_gather?.length})
               </h4>
             </div>
             <div className="space-y-2">
-              {addition.data_points_to_gather.map((point: string, idx: number) => (
+              {addition?.data_points_to_gather?.map((point: string, idx: number) => (
                 <div key={idx} className="flex items-start gap-3 rounded-md bg-purple-100 p-3 dark:bg-purple-900/40">
                   <TargetIcon className="mt-0.5 h-4 w-4 shrink-0 text-purple-600" />
                   <span className="text-sm text-purple-800 dark:text-purple-300">{point}</span>
@@ -109,14 +109,14 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
             <div className="flex-1">
               <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Current Metric:</p>
               <div className="mt-1 rounded-md bg-gray-100 p-3 dark:bg-gray-800">
-                <p className="text-sm text-gray-800 dark:text-gray-300">{metric.current_metric}</p>
+                <p className="text-sm text-gray-800 dark:text-gray-300">{metric?.current_metric}</p>
               </div>
             </div>
             <ArrowRightIcon className="h-4 w-4 text-orange-600" />
             <div className="flex-1">
               <p className="text-sm font-medium text-green-700 dark:text-green-400">Enhanced Version:</p>
               <div className="mt-1 rounded-md bg-green-100 p-3 dark:bg-green-900/40">
-                <p className="text-sm text-green-800 dark:text-green-300">{metric.enhanced_version}</p>
+                <p className="text-sm text-green-800 dark:text-green-300">{metric?.enhanced_version}</p>
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
             <LightbulbIcon className="h-4 w-4 text-blue-600" />
             <h4 className="font-semibold text-blue-800 dark:text-blue-300">Improvement Rationale</h4>
           </div>
-          <p className="text-sm text-blue-800 dark:text-blue-300">{metric.improvement_rationale}</p>
+          <p className="text-sm text-blue-800 dark:text-blue-300">{metric?.improvement_rationale}</p>
         </div>
       </div>
     </div>
@@ -178,7 +178,7 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
       </Card>
 
       {/* Additions Needed Section */}
-      {impactMetrics?.additions_needed && impactMetrics.additions_needed.length > 0 && (
+      {impactMetrics?.additions_needed && impactMetrics?.additions_needed?.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg">
@@ -188,7 +188,7 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
-              {impactMetrics.additions_needed.map((addition, index) => (
+              {impactMetrics?.additions_needed?.map((addition, index) => (
                 <AdditionCard key={index} addition={addition} index={index} />
               ))}
             </div>
@@ -197,7 +197,7 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
       )}
 
       {/* Metrics Enhancement Section */}
-      {impactMetrics?.metrics_to_enhance && impactMetrics.metrics_to_enhance.length > 0 && (
+      {impactMetrics?.metrics_to_enhance && impactMetrics?.metrics_to_enhance?.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg">
@@ -207,7 +207,7 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
           </CardHeader>
           <CardContent>
             <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
-              {impactMetrics.metrics_to_enhance.map((metric, index) => (
+              {impactMetrics?.metrics_to_enhance?.map((metric, index) => (
                 <EnhancementCard key={index} metric={metric} index={index} />
               ))}
             </div>
@@ -258,8 +258,8 @@ const ImpactMetrics: React.FC<ImpactMetricsProps> = ({ impactMetrics }) => {
       </Card>
 
       {/* No Data State */}
-      {(!impactMetrics?.additions_needed || impactMetrics.additions_needed.length === 0) &&
-        (!impactMetrics?.metrics_to_enhance || impactMetrics.metrics_to_enhance.length === 0) && (
+      {(!impactMetrics?.additions_needed || impactMetrics?.additions_needed?.length === 0) &&
+        (!impactMetrics?.metrics_to_enhance || impactMetrics?.metrics_to_enhance?.length === 0) && (
           <Card>
             <CardContent className="py-12">
               <div className="text-center">

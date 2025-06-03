@@ -42,7 +42,7 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
   };
 
   const getPriorityIcon = (priority: string) => {
-    switch (priority) {
+    switch (priority?.toLowerCase()) {
       case "high":
         return <AlertCircleIcon className="h-4 w-4 text-red-500" />;
       case "medium":
@@ -86,21 +86,21 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
             className="scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500 mx-auto w-full max-w-5xl overflow-y-auto p-4"
             style={{ maxHeight: "40vh" }}
           >
-            {messages.map((message: IMessage, index: number) => (
+            {messages?.map((message: IMessage, index: number) => (
               <Message key={index} message={message} className="max-w-xs md:max-w-xs lg:max-w-md xl:max-w-xl" />
             ))}
           </div>
           <div className="flex aspect-video w-full flex-col gap-4">
-            {analysis?.type === "video" ? (
+            {recordings?.video ? (
               <video className="w-full rounded-lg" controls>
                 <source src={recordings?.video} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             ) : (
               <DualAudioWaveform
-                userAudioUrl={recordings.voice.user}
-                assistantAudioUrl={recordings.voice.assistant}
-                combinedAudioUrl={recordings.voice.combined}
+                userAudioUrl={recordings?.voice?.user}
+                assistantAudioUrl={recordings?.voice?.assistant}
+                combinedAudioUrl={recordings?.voice?.combined}
                 title="Interview Recording"
                 className="h-full"
                 height={50}
@@ -127,7 +127,7 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
           className="scrollbar-thin scrollbar-track-gray-200 scrollbar-thumb-gray-500 mx-auto w-full max-w-5xl overflow-y-auto p-4"
           style={{ maxHeight: "40vh" }}
         >
-          {messages.map((message: IMessage, index: number) => (
+          {messages?.map((message: IMessage, index: number) => (
             <Message key={index} message={message} className="max-w-xs md:max-w-xs lg:max-w-md xl:max-w-xl" />
           ))}
         </div>
@@ -139,9 +139,9 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
             </video>
           ) : (
             <DualAudioWaveform
-              userAudioUrl={recordings.voice.user}
-              assistantAudioUrl={recordings.voice.assistant}
-              combinedAudioUrl={recordings.voice.combined}
+              userAudioUrl={recordings?.voice?.user}
+              assistantAudioUrl={recordings?.voice?.assistant}
+              combinedAudioUrl={recordings?.voice?.combined}
               title="Interview Recording"
               className="h-full"
               height={50}
@@ -167,14 +167,14 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
               </Badge>
             </div>
 
-            {analysisData.summary?.overallScore && (
+            {analysisData?.summary?.overallScore && (
               <div className="rounded-lg bg-green-50 p-4 dark:bg-green-950/30">
                 <h3 className="mb-2 font-semibold text-green-800 dark:text-green-300">Overall Score</h3>
                 <div className="flex items-center gap-2">
-                  <Badge variant={getScoreBadgeVariant(analysisData.summary.overallScore)}>
-                    {analysisData.summary.overallScore}/10
+                  <Badge variant={getScoreBadgeVariant(analysisData?.summary?.overallScore)}>
+                    {analysisData?.summary?.overallScore}/10
                   </Badge>
-                  <Progress value={analysisData.summary.overallScore * 10} className="h-2 flex-1" />
+                  <Progress value={(analysisData?.summary?.overallScore || 0) * 10} className="h-2 flex-1" />
                 </div>
               </div>
             )}
@@ -182,7 +182,7 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
             {analysis?.processingDuration && (
               <div className="rounded-lg bg-purple-50 p-4 dark:bg-purple-950/30">
                 <h3 className="mb-2 font-semibold text-purple-800 dark:text-purple-300">Processing Time</h3>
-                <p className="text-sm">{analysis.processingDuration}ms</p>
+                <p className="text-sm">{analysis?.processingDuration}ms</p>
               </div>
             )}
           </div>
@@ -201,49 +201,49 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
           <div className="grid gap-x-8 gap-y-4 md:grid-cols-2">
             <ScoreSection
               title="Clarity"
-              score={analysisData.communicationSkills?.clarity?.score}
-              feedback={analysisData.communicationSkills?.clarity?.feedback}
+              score={analysisData?.communicationSkills?.clarity?.score}
+              feedback={analysisData?.communicationSkills?.clarity?.feedback}
               icon={<CheckCircleIcon className="h-4 w-4" />}
             />
             <ScoreSection
               title="Articulation"
-              score={analysisData.communicationSkills?.articulation?.score}
-              feedback={analysisData.communicationSkills?.articulation?.feedback}
+              score={analysisData?.communicationSkills?.articulation?.score}
+              feedback={analysisData?.communicationSkills?.articulation?.feedback}
               icon={<MessageSquareIcon className="h-4 w-4" />}
             />
             <ScoreSection
               title="Pace"
-              score={analysisData.communicationSkills?.pace?.score}
-              feedback={analysisData.communicationSkills?.pace?.feedback}
+              score={analysisData?.communicationSkills?.pace?.score}
+              feedback={analysisData?.communicationSkills?.pace?.feedback}
               icon={<TrendingUpIcon className="h-4 w-4" />}
             />
             <ScoreSection
               title="Confidence"
-              score={analysisData.communicationSkills?.confidence?.score}
-              feedback={analysisData.communicationSkills?.confidence?.feedback}
+              score={analysisData?.communicationSkills?.confidence?.score}
+              feedback={analysisData?.communicationSkills?.confidence?.feedback}
               icon={<StarIcon className="h-4 w-4" />}
             />
           </div>
 
           {/* Examples and Indicators */}
-          {(analysisData.communicationSkills?.clarity?.examples?.length > 0 ||
-            analysisData.communicationSkills?.confidence?.indicators?.length > 0) && (
+          {((analysisData?.communicationSkills?.clarity?.examples?.length || 0) > 0 ||
+            (analysisData?.communicationSkills?.confidence?.indicators?.length || 0) > 0) && (
             <div className="mt-6 space-y-4">
-              {analysisData.communicationSkills?.clarity?.examples?.length > 0 && (
+              {(analysisData?.communicationSkills?.clarity?.examples?.length || 0) > 0 && (
                 <div>
                   <h4 className="mb-2 font-medium">Clarity Examples</h4>
                   <ul className="list-disc pl-4 text-sm">
-                    {analysisData.communicationSkills.clarity.examples.map((example, index) => (
+                    {analysisData?.communicationSkills?.clarity?.examples?.map((example, index) => (
                       <li key={index}>{example}</li>
                     ))}
                   </ul>
                 </div>
               )}
-              {analysisData.communicationSkills?.confidence?.indicators?.length > 0 && (
+              {(analysisData?.communicationSkills?.confidence?.indicators?.length || 0) > 0 && (
                 <div>
                   <h4 className="mb-2 font-medium">Confidence Indicators</h4>
                   <ul className="list-disc pl-4 text-sm">
-                    {analysisData.communicationSkills.confidence.indicators.map((indicator, index) => (
+                    {analysisData?.communicationSkills?.confidence?.indicators?.map((indicator, index) => (
                       <li key={index}>{indicator}</li>
                     ))}
                   </ul>
@@ -267,26 +267,26 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
             <div className="grid gap-x-8 gap-y-4 md:grid-cols-2">
               <ScoreSection
                 title="Posture"
-                score={analysisData.bodyLanguage?.posture?.score}
-                feedback={analysisData.bodyLanguage?.posture?.feedback}
+                score={analysisData?.bodyLanguage?.posture?.score}
+                feedback={analysisData?.bodyLanguage?.posture?.feedback}
                 icon={<TrendingUpIcon className="h-4 w-4" />}
               />
               <ScoreSection
                 title="Eye Contact"
-                score={analysisData.bodyLanguage?.eyeContact?.score}
-                feedback={analysisData.bodyLanguage?.eyeContact?.feedback}
+                score={analysisData?.bodyLanguage?.eyeContact?.score}
+                feedback={analysisData?.bodyLanguage?.eyeContact?.feedback}
                 icon={<EyeIcon className="h-4 w-4" />}
               />
               <ScoreSection
                 title="Gestures"
-                score={analysisData.bodyLanguage?.gestures?.score}
-                feedback={analysisData.bodyLanguage?.gestures?.feedback}
+                score={analysisData?.bodyLanguage?.gestures?.score}
+                feedback={analysisData?.bodyLanguage?.gestures?.feedback}
                 icon={<StarIcon className="h-4 w-4" />}
               />
               <ScoreSection
                 title="Presence"
-                score={analysisData.bodyLanguage?.presence?.score}
-                feedback={analysisData.bodyLanguage?.presence?.feedback}
+                score={analysisData?.bodyLanguage?.presence?.score}
+                feedback={analysisData?.bodyLanguage?.presence?.feedback}
                 icon={<CheckCircleIcon className="h-4 w-4" />}
               />
             </div>
@@ -306,20 +306,20 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
           <div className="grid gap-x-8 gap-y-4 md:grid-cols-3">
             <ScoreSection
               title="Audio Clarity"
-              score={analysisData.audioQuality?.clarity?.score}
-              feedback={analysisData.audioQuality?.clarity?.feedback}
+              score={analysisData?.audioQuality?.clarity?.score}
+              feedback={analysisData?.audioQuality?.clarity?.feedback}
               icon={<CheckCircleIcon className="h-4 w-4" />}
             />
             <ScoreSection
               title="Volume Level"
-              score={analysisData.audioQuality?.volume?.score}
-              feedback={analysisData.audioQuality?.volume?.feedback}
+              score={analysisData?.audioQuality?.volume?.score}
+              feedback={analysisData?.audioQuality?.volume?.feedback}
               icon={<VolumeXIcon className="h-4 w-4" />}
             />
             <ScoreSection
               title="Background Noise"
-              score={analysisData.audioQuality?.background?.score}
-              feedback={analysisData.audioQuality?.background?.feedback}
+              score={analysisData?.audioQuality?.background?.score}
+              feedback={analysisData?.audioQuality?.background?.feedback}
               icon={<AlertCircleIcon className="h-4 w-4" />}
             />
           </div>
@@ -338,28 +338,28 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
           <div className="grid gap-4 md:grid-cols-3">
             <ScoreSection
               title="Professionalism"
-              score={analysisData.overallPerformance?.professionalism?.score}
-              feedback={analysisData.overallPerformance?.professionalism?.feedback}
+              score={analysisData?.overallPerformance?.professionalism?.score}
+              feedback={analysisData?.overallPerformance?.professionalism?.feedback}
               icon={<CheckCircleIcon className="h-4 w-4" />}
             />
             <ScoreSection
               title="Engagement"
-              score={analysisData.overallPerformance?.engagement?.score}
-              feedback={analysisData.overallPerformance?.engagement?.feedback}
+              score={analysisData?.overallPerformance?.engagement?.score}
+              feedback={analysisData?.overallPerformance?.engagement?.feedback}
               icon={<TrendingUpIcon className="h-4 w-4" />}
             />
             <ScoreSection
               title="Interview Readiness"
-              score={analysisData.overallPerformance?.readiness?.score}
-              feedback={analysisData.overallPerformance?.readiness?.feedback}
+              score={analysisData?.overallPerformance?.readiness?.score}
+              feedback={analysisData?.overallPerformance?.readiness?.feedback}
               icon={<StarIcon className="h-4 w-4" />}
             />
           </div>
 
-          {analysisData.overallPerformance?.readiness?.assessment && (
+          {analysisData?.overallPerformance?.readiness?.assessment && (
             <div className="mt-4 rounded-lg bg-gray-50 p-4 dark:bg-gray-950/30">
               <h4 className="mb-2 font-medium">Readiness Assessment</h4>
-              <p className="text-sm">{analysisData.overallPerformance.readiness.assessment}</p>
+              <p className="text-sm">{analysisData?.overallPerformance?.readiness?.assessment}</p>
             </div>
           )}
         </CardContent>
@@ -373,21 +373,21 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
         <CardContent>
           <div className="space-y-6">
             {/* Immediate Actions */}
-            {analysisData.recommendations?.immediate?.length > 0 && (
+            {(analysisData?.recommendations?.immediate?.length || 0) > 0 && (
               <div>
                 <h3 className="mb-3 font-semibold">Immediate Actions</h3>
                 <div className="space-y-2">
-                  {analysisData.recommendations.immediate.map((rec, index) => (
+                  {analysisData?.recommendations?.immediate?.map((rec, index) => (
                     <div key={index} className="flex items-start gap-3 rounded-lg border p-3">
-                      {getPriorityIcon(rec.priority)}
+                      {getPriorityIcon(rec?.priority)}
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-medium">{rec.area}</span>
+                          <span className="font-medium">{rec?.area}</span>
                           <Badge variant="outline" className="capitalize">
-                            {rec.priority}
+                            {rec?.priority}
                           </Badge>
                         </div>
-                        <p className="text-muted-foreground text-sm">{rec.suggestion}</p>
+                        <p className="text-muted-foreground text-sm">{rec?.suggestion}</p>
                       </div>
                     </div>
                   ))}
@@ -396,16 +396,16 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
             )}
 
             {/* Practice Exercises */}
-            {analysisData.recommendations?.practice?.length > 0 && (
+            {(analysisData?.recommendations?.practice?.length || 0) > 0 && (
               <div>
                 <h3 className="mb-3 font-semibold">Practice Exercises</h3>
                 <div className="grid gap-3 md:grid-cols-2">
-                  {analysisData.recommendations.practice.map((practice, index) => (
+                  {analysisData?.recommendations?.practice?.map((practice, index) => (
                     <div key={index} className="rounded-lg border p-3">
-                      <h4 className="font-medium">{practice.skill}</h4>
-                      <p className="text-muted-foreground text-sm">{practice.exercise}</p>
+                      <h4 className="font-medium">{practice?.skill}</h4>
+                      <p className="text-muted-foreground text-sm">{practice?.exercise}</p>
                       <Badge variant="outline" className="mt-2">
-                        {practice.frequency}
+                        {practice?.frequency}
                       </Badge>
                     </div>
                   ))}
@@ -414,19 +414,19 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
             )}
 
             {/* Resources */}
-            {analysisData.recommendations?.resources?.length > 0 && (
+            {(analysisData?.recommendations?.resources?.length || 0) > 0 && (
               <div>
                 <h3 className="mb-3 font-semibold">Recommended Resources</h3>
                 <div className="grid gap-3 md:grid-cols-2">
-                  {analysisData.recommendations.resources.map((resource, index) => (
+                  {analysisData?.recommendations?.resources?.map((resource, index) => (
                     <div key={index} className="rounded-lg border p-3">
                       <div className="flex items-center gap-2">
-                        <Badge variant="secondary">{resource.type}</Badge>
+                        <Badge variant="secondary">{resource?.type}</Badge>
                       </div>
-                      <p className="mt-1 text-sm">{resource.description}</p>
-                      {resource.link && (
+                      <p className="mt-1 text-sm">{resource?.description}</p>
+                      {resource?.link && (
                         <a
-                          href={resource.link}
+                          href={resource?.link}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="mt-2 text-sm text-blue-600 hover:underline"
@@ -444,9 +444,9 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
       </Card>
 
       {/* Summary */}
-      {(analysisData.summary?.strengths?.length > 0 ||
-        analysisData.summary?.weaknesses?.length > 0 ||
-        analysisData.summary?.keyInsights?.length > 0) && (
+      {((analysisData?.summary?.strengths?.length || 0) > 0 ||
+        (analysisData?.summary?.weaknesses?.length || 0) > 0 ||
+        (analysisData?.summary?.keyInsights?.length || 0) > 0) && (
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Analysis Summary</CardTitle>
@@ -454,46 +454,40 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
           <CardContent>
             <div className="grid gap-4 md:grid-cols-3">
               {/* Strengths */}
-              {analysisData.summary?.strengths?.length > 0 && (
+              {(analysisData?.summary?.strengths?.length || 0) > 0 && (
                 <div className="rounded-lg bg-green-50 p-4 dark:bg-green-950/30">
                   <h3 className="mb-3 flex items-center gap-2 font-semibold text-green-800 dark:text-green-300">
                     <CheckCircleIcon className="h-5 w-5" />
                     Strengths
                   </h3>
                   <ul className="space-y-1 text-sm text-green-700 dark:text-green-400">
-                    {analysisData.summary.strengths.map((strength, index) => (
-                      <li key={index}>• {strength}</li>
-                    ))}
+                    {analysisData?.summary?.strengths?.map((strength, index) => <li key={index}>• {strength}</li>)}
                   </ul>
                 </div>
               )}
 
               {/* Areas for Improvement */}
-              {analysisData.summary?.weaknesses?.length > 0 && (
+              {(analysisData?.summary?.weaknesses?.length || 0) > 0 && (
                 <div className="rounded-lg bg-orange-50 p-4 dark:bg-orange-950/30">
                   <h3 className="mb-3 flex items-center gap-2 font-semibold text-orange-800 dark:text-orange-300">
                     <TrendingDownIcon className="h-5 w-5" />
                     Areas for Improvement
                   </h3>
                   <ul className="space-y-1 text-sm text-orange-700 dark:text-orange-400">
-                    {analysisData.summary.weaknesses.map((weakness, index) => (
-                      <li key={index}>• {weakness}</li>
-                    ))}
+                    {analysisData?.summary?.weaknesses?.map((weakness, index) => <li key={index}>• {weakness}</li>)}
                   </ul>
                 </div>
               )}
 
               {/* Key Insights */}
-              {analysisData.summary?.keyInsights?.length > 0 && (
+              {(analysisData?.summary?.keyInsights?.length || 0) > 0 && (
                 <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-950/30">
                   <h3 className="mb-3 flex items-center gap-2 font-semibold text-blue-800 dark:text-blue-300">
                     <AlertCircleIcon className="h-5 w-5" />
                     Key Insights
                   </h3>
                   <ul className="space-y-1 text-sm text-blue-700 dark:text-blue-400">
-                    {analysisData.summary.keyInsights.map((insight, index) => (
-                      <li key={index}>• {insight}</li>
-                    ))}
+                    {analysisData?.summary?.keyInsights?.map((insight, index) => <li key={index}>• {insight}</li>)}
                   </ul>
                 </div>
               )}

@@ -65,17 +65,17 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
         <div className="flex items-center gap-3">
           <div className="flex-1">
             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Current:</p>
-            <p className="text-amber-800 dark:text-amber-300">{skill.current}</p>
+            <p className="text-amber-800 dark:text-amber-300">{skill?.current}</p>
           </div>
           <ArrowRightIcon className="h-4 w-4 text-amber-600" />
           <div className="flex-1">
             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Suggested:</p>
-            <p className="text-amber-800 dark:text-amber-300">{skill.suggested}</p>
+            <p className="text-amber-800 dark:text-amber-300">{skill?.suggested}</p>
           </div>
         </div>
         <div className="rounded-md bg-amber-100 p-3 dark:bg-amber-900/40">
           <p className="text-sm font-medium text-amber-700 dark:text-amber-400">Strategic Reason:</p>
-          <p className="text-sm text-amber-800 dark:text-amber-300">{skill.strategic_reason}</p>
+          <p className="text-sm text-amber-800 dark:text-amber-300">{skill?.strategic_reason}</p>
         </div>
       </div>
     </div>
@@ -85,11 +85,11 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
     <div className="rounded-lg border border-purple-200 bg-gradient-to-r from-purple-50 to-indigo-50 p-4 dark:border-purple-800 dark:from-purple-950/30 dark:to-indigo-950/30">
       <div className="mb-3 flex items-center gap-2">
         <TrendingUpIcon className="h-4 w-4 text-purple-600" />
-        <span className="font-semibold text-purple-800 dark:text-purple-300">{enhancement.skill}</span>
+        <span className="font-semibold text-purple-800 dark:text-purple-300">{enhancement?.skill}</span>
       </div>
       <div className="rounded-md bg-purple-100 p-3 dark:bg-purple-900/40">
         <p className="text-sm font-medium text-purple-700 dark:text-purple-400">Enhancement Strategy:</p>
-        <p className="text-sm text-purple-800 dark:text-purple-300">{enhancement.demonstration_suggestion}</p>
+        <p className="text-sm text-purple-800 dark:text-purple-300">{enhancement?.demonstration_suggestion}</p>
       </div>
     </div>
   );
@@ -105,22 +105,22 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
         <div>
           <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Current Version:</p>
           <div className="mt-1 rounded-md bg-gray-100 p-3 dark:bg-gray-800">
-            <p className="text-sm text-gray-800 dark:text-gray-300">{achievement.current_bullet}</p>
+            <p className="text-sm text-gray-800 dark:text-gray-300">{achievement?.current_bullet}</p>
           </div>
         </div>
 
         <div>
           <p className="text-sm font-medium text-green-700 dark:text-green-400">Enhanced Version:</p>
           <div className="mt-1 rounded-md bg-green-100 p-3 dark:bg-green-900/40">
-            <p className="text-sm text-green-800 dark:text-green-300">{achievement.enhanced_version}</p>
+            <p className="text-sm text-green-800 dark:text-green-300">{achievement?.enhanced_version}</p>
           </div>
         </div>
 
-        {achievement.improvements_made && achievement.improvements_made.length > 0 && (
+        {achievement?.improvements_made && achievement?.improvements_made?.length > 0 && (
           <div>
             <p className="text-sm font-medium text-blue-700 dark:text-blue-400">Key Improvements:</p>
             <ul className="mt-1 space-y-1">
-              {achievement.improvements_made.map((improvement: string, idx: number) => (
+              {achievement?.improvements_made?.map((improvement: string, idx: number) => (
                 <li key={idx} className="flex items-start gap-2 text-sm">
                   <CheckCircleIcon className="mt-0.5 h-3 w-3 shrink-0 text-blue-600" />
                   <span className="text-blue-800 dark:text-blue-300">{improvement}</span>
@@ -132,7 +132,7 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
 
         <div className="rounded-md bg-gradient-to-r from-blue-50 to-indigo-50 p-3 dark:from-blue-950/30 dark:to-indigo-950/30">
           <p className="text-sm font-medium text-blue-700 dark:text-blue-400">Role Alignment:</p>
-          <p className="text-sm text-blue-800 dark:text-blue-300">{achievement.alignment_with_role}</p>
+          <p className="text-sm text-blue-800 dark:text-blue-300">{achievement?.alignment_with_role}</p>
         </div>
       </div>
     </div>
@@ -149,20 +149,20 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
         <div>
           <p className="text-sm font-medium text-red-700 dark:text-red-400">Required Experience:</p>
           <div className="mt-1 rounded-md bg-red-100 p-3 dark:bg-red-900/40">
-            <p className="text-sm text-red-800 dark:text-red-300">{gap.required_experience}</p>
+            <p className="text-sm text-red-800 dark:text-red-300">{gap?.required_experience}</p>
           </div>
         </div>
 
         <div>
           <p className="text-sm font-medium text-green-700 dark:text-green-400">Relevant Existing Experience:</p>
           <div className="mt-1 rounded-md bg-green-100 p-3 dark:bg-green-900/40">
-            <p className="text-sm text-green-800 dark:text-green-300">{gap.relevant_existing_experience}</p>
+            <p className="text-sm text-green-800 dark:text-green-300">{gap?.relevant_existing_experience}</p>
           </div>
         </div>
 
         <div className="rounded-md bg-gradient-to-r from-blue-50 to-indigo-50 p-3 dark:from-blue-950/30 dark:to-indigo-950/30">
           <p className="text-sm font-medium text-blue-700 dark:text-blue-400">Reframing Strategy:</p>
-          <p className="text-sm text-blue-800 dark:text-blue-300">{gap.reframing_suggestion}</p>
+          <p className="text-sm text-blue-800 dark:text-blue-300">{gap?.reframing_suggestion}</p>
         </div>
       </div>
     </div>
@@ -218,16 +218,16 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
             <div className="space-y-6">
               {/* Priority Additions */}
               {skillsExperience?.technical_skills?.priority_additions &&
-                skillsExperience.technical_skills.priority_additions.length > 0 && (
+                skillsExperience?.technical_skills?.priority_additions?.length > 0 && (
                   <div>
                     <div className="mb-3 flex items-center gap-2">
                       <PlusIcon className="h-4 w-4 text-green-600" />
                       <h3 className="font-semibold text-green-800 dark:text-green-300">
-                        Priority Additions ({skillsExperience.technical_skills.priority_additions.length})
+                        Priority Additions ({skillsExperience?.technical_skills?.priority_additions?.length})
                       </h3>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {skillsExperience.technical_skills.priority_additions.map((skill) => (
+                      {skillsExperience?.technical_skills?.priority_additions?.map((skill) => (
                         <SkillBadge
                           key={skill}
                           skill={skill}
@@ -241,16 +241,16 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
 
               {/* Skills to Emphasize */}
               {skillsExperience?.technical_skills?.skills_to_emphasize &&
-                skillsExperience.technical_skills.skills_to_emphasize.length > 0 && (
+                skillsExperience?.technical_skills?.skills_to_emphasize?.length > 0 && (
                   <div>
                     <div className="mb-3 flex items-center gap-2">
                       <StarIcon className="h-4 w-4 text-amber-600" />
                       <h3 className="font-semibold text-amber-800 dark:text-amber-300">
-                        Skills to Emphasize ({skillsExperience.technical_skills.skills_to_emphasize.length})
+                        Skills to Emphasize ({skillsExperience?.technical_skills?.skills_to_emphasize?.length})
                       </h3>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {skillsExperience.technical_skills.skills_to_emphasize.map((skill) => (
+                      {skillsExperience?.technical_skills?.skills_to_emphasize?.map((skill) => (
                         <SkillBadge
                           key={skill}
                           skill={skill}
@@ -264,16 +264,16 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
 
               {/* Skills to Reframe */}
               {skillsExperience?.technical_skills?.skills_to_reframe &&
-                skillsExperience.technical_skills.skills_to_reframe.length > 0 && (
+                skillsExperience?.technical_skills?.skills_to_reframe?.length > 0 && (
                   <div>
                     <div className="mb-3 flex items-center gap-2">
                       <RefreshCwIcon className="h-4 w-4 text-orange-600" />
                       <h3 className="font-semibold text-orange-800 dark:text-orange-300">
-                        Skills to Reframe ({skillsExperience.technical_skills.skills_to_reframe.length})
+                        Skills to Reframe ({skillsExperience?.technical_skills?.skills_to_reframe?.length})
                       </h3>
                     </div>
                     <div className="space-y-3">
-                      {skillsExperience.technical_skills.skills_to_reframe.map((skill, index) => (
+                      {skillsExperience?.technical_skills?.skills_to_reframe?.map((skill, index) => (
                         <ReframingCard key={index} skill={skill} />
                       ))}
                     </div>
@@ -295,16 +295,16 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
             <div className="space-y-6">
               {/* Missing Critical Skills */}
               {skillsExperience?.soft_skills?.missing_critical &&
-                skillsExperience.soft_skills.missing_critical.length > 0 && (
+                skillsExperience?.soft_skills?.missing_critical?.length > 0 && (
                   <div>
                     <div className="mb-3 flex items-center gap-2">
                       <AlertCircleIcon className="h-4 w-4 text-red-600" />
                       <h3 className="font-semibold text-red-800 dark:text-red-300">
-                        Missing Critical Skills ({skillsExperience.soft_skills.missing_critical.length})
+                        Missing Critical Skills ({skillsExperience?.soft_skills?.missing_critical?.length})
                       </h3>
                     </div>
                     <div className="space-y-2">
-                      {skillsExperience.soft_skills.missing_critical.map((skill) => (
+                      {skillsExperience?.soft_skills?.missing_critical?.map((skill) => (
                         <div
                           key={skill}
                           className="flex items-center gap-3 rounded-md bg-red-50 p-3 dark:bg-red-950/30"
@@ -319,16 +319,16 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
 
               {/* Enhancement Suggestions */}
               {skillsExperience?.soft_skills?.enhancement_suggestions &&
-                skillsExperience.soft_skills.enhancement_suggestions.length > 0 && (
+                skillsExperience?.soft_skills?.enhancement_suggestions?.length > 0 && (
                   <div>
                     <div className="mb-3 flex items-center gap-2">
                       <LightbulbIcon className="h-4 w-4 text-purple-600" />
                       <h3 className="font-semibold text-purple-800 dark:text-purple-300">
-                        Enhancement Strategies ({skillsExperience.soft_skills.enhancement_suggestions.length})
+                        Enhancement Strategies ({skillsExperience?.soft_skills?.enhancement_suggestions?.length})
                       </h3>
                     </div>
                     <div className="space-y-3">
-                      {skillsExperience.soft_skills.enhancement_suggestions.map((enhancement, index) => (
+                      {skillsExperience?.soft_skills?.enhancement_suggestions?.map((enhancement, index) => (
                         <EnhancementCard key={index} enhancement={enhancement} />
                       ))}
                     </div>
@@ -351,16 +351,16 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
           <div className="space-y-8">
             {/* Achievements Optimization */}
             {experienceEnhancement?.achievements_optimization &&
-              experienceEnhancement.achievements_optimization.length > 0 && (
+              experienceEnhancement?.achievements_optimization?.length > 0 && (
                 <div>
                   <div className="mb-4 flex items-center gap-2">
                     <AwardIcon className="h-4 w-4 text-green-600" />
                     <h3 className="font-semibold text-green-800 dark:text-green-300">
-                      Achievement Optimization ({experienceEnhancement.achievements_optimization.length})
+                      Achievement Optimization ({experienceEnhancement?.achievements_optimization?.length})
                     </h3>
                   </div>
                   <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                    {experienceEnhancement.achievements_optimization.map((achievement, index) => (
+                    {experienceEnhancement?.achievements_optimization?.map((achievement, index) => (
                       <AchievementCard key={index} achievement={achievement} />
                     ))}
                   </div>
@@ -368,16 +368,16 @@ const SkillsExperience: React.FC<SkillsExperienceProps> = ({ skillsExperience, e
               )}
 
             {/* Missing Experiences */}
-            {experienceEnhancement?.missing_experiences && experienceEnhancement.missing_experiences.length > 0 && (
+            {experienceEnhancement?.missing_experiences && experienceEnhancement?.missing_experiences?.length > 0 && (
               <div>
                 <div className="mb-4 flex items-center gap-2">
                   <TargetIcon className="h-4 w-4 text-orange-600" />
                   <h3 className="font-semibold text-orange-800 dark:text-orange-300">
-                    Experience Gaps & Reframing ({experienceEnhancement.missing_experiences.length})
+                    Experience Gaps & Reframing ({experienceEnhancement?.missing_experiences?.length})
                   </h3>
                 </div>
                 <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2">
-                  {experienceEnhancement.missing_experiences.map((gap, index) => (
+                  {experienceEnhancement?.missing_experiences?.map((gap, index) => (
                     <ExperienceGapCard key={index} gap={gap} />
                   ))}
                 </div>

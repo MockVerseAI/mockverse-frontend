@@ -136,17 +136,17 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
 
   // Calculate overall metrics
   const averageScore = Math.round(
-    (performanceMetrics.scores.overall +
-      performanceMetrics.scores.technical +
-      performanceMetrics.scores.behavioral +
-      performanceMetrics.scores.communication) /
+    (performanceMetrics?.scores?.overall +
+      performanceMetrics?.scores?.technical +
+      performanceMetrics?.scores?.behavioral +
+      performanceMetrics?.scores?.communication) /
       4
   );
 
-  const metRequirements = roleAlignment.requirements.essential.filter((req) => req.met);
-  const unmetRequirements = roleAlignment.requirements.essential.filter((req) => !req.met);
-  const alignmentPercentage = roleAlignment.requirements.essential.length
-    ? Math.round((metRequirements.length / roleAlignment.requirements.essential.length) * 100)
+  const metRequirements = roleAlignment?.requirements?.essential?.filter((req) => req?.met);
+  const unmetRequirements = roleAlignment?.requirements?.essential?.filter((req) => !req?.met);
+  const alignmentPercentage = roleAlignment?.requirements?.essential?.length
+    ? Math.round((metRequirements?.length / roleAlignment?.requirements?.essential?.length) * 100)
     : 0;
 
   return (
@@ -165,7 +165,7 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
               <AwardIcon className="mx-auto mb-2 h-8 w-8 text-amber-600" />
               <h3 className="font-semibold text-amber-800 dark:text-amber-300">Overall</h3>
               <p className="text-2xl font-bold text-amber-700 dark:text-amber-400">
-                {performanceMetrics.scores.overall}%
+                {performanceMetrics?.scores?.overall}%
               </p>
               <p className="text-sm text-amber-600 dark:text-amber-500">Performance Score</p>
             </div>
@@ -174,7 +174,7 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
               <CodeIcon className="mx-auto mb-2 h-8 w-8 text-blue-600" />
               <h3 className="font-semibold text-blue-800 dark:text-blue-300">Technical</h3>
               <p className="text-2xl font-bold text-blue-700 dark:text-blue-400">
-                {performanceMetrics.scores.technical}%
+                {performanceMetrics?.scores?.technical}%
               </p>
               <p className="text-sm text-blue-600 dark:text-blue-500">Skills Assessment</p>
             </div>
@@ -183,7 +183,7 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
               <UsersIcon className="mx-auto mb-2 h-8 w-8 text-green-600" />
               <h3 className="font-semibold text-green-800 dark:text-green-300">Behavioral</h3>
               <p className="text-2xl font-bold text-green-700 dark:text-green-400">
-                {performanceMetrics.scores.behavioral}%
+                {performanceMetrics?.scores?.behavioral}%
               </p>
               <p className="text-sm text-green-600 dark:text-green-500">Soft Skills</p>
             </div>
@@ -192,7 +192,7 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
               <MessageSquareIcon className="mx-auto mb-2 h-8 w-8 text-purple-600" />
               <h3 className="font-semibold text-purple-800 dark:text-purple-300">Communication</h3>
               <p className="text-2xl font-bold text-purple-700 dark:text-purple-400">
-                {performanceMetrics.scores.communication}%
+                {performanceMetrics?.scores?.communication}%
               </p>
               <p className="text-sm text-purple-600 dark:text-purple-500">Expression</p>
             </div>
@@ -202,25 +202,25 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
           <div className="grid gap-4 md:grid-cols-2">
             <ScoreCard
               title="Overall Performance"
-              score={performanceMetrics.scores.overall}
+              score={performanceMetrics?.scores?.overall}
               icon={<AwardIcon className="h-4 w-4 text-amber-600" />}
               description={`Average score: ${averageScore}%`}
             />
             <ScoreCard
               title="Technical Skills"
-              score={performanceMetrics.scores.technical}
+              score={performanceMetrics?.scores?.technical}
               icon={<CodeIcon className="h-4 w-4 text-blue-600" />}
               description="Programming & problem-solving abilities"
             />
             <ScoreCard
               title="Behavioral Assessment"
-              score={performanceMetrics.scores.behavioral}
+              score={performanceMetrics?.scores?.behavioral}
               icon={<UsersIcon className="h-4 w-4 text-green-600" />}
               description="Leadership, teamwork & adaptability"
             />
             <ScoreCard
               title="Communication Skills"
-              score={performanceMetrics.scores.communication}
+              score={performanceMetrics?.scores?.communication}
               icon={<MessageSquareIcon className="h-4 w-4 text-purple-600" />}
               description="Clarity, articulation & technical explanation"
             />
@@ -247,41 +247,41 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
             <div className="mt-3 grid gap-2 text-sm md:grid-cols-2">
               <div className="flex items-center gap-2">
                 <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                <span>{metRequirements.length} requirements met</span>
+                <span>{metRequirements?.length} requirements met</span>
               </div>
               <div className="flex items-center gap-2">
                 <XCircleIcon className="h-4 w-4 text-red-600" />
-                <span>{unmetRequirements.length} areas for improvement</span>
+                <span>{unmetRequirements?.length} areas for improvement</span>
               </div>
             </div>
           </div>
 
           <div className="space-y-6">
             {/* Met Requirements */}
-            {metRequirements.length > 0 && (
+            {metRequirements?.length > 0 && (
               <div>
                 <h3 className="mb-4 flex items-center gap-2 font-semibold">
                   <CheckCircleIcon className="h-4 w-4 text-green-600" />
-                  Satisfied Requirements ({metRequirements.length})
+                  Satisfied Requirements ({metRequirements?.length})
                 </h3>
                 <div className="space-y-2">
-                  {metRequirements.map((req, index) => (
-                    <RequirementItem key={index} requirement={req.requirement} notes={req.notes} met={true} />
+                  {metRequirements?.map((req, index) => (
+                    <RequirementItem key={index} requirement={req?.requirement} notes={req?.notes} met={true} />
                   ))}
                 </div>
               </div>
             )}
 
             {/* Unmet Requirements */}
-            {unmetRequirements.length > 0 && (
+            {unmetRequirements?.length > 0 && (
               <div>
                 <h3 className="mb-4 flex items-center gap-2 font-semibold">
                   <XCircleIcon className="h-4 w-4 text-red-600" />
-                  Development Areas ({unmetRequirements.length})
+                  Development Areas ({unmetRequirements?.length})
                 </h3>
                 <div className="space-y-2">
-                  {unmetRequirements.map((req, index) => (
-                    <RequirementItem key={index} requirement={req.requirement} notes={req.notes} met={false} />
+                  {unmetRequirements?.map((req, index) => (
+                    <RequirementItem key={index} requirement={req?.requirement} notes={req?.notes} met={false} />
                   ))}
                 </div>
               </div>
@@ -294,7 +294,7 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
                   <BrainIcon className="h-4 w-4 text-blue-600" />
                   <span className="font-semibold text-blue-800 dark:text-blue-300">Experience Level</span>
                 </div>
-                <p className="text-sm text-blue-700 dark:text-blue-400">{roleAlignment.requirements.experience}</p>
+                <p className="text-sm text-blue-700 dark:text-blue-400">{roleAlignment?.requirements?.experience}</p>
               </div>
 
               <div className="rounded-lg bg-purple-50 p-4 dark:bg-purple-950/30">
@@ -302,7 +302,7 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
                   <TrendingUpIcon className="h-4 w-4 text-purple-600" />
                   <span className="font-semibold text-purple-800 dark:text-purple-300">Growth Potential</span>
                 </div>
-                <p className="text-sm text-purple-700 dark:text-purple-400">{roleAlignment.potential.growth}</p>
+                <p className="text-sm text-purple-700 dark:text-purple-400">{roleAlignment?.potential?.growth}</p>
               </div>
 
               <div className="rounded-lg bg-green-50 p-4 dark:bg-green-950/30">
@@ -310,7 +310,7 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
                   <StarIcon className="h-4 w-4 text-green-600" />
                   <span className="font-semibold text-green-800 dark:text-green-300">Cultural Fit</span>
                 </div>
-                <p className="text-sm text-green-700 dark:text-green-400">{roleAlignment.cultural.values}</p>
+                <p className="text-sm text-green-700 dark:text-green-400">{roleAlignment?.cultural?.values}</p>
               </div>
             </div>
           </div>
@@ -337,13 +337,13 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
               <div className="mb-4 rounded-lg bg-gradient-to-r from-indigo-50 to-purple-50 p-4 dark:from-indigo-950/30 dark:to-purple-950/30">
                 <div className="mb-2 flex items-center justify-between">
                   <span className="font-semibold">Clarity Score</span>
-                  <Badge variant={getScoreBadgeVariant(responseQuality.structure.clarity * 10)}>
-                    {responseQuality.structure.clarity}/10
+                  <Badge variant={getScoreBadgeVariant(responseQuality?.structure?.clarity * 10)}>
+                    {responseQuality?.structure?.clarity}/10
                   </Badge>
                 </div>
-                <Progress value={responseQuality.structure.clarity * 10} className="h-3" />
+                <Progress value={responseQuality?.structure?.clarity * 10} className="h-3" />
                 <p className="text-muted-foreground mt-3 text-sm leading-relaxed">
-                  {responseQuality.structure.organization}
+                  {responseQuality?.structure?.organization}
                 </p>
               </div>
             </div>
@@ -358,39 +358,39 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
               <div className="grid gap-4 md:grid-cols-2">
                 <StarMethodCard
                   aspect="Situation"
-                  content={responseQuality.starMethod.situation}
+                  content={responseQuality?.starMethod?.situation}
                   icon={<SearchIcon className="h-4 w-4 text-blue-500" />}
                   color="blue"
                 />
                 <StarMethodCard
                   aspect="Task"
-                  content={responseQuality.starMethod.task}
+                  content={responseQuality?.starMethod?.task}
                   icon={<ClipboardListIcon className="h-4 w-4 text-green-500" />}
                   color="green"
                 />
                 <StarMethodCard
                   aspect="Action"
-                  content={responseQuality.starMethod.action}
+                  content={responseQuality?.starMethod?.action}
                   icon={<ArrowRightIcon className="h-4 w-4 text-purple-500" />}
                   color="purple"
                 />
                 <StarMethodCard
                   aspect="Result"
-                  content={responseQuality.starMethod.result}
+                  content={responseQuality?.starMethod?.result}
                   icon={<AwardIcon className="h-4 w-4 text-orange-500" />}
                   color="orange"
                 />
               </div>
 
               {/* STAR Method Tips */}
-              {responseQuality.starMethod.tips && responseQuality.starMethod.tips.length > 0 && (
+              {responseQuality?.starMethod?.tips && responseQuality?.starMethod?.tips?.length > 0 && (
                 <div className="mt-4 rounded-lg bg-amber-50 p-4 dark:bg-amber-950/30">
                   <div className="mb-2 flex items-center gap-2">
                     <LightbulbIcon className="h-4 w-4 text-amber-600" />
                     <span className="font-semibold text-amber-800 dark:text-amber-300">Improvement Tips</span>
                   </div>
                   <ul className="space-y-1 text-sm text-amber-700 dark:text-amber-400">
-                    {responseQuality.starMethod.tips.map((tip, index) => (
+                    {responseQuality?.starMethod?.tips?.map((tip, index) => (
                       <li key={index} className="flex items-start gap-2">
                         <span className="mt-1 h-1 w-1 rounded-full bg-amber-600"></span>
                         {tip}
@@ -428,14 +428,14 @@ const Overview: FC<OverviewProps> = ({ performanceMetrics, roleAlignment, respon
               <FileTextIcon className="mx-auto mb-2 h-6 w-6 text-indigo-600" />
               <h3 className="text-sm font-semibold text-indigo-800 dark:text-indigo-300">Responses</h3>
               <p className="text-xs text-indigo-700 dark:text-indigo-400">
-                {responseQuality.structure.clarity}/10 clarity
+                {responseQuality?.structure?.clarity}/10 clarity
               </p>
             </div>
             <div className="rounded-lg bg-green-50 p-4 text-center dark:bg-green-950/30">
               <CheckCircleIcon className="mx-auto mb-2 h-6 w-6 text-green-600" />
               <h3 className="text-sm font-semibold text-green-800 dark:text-green-300">Overall</h3>
               <p className="text-xs text-green-700 dark:text-green-400">
-                {performanceMetrics.scores.overall >= 70 ? "Strong candidate" : "Needs development"}
+                {performanceMetrics?.scores?.overall >= 70 ? "Strong candidate" : "Needs development"}
               </p>
             </div>
           </div>

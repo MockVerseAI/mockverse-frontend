@@ -68,16 +68,16 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
 
         {/* Key Improvements */}
         {professionalNarrative?.summary_optimization?.key_improvements &&
-          professionalNarrative.summary_optimization.key_improvements.length > 0 && (
+          professionalNarrative?.summary_optimization?.key_improvements?.length > 0 && (
             <div>
               <div className="mb-3 flex items-center gap-2">
                 <CheckCircleIcon className="h-4 w-4 text-green-600" />
                 <h4 className="font-semibold text-green-800 dark:text-green-300">
-                  Key Improvements ({professionalNarrative.summary_optimization.key_improvements.length})
+                  Key Improvements ({professionalNarrative?.summary_optimization?.key_improvements?.length})
                 </h4>
               </div>
               <div className="space-y-2">
-                {professionalNarrative.summary_optimization.key_improvements.map((improvement, idx) => (
+                {professionalNarrative?.summary_optimization?.key_improvements?.map((improvement, idx) => (
                   <div key={idx} className="flex items-start gap-3 rounded-md bg-green-100 p-3 dark:bg-green-900/40">
                     <CheckCircleIcon className="mt-0.5 h-4 w-4 shrink-0 text-green-600" />
                     <span className="text-sm text-green-800 dark:text-green-300">{improvement}</span>
@@ -97,7 +97,7 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
           {index + 1}
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-purple-800 dark:text-purple-300">{story.career_element}</h3>
+          <h3 className="font-semibold text-purple-800 dark:text-purple-300">{story?.career_element}</h3>
         </div>
         <BookOpenIcon className="h-5 w-5 text-purple-600" />
       </div>
@@ -108,14 +108,14 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
           <div>
             <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Current Presentation:</p>
             <div className="mt-1 rounded-md bg-gray-100 p-3 dark:bg-gray-800">
-              <p className="text-sm text-gray-800 dark:text-gray-300">{story.current_presentation}</p>
+              <p className="text-sm text-gray-800 dark:text-gray-300">{story?.current_presentation}</p>
             </div>
           </div>
 
           <div>
             <p className="text-sm font-medium text-purple-700 dark:text-purple-400">Suggested Narrative:</p>
             <div className="mt-1 rounded-md bg-purple-100 p-3 dark:bg-purple-900/40">
-              <p className="text-sm text-purple-800 dark:text-purple-300">{story.suggested_narrative}</p>
+              <p className="text-sm text-purple-800 dark:text-purple-300">{story?.suggested_narrative}</p>
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
             <TargetIcon className="h-4 w-4 text-blue-600" />
             <h4 className="font-semibold text-blue-800 dark:text-blue-300">Strategic Value</h4>
           </div>
-          <p className="text-sm text-blue-800 dark:text-blue-300">{story.strategic_value}</p>
+          <p className="text-sm text-blue-800 dark:text-blue-300">{story?.strategic_value}</p>
         </div>
       </div>
     </div>
@@ -139,7 +139,7 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
           {index + 1}
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-amber-800 dark:text-amber-300">{opportunity.area}</h3>
+          <h3 className="font-semibold text-amber-800 dark:text-amber-300">{opportunity?.area}</h3>
         </div>
         <RocketIcon className="h-5 w-5 text-amber-600" />
       </div>
@@ -150,14 +150,14 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
           <div>
             <p className="text-sm font-medium text-red-700 dark:text-red-400">Current State:</p>
             <div className="mt-1 rounded-md bg-red-100 p-3 dark:bg-red-900/40">
-              <p className="text-sm text-red-800 dark:text-red-300">{opportunity.current_state}</p>
+              <p className="text-sm text-red-800 dark:text-red-300">{opportunity?.current_state}</p>
             </div>
           </div>
 
           <div>
             <p className="text-sm font-medium text-green-700 dark:text-green-400">Enhancement Suggestion:</p>
             <div className="mt-1 rounded-md bg-green-100 p-3 dark:bg-green-900/40">
-              <p className="text-sm text-green-800 dark:text-green-300">{opportunity.enhancement_suggestion}</p>
+              <p className="text-sm text-green-800 dark:text-green-300">{opportunity?.enhancement_suggestion}</p>
             </div>
           </div>
         </div>
@@ -168,7 +168,7 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
             <TrendingUpIcon className="h-4 w-4 text-blue-600" />
             <h4 className="font-semibold text-blue-800 dark:text-blue-300">Expected Impact</h4>
           </div>
-          <p className="text-sm text-blue-800 dark:text-blue-300">{opportunity.expected_impact}</p>
+          <p className="text-sm text-blue-800 dark:text-blue-300">{opportunity?.expected_impact}</p>
         </div>
       </div>
     </div>
@@ -239,16 +239,16 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
             )}
 
             {/* Story Strengthening */}
-            {professionalNarrative?.story_strengthening && professionalNarrative.story_strengthening.length > 0 && (
+            {professionalNarrative?.story_strengthening && professionalNarrative?.story_strengthening?.length > 0 && (
               <div>
                 <div className="mb-4 flex items-center gap-2">
                   <BookOpenIcon className="h-4 w-4 text-purple-600" />
                   <h3 className="font-semibold text-purple-800 dark:text-purple-300">
-                    Story Strengthening ({professionalNarrative.story_strengthening.length})
+                    Story Strengthening ({professionalNarrative?.story_strengthening?.length})
                   </h3>
                 </div>
                 <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
-                  {professionalNarrative.story_strengthening.map((story, index) => (
+                  {professionalNarrative?.story_strengthening?.map((story, index) => (
                     <StoryCard key={index} story={story} index={index} />
                   ))}
                 </div>
@@ -269,40 +269,41 @@ const ProfessionalNarrative: React.FC<ProfessionalNarrativeProps> = ({
         <CardContent>
           <div className="space-y-6">
             {/* Unique Selling Points */}
-            {competitiveAdvantages?.unique_selling_points && competitiveAdvantages.unique_selling_points.length > 0 && (
-              <div>
-                <div className="mb-4 flex items-center gap-2">
-                  <StarIcon className="h-4 w-4 text-green-600" />
-                  <h3 className="font-semibold text-green-800 dark:text-green-300">
-                    Unique Selling Points ({competitiveAdvantages.unique_selling_points.length})
-                  </h3>
+            {competitiveAdvantages?.unique_selling_points &&
+              competitiveAdvantages?.unique_selling_points?.length > 0 && (
+                <div>
+                  <div className="mb-4 flex items-center gap-2">
+                    <StarIcon className="h-4 w-4 text-green-600" />
+                    <h3 className="font-semibold text-green-800 dark:text-green-300">
+                      Unique Selling Points ({competitiveAdvantages?.unique_selling_points?.length})
+                    </h3>
+                  </div>
+                  <div className="grid gap-3 md:grid-cols-2">
+                    {competitiveAdvantages?.unique_selling_points?.map((point, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 rounded-lg bg-green-50 p-4 dark:bg-green-950/30"
+                      >
+                        <StarIcon className="h-5 w-5 shrink-0 text-green-600" />
+                        <span className="text-green-800 dark:text-green-300">{point}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="grid gap-3 md:grid-cols-2">
-                  {competitiveAdvantages.unique_selling_points.map((point, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-3 rounded-lg bg-green-50 p-4 dark:bg-green-950/30"
-                    >
-                      <StarIcon className="h-5 w-5 shrink-0 text-green-600" />
-                      <span className="text-green-800 dark:text-green-300">{point}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+              )}
 
             {/* Differentiation Opportunities */}
             {competitiveAdvantages?.differentiation_opportunities &&
-              competitiveAdvantages.differentiation_opportunities.length > 0 && (
+              competitiveAdvantages?.differentiation_opportunities?.length > 0 && (
                 <div>
                   <div className="mb-4 flex items-center gap-2">
                     <RocketIcon className="h-4 w-4 text-amber-600" />
                     <h3 className="font-semibold text-amber-800 dark:text-amber-300">
-                      Differentiation Opportunities ({competitiveAdvantages.differentiation_opportunities.length})
+                      Differentiation Opportunities ({competitiveAdvantages?.differentiation_opportunities?.length})
                     </h3>
                   </div>
                   <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
-                    {competitiveAdvantages.differentiation_opportunities.map((opportunity, index) => (
+                    {competitiveAdvantages?.differentiation_opportunities?.map((opportunity, index) => (
                       <OpportunityCard key={index} opportunity={opportunity} index={index} />
                     ))}
                   </div>

@@ -54,27 +54,27 @@ const ApplicationEnhancerReport = () => {
           </div>
           <TabsContent value="overview">
             <Overview
-              overview={applicationFeedback.core_alignment_analysis}
-              actionPriorities={applicationFeedback.action_priorities}
+              overview={applicationFeedback?.core_alignment_analysis}
+              actionPriorities={applicationFeedback?.action_priorities}
             />
           </TabsContent>
           <TabsContent value="skills">
             <SkillsExperience
-              skillsExperience={applicationFeedback.skills_optimization}
-              experienceEnhancement={applicationFeedback.experience_enhancement}
+              skillsExperience={applicationFeedback?.skills_optimization}
+              experienceEnhancement={applicationFeedback?.experience_enhancement}
             />
           </TabsContent>
           <TabsContent value="impact">
-            <ImpactMetrics impactMetrics={applicationFeedback.impact_metrics} />
+            <ImpactMetrics impactMetrics={applicationFeedback?.impact_metrics} />
           </TabsContent>
           <TabsContent value="narrative">
             <ProfessionalNarrative
-              professionalNarrative={applicationFeedback.professional_narrative}
-              competitiveAdvantages={applicationFeedback.competitive_advantages}
+              professionalNarrative={applicationFeedback?.professional_narrative}
+              competitiveAdvantages={applicationFeedback?.competitive_advantages}
             />
           </TabsContent>
           <TabsContent value="alignment">
-            <IndustryFit industryAlignment={applicationFeedback.industry_alignment} />
+            <IndustryFit industryAlignment={applicationFeedback?.industry_alignment} />
           </TabsContent>
         </Tabs>
       </div>

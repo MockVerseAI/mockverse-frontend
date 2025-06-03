@@ -74,32 +74,32 @@ const InterviewReport = () => {
 
           <TabsContent value="overview">
             <Overview
-              performanceMetrics={interviewReport.performanceMetrics}
-              roleAlignment={interviewReport.roleAlignment}
-              responseQuality={interviewReport.responseQuality}
+              performanceMetrics={interviewReport?.performanceMetrics}
+              roleAlignment={interviewReport?.roleAlignment}
+              responseQuality={interviewReport?.responseQuality}
             />
           </TabsContent>
 
           <TabsContent value="technical">
             <TechnicalAssessment
-              skillsAnalysis={interviewReport.technicalAssessment.skillsAnalysis}
-              problemSolving={interviewReport.technicalAssessment.problemSolving}
-              technicalCommunication={interviewReport.technicalAssessment.technicalCommunication}
+              skillsAnalysis={interviewReport?.technicalAssessment?.skillsAnalysis}
+              problemSolving={interviewReport?.technicalAssessment?.problemSolving}
+              technicalCommunication={interviewReport?.technicalAssessment?.technicalCommunication}
             />
           </TabsContent>
 
           <TabsContent value="behavioral">
             <BehavioralAnalysis
-              leadership={interviewReport.behavioralAnalysis.leadership}
-              adaptability={interviewReport.behavioralAnalysis.adaptability}
-              collaboration={interviewReport.behavioralAnalysis.collaboration}
+              leadership={interviewReport?.behavioralAnalysis?.leadership}
+              adaptability={interviewReport?.behavioralAnalysis?.adaptability}
+              collaboration={interviewReport?.behavioralAnalysis?.collaboration}
             />
           </TabsContent>
 
           <TabsContent value="development">
             <DevelopmentPlan
-              immediate={interviewReport.developmentPlan.immediate}
-              shortTerm={interviewReport.developmentPlan.shortTerm}
+              immediate={interviewReport?.developmentPlan?.immediate}
+              shortTerm={interviewReport?.developmentPlan?.shortTerm}
             />
           </TabsContent>
 

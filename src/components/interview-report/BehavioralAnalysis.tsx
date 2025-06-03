@@ -115,13 +115,13 @@ const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptabil
               <div className="grid gap-4 md:grid-cols-2">
                 <AnalysisSection
                   title="Decision Making"
-                  content={leadership.decisionMaking}
+                  content={leadership?.decisionMaking}
                   icon={<LightbulbIcon className="h-4 w-4 text-blue-500" />}
                   accentColor="blue"
                 />
                 <AnalysisSection
                   title="Team Influence"
-                  content={leadership.teamInfluence}
+                  content={leadership?.teamInfluence}
                   icon={<UsersIcon className="h-4 w-4 text-green-500" />}
                   accentColor="green"
                 />
@@ -129,19 +129,19 @@ const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptabil
             </div>
 
             {/* Initiative Examples */}
-            {leadership.initiative && leadership.initiative.length > 0 && (
+            {leadership?.initiative && leadership?.initiative?.length > 0 && (
               <div>
                 <h3 className="mb-4 flex items-center gap-2 font-semibold">
                   <TrendingUpIcon className="h-4 w-4" />
-                  Leadership Initiatives ({leadership.initiative.length})
+                  Leadership Initiatives ({leadership?.initiative?.length})
                 </h3>
                 <div className="space-y-4">
-                  {leadership.initiative.map((item, index) => (
+                  {leadership?.initiative?.map((item, index) => (
                     <InitiativeCard
                       key={index}
-                      example={item.example}
-                      impact={item.impact}
-                      context={item.context}
+                      example={item?.example}
+                      impact={item?.impact}
+                      context={item?.context}
                       index={index}
                     />
                   ))}
@@ -164,19 +164,19 @@ const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptabil
           <div className="space-y-4">
             <AnalysisSection
               title="Change Response"
-              content={adaptability.changeResponse}
+              content={adaptability?.changeResponse}
               icon={<TrendingUpIcon className="h-4 w-4 text-purple-500" />}
               accentColor="purple"
             />
             <AnalysisSection
               title="Learning Approach"
-              content={adaptability.learning}
+              content={adaptability?.learning}
               icon={<BrainIcon className="h-4 w-4 text-blue-500" />}
               accentColor="blue"
             />
             <AnalysisSection
               title="Professional Growth"
-              content={adaptability.growth}
+              content={adaptability?.growth}
               icon={<ArrowRightIcon className="h-4 w-4 text-green-500" />}
               accentColor="green"
             />
@@ -198,20 +198,20 @@ const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptabil
             <div className="grid gap-4 md:grid-cols-2">
               <AnalysisSection
                 title="Teamwork Style"
-                content={collaboration.teamwork}
+                content={collaboration?.teamwork}
                 icon={<UsersIcon className="h-4 w-4 text-blue-500" />}
                 accentColor="blue"
               />
               <AnalysisSection
                 title="Communication Approach"
-                content={collaboration.communication}
+                content={collaboration?.communication}
                 icon={<MessageSquareIcon className="h-4 w-4 text-green-500" />}
                 accentColor="green"
               />
             </div>
 
             {/* Cross-Team Collaboration */}
-            {collaboration.crossTeam && collaboration.crossTeam.length > 0 && (
+            {collaboration?.crossTeam && collaboration?.crossTeam?.length > 0 && (
               <div>
                 <h3 className="mb-3 flex items-center gap-2 font-semibold">
                   <GitBranchIcon className="h-4 w-4" />
@@ -219,7 +219,7 @@ const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptabil
                 </h3>
                 <div className="rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-4 dark:from-blue-950/30 dark:to-indigo-950/30">
                   <div className="grid gap-3 md:grid-cols-2">
-                    {collaboration.crossTeam.map((item, index) => (
+                    {collaboration?.crossTeam?.map((item, index) => (
                       <div
                         key={index}
                         className="flex items-start gap-3 rounded-md bg-white/60 p-3 dark:bg-slate-800/60"
@@ -250,7 +250,7 @@ const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptabil
               <CrownIcon className="mx-auto mb-2 h-8 w-8 text-amber-600" />
               <h3 className="font-semibold text-amber-800 dark:text-amber-300">Leadership</h3>
               <p className="text-sm text-amber-700 dark:text-amber-400">
-                {(leadership.initiative?.length ?? 0) > 0 ? "Strong initiative demonstrated" : "Potential for growth"}
+                {(leadership?.initiative?.length ?? 0) > 0 ? "Strong initiative demonstrated" : "Potential for growth"}
               </p>
             </div>
             <div className="rounded-lg bg-purple-50 p-4 text-center dark:bg-purple-950/30">
@@ -262,7 +262,7 @@ const BehavioralAnalysis: FC<BehavioralAnalysisProps> = ({ leadership, adaptabil
               <UsersIcon className="mx-auto mb-2 h-8 w-8 text-blue-600" />
               <h3 className="font-semibold text-blue-800 dark:text-blue-300">Collaboration</h3>
               <p className="text-sm text-blue-700 dark:text-blue-400">
-                {collaboration.crossTeam.length > 0 ? "Cross-functional experience" : "Team-focused approach"}
+                {collaboration?.crossTeam?.length > 0 ? "Cross-functional experience" : "Team-focused approach"}
               </p>
             </div>
           </div>

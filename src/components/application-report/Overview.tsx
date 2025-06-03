@@ -97,9 +97,9 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
   };
 
   const performanceCategory =
-    overview.role_fit_score >= 80
+    overview?.role_fit_score >= 80
       ? "Excellent Match"
-      : overview.role_fit_score >= 60
+      : overview?.role_fit_score >= 60
         ? "Good Fit"
         : "Needs Improvement";
 
@@ -118,21 +118,21 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
             <div className="rounded-lg bg-gradient-to-r from-amber-50 to-orange-50 p-4 text-center dark:from-amber-950/30 dark:to-orange-950/30">
               <TargetIcon className="mx-auto mb-2 h-8 w-8 text-amber-600" />
               <h3 className="font-semibold text-amber-800 dark:text-amber-300">Role Fit</h3>
-              <p className="text-2xl font-bold text-amber-700 dark:text-amber-400">{overview.role_fit_score}%</p>
+              <p className="text-2xl font-bold text-amber-700 dark:text-amber-400">{overview?.role_fit_score}%</p>
               <p className="text-sm text-amber-600 dark:text-amber-500">{performanceCategory}</p>
             </div>
 
             <div className="rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 p-4 text-center dark:from-green-950/30 dark:to-emerald-950/30">
               <CheckCircleIcon className="mx-auto mb-2 h-8 w-8 text-green-600" />
               <h3 className="font-semibold text-green-800 dark:text-green-300">Strengths</h3>
-              <p className="text-2xl font-bold text-green-700 dark:text-green-400">{overview.key_matches.length}</p>
+              <p className="text-2xl font-bold text-green-700 dark:text-green-400">{overview?.key_matches?.length}</p>
               <p className="text-sm text-green-600 dark:text-green-500">Key Matches</p>
             </div>
 
             <div className="rounded-lg bg-gradient-to-r from-red-50 to-pink-50 p-4 text-center dark:from-red-950/30 dark:to-pink-950/30">
               <AlertTriangleIcon className="mx-auto mb-2 h-8 w-8 text-red-600" />
               <h3 className="font-semibold text-red-800 dark:text-red-300">Gaps</h3>
-              <p className="text-2xl font-bold text-red-700 dark:text-red-400">{overview.critical_gaps.length}</p>
+              <p className="text-2xl font-bold text-red-700 dark:text-red-400">{overview?.critical_gaps?.length}</p>
               <p className="text-sm text-red-600 dark:text-red-500">Critical Areas</p>
             </div>
           </div>
@@ -144,12 +144,12 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
                 <TargetIcon className="h-4 w-4 text-blue-600" />
                 <span className="font-semibold">Overall Role Alignment</span>
               </div>
-              <Badge variant={getScoreBadgeVariant(overview.role_fit_score)}>{overview.role_fit_score}%</Badge>
+              <Badge variant={getScoreBadgeVariant(overview?.role_fit_score)}>{overview?.role_fit_score}%</Badge>
             </div>
-            <Progress value={overview.role_fit_score} className="h-3" />
+            <Progress value={overview?.role_fit_score} className="h-3" />
             <div className="mt-3 flex items-center gap-4 text-sm">
-              {getScoreIcon(overview.role_fit_score)}
-              <span className={`font-medium ${getScoreColor(overview.role_fit_score)}`}>{performanceCategory}</span>
+              {getScoreIcon(overview?.role_fit_score)}
+              <span className={`font-medium ${getScoreColor(overview?.role_fit_score)}`}>{performanceCategory}</span>
             </div>
           </div>
         </CardContent>
@@ -162,15 +162,13 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg">
               <CheckCircleIcon className="h-5 w-5 text-green-600" />
-              Key Strengths & Matches ({overview.key_matches.length})
+              Key Strengths & Matches ({overview?.key_matches?.length})
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {overview.key_matches.length > 0 ? (
+            {overview?.key_matches?.length > 0 ? (
               <div className="space-y-3">
-                {overview.key_matches.map((match, index) => (
-                  <MatchItem key={index} match={match} type="positive" />
-                ))}
+                {overview?.key_matches?.map((match, index) => <MatchItem key={index} match={match} type="positive" />)}
               </div>
             ) : (
               <div className="rounded-lg bg-gray-50 p-4 text-center dark:bg-gray-950/30">
@@ -186,15 +184,13 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-lg">
               <AlertTriangleIcon className="h-5 w-5 text-red-600" />
-              Critical Gaps & Areas for Improvement ({overview.critical_gaps.length})
+              Critical Gaps & Areas for Improvement ({overview?.critical_gaps?.length})
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {overview.critical_gaps.length > 0 ? (
+            {overview?.critical_gaps?.length > 0 ? (
               <div className="space-y-3">
-                {overview.critical_gaps.map((gap, index) => (
-                  <MatchItem key={index} match={gap} type="negative" />
-                ))}
+                {overview?.critical_gaps?.map((gap, index) => <MatchItem key={index} match={gap} type="negative" />)}
               </div>
             ) : (
               <div className="rounded-lg bg-green-50 p-4 text-center dark:bg-green-950/30">
@@ -217,14 +213,14 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
         <CardContent>
           <div className="space-y-6">
             {/* Immediate Changes */}
-            {actionPriorities.immediate_changes.length > 0 && (
+            {actionPriorities?.immediate_changes?.length > 0 && (
               <div>
                 <h3 className="mb-4 flex items-center gap-2 font-semibold">
                   <ZapIcon className="h-4 w-4 text-red-600" />
-                  Immediate Changes ({actionPriorities.immediate_changes.length})
+                  Immediate Changes ({actionPriorities?.immediate_changes?.length})
                 </h3>
                 <div className="space-y-3">
-                  {actionPriorities.immediate_changes.map((action, index) => (
+                  {actionPriorities?.immediate_changes?.map((action, index) => (
                     <ActionItem
                       key={index}
                       action={action}
@@ -237,14 +233,14 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
             )}
 
             {/* High Impact Updates */}
-            {actionPriorities.high_impact_updates.length > 0 && (
+            {actionPriorities?.high_impact_updates?.length > 0 && (
               <div>
                 <h3 className="mb-4 flex items-center gap-2 font-semibold">
                   <TrendingUpIcon className="h-4 w-4 text-orange-600" />
-                  High Impact Updates ({actionPriorities.high_impact_updates.length})
+                  High Impact Updates ({actionPriorities?.high_impact_updates?.length})
                 </h3>
                 <div className="space-y-3">
-                  {actionPriorities.high_impact_updates.map((action, index) => (
+                  {actionPriorities?.high_impact_updates?.map((action, index) => (
                     <ActionItem
                       key={index}
                       action={action}
@@ -257,14 +253,14 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
             )}
 
             {/* Strategic Enhancements */}
-            {actionPriorities.strategic_enhancements.length > 0 && (
+            {actionPriorities?.strategic_enhancements?.length > 0 && (
               <div>
                 <h3 className="mb-4 flex items-center gap-2 font-semibold">
                   <BrainIcon className="h-4 w-4 text-blue-600" />
-                  Strategic Enhancements ({actionPriorities.strategic_enhancements.length})
+                  Strategic Enhancements ({actionPriorities?.strategic_enhancements?.length})
                 </h3>
                 <div className="space-y-3">
-                  {actionPriorities.strategic_enhancements.map((action, index) => (
+                  {actionPriorities?.strategic_enhancements?.map((action, index) => (
                     <ActionItem
                       key={index}
                       action={action}
@@ -292,29 +288,29 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
             <div className="rounded-lg bg-amber-50 p-4 text-center dark:bg-amber-950/30">
               <TargetIcon className="mx-auto mb-2 h-6 w-6 text-amber-600" />
               <h3 className="text-sm font-semibold text-amber-800 dark:text-amber-300">Alignment</h3>
-              <p className="text-xs text-amber-700 dark:text-amber-400">{overview.role_fit_score}% fit score</p>
+              <p className="text-xs text-amber-700 dark:text-amber-400">{overview?.role_fit_score}% fit score</p>
             </div>
             <div className="rounded-lg bg-green-50 p-4 text-center dark:bg-green-950/30">
               <CheckCircleIcon className="mx-auto mb-2 h-6 w-6 text-green-600" />
               <h3 className="text-sm font-semibold text-green-800 dark:text-green-300">Strengths</h3>
               <p className="text-xs text-green-700 dark:text-green-400">
-                {overview.key_matches.length} key match{overview.key_matches.length !== 1 ? "es" : ""}
+                {overview?.key_matches?.length} key match{overview?.key_matches?.length !== 1 ? "es" : ""}
               </p>
             </div>
             <div className="rounded-lg bg-red-50 p-4 text-center dark:bg-red-950/30">
               <AlertTriangleIcon className="mx-auto mb-2 h-6 w-6 text-red-600" />
               <h3 className="text-sm font-semibold text-red-800 dark:text-red-300">Improvement</h3>
               <p className="text-xs text-red-700 dark:text-red-400">
-                {overview.critical_gaps.length} critical gap{overview.critical_gaps.length !== 1 ? "s" : ""}
+                {overview?.critical_gaps?.length} critical gap{overview?.critical_gaps?.length !== 1 ? "s" : ""}
               </p>
             </div>
             <div className="rounded-lg bg-purple-50 p-4 text-center dark:bg-purple-950/30">
               <RocketIcon className="mx-auto mb-2 h-6 w-6 text-purple-600" />
               <h3 className="text-sm font-semibold text-purple-800 dark:text-purple-300">Actions</h3>
               <p className="text-xs text-purple-700 dark:text-purple-400">
-                {actionPriorities.immediate_changes.length +
-                  actionPriorities.high_impact_updates.length +
-                  actionPriorities.strategic_enhancements.length}{" "}
+                {actionPriorities?.immediate_changes?.length +
+                  actionPriorities?.high_impact_updates?.length +
+                  actionPriorities?.strategic_enhancements?.length}{" "}
                 total actions
               </p>
             </div>
@@ -327,9 +323,9 @@ const Overview: React.FC<OverviewProps> = ({ overview, actionPriorities }) => {
               <span className="font-semibold">Overall Assessment</span>
             </div>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              {overview.role_fit_score >= 80
+              {overview?.role_fit_score >= 80
                 ? "Strong application with excellent role alignment. Focus on maintaining strengths while addressing minor gaps."
-                : overview.role_fit_score >= 60
+                : overview?.role_fit_score >= 60
                   ? "Good application foundation with room for improvement. Prioritize high-impact updates to strengthen positioning."
                   : "Application needs significant enhancement. Focus on immediate changes and critical gap closure for better role fit."}
             </p>

@@ -26,9 +26,9 @@ interface DevelopmentPlanProps {
 
 const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => {
   const getImportanceLevel = (importance: string) => {
-    const level = importance.toLowerCase();
-    if (level.includes("high") || level.includes("critical")) return "high";
-    if (level.includes("medium") || level.includes("moderate")) return "medium";
+    const level = importance?.toLowerCase();
+    if (level?.includes("high") || level?.includes("critical")) return "high";
+    if (level?.includes("medium") || level?.includes("moderate")) return "medium";
     return "low";
   };
 
@@ -171,8 +171,8 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
 
   const getSkillProgress = (currentLevel: string, targetLevel: string) => {
     const levels = ["beginner", "basic", "intermediate", "advanced", "expert"];
-    const currentIndex = levels.findIndex((level) => currentLevel.toLowerCase().includes(level));
-    const targetIndex = levels.findIndex((level) => targetLevel.toLowerCase().includes(level));
+    const currentIndex = levels.findIndex((level) => currentLevel?.toLowerCase()?.includes(level));
+    const targetIndex = levels.findIndex((level) => targetLevel?.toLowerCase()?.includes(level));
 
     if (currentIndex === -1 || targetIndex === -1) return 50;
     return ((currentIndex + 1) / (targetIndex + 1)) * 100;
@@ -241,15 +241,15 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
             <div>
               <h3 className="mb-4 flex items-center gap-2 font-semibold">
                 <FlagIcon className="h-4 w-4" />
-                Priority Areas ({immediate.priorities.length})
+                Priority Areas ({immediate?.priorities?.length || 0})
               </h3>
               <div className="space-y-4">
-                {immediate.priorities.map((priority, index) => (
+                {immediate?.priorities?.map((priority, index) => (
                   <PriorityCard
                     key={index}
-                    area={priority.area}
-                    importance={priority.importance}
-                    action={priority.action}
+                    area={priority?.area}
+                    importance={priority?.importance}
+                    action={priority?.action}
                     index={index}
                   />
                 ))}
@@ -257,19 +257,19 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
             </div>
 
             {/* Resources */}
-            {immediate.resources && immediate.resources.length > 0 && (
+            {immediate?.resources?.length > 0 && (
               <div>
                 <h3 className="mb-4 flex items-center gap-2 font-semibold">
                   <BookOpenIcon className="h-4 w-4" />
-                  Recommended Resources ({immediate.resources.length})
+                  Recommended Resources ({immediate?.resources?.length || 0})
                 </h3>
                 <div className="grid gap-4 md:grid-cols-2">
-                  {immediate.resources.map((resource, index) => (
+                  {immediate?.resources?.map((resource, index) => (
                     <ResourceCard
                       key={index}
-                      type={resource.type}
-                      description={resource.description}
-                      link={resource.link}
+                      type={resource?.type}
+                      description={resource?.description}
+                      link={resource?.link}
                     />
                   ))}
                 </div>
@@ -293,15 +293,15 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
             <div>
               <h3 className="mb-4 flex items-center gap-2 font-semibold">
                 <TargetIcon className="h-4 w-4" />
-                Development Goals ({shortTerm.goals.length})
+                Development Goals ({shortTerm?.goals?.length || 0})
               </h3>
               <div className="space-y-4">
-                {shortTerm.goals.map((goal, index) => (
+                {shortTerm?.goals?.map((goal, index) => (
                   <GoalCard
                     key={index}
-                    objective={goal.objective}
-                    timeline={goal.timeline}
-                    success_criteria={goal.success_criteria}
+                    objective={goal?.objective}
+                    timeline={goal?.timeline}
+                    success_criteria={goal?.success_criteria}
                   />
                 ))}
               </div>
@@ -311,16 +311,16 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
             <div>
               <h3 className="mb-4 flex items-center gap-2 font-semibold">
                 <BrainIcon className="h-4 w-4" />
-                Skills Development Roadmap ({shortTerm.skills.length})
+                Skills Development Roadmap ({shortTerm?.skills?.length || 0})
               </h3>
               <div className="grid gap-4 md:grid-cols-2">
-                {shortTerm.skills.map((skill, index) => (
+                {shortTerm?.skills?.map((skill, index) => (
                   <SkillCard
                     key={index}
-                    skill={skill.skill}
-                    current_level={skill.current_level}
-                    target_level={skill.target_level}
-                    timeline={skill.timeline}
+                    skill={skill?.skill}
+                    current_level={skill?.current_level}
+                    target_level={skill?.target_level}
+                    timeline={skill?.timeline}
                   />
                 ))}
               </div>
@@ -343,24 +343,25 @@ const DevelopmentPlan: FC<DevelopmentPlanProps> = ({ immediate, shortTerm }) => 
               <ZapIcon className="mx-auto mb-2 h-8 w-8 text-orange-600" />
               <h3 className="font-semibold text-orange-800 dark:text-orange-300">Immediate Actions</h3>
               <p className="text-sm text-orange-700 dark:text-orange-400">
-                {immediate.priorities.length} priority area{immediate.priorities.length !== 1 ? "s" : ""}
+                {immediate?.priorities?.length || 0} priority area
+                {(immediate?.priorities?.length || 0) !== 1 ? "s" : ""}
               </p>
               <p className="text-sm text-orange-700 dark:text-orange-400">
-                {immediate.resources?.length || 0} resource{(immediate.resources?.length || 0) !== 1 ? "s" : ""}
+                {immediate?.resources?.length || 0} resource{(immediate?.resources?.length || 0) !== 1 ? "s" : ""}
               </p>
             </div>
             <div className="rounded-lg bg-purple-50 p-4 text-center dark:bg-purple-950/30">
               <TargetIcon className="mx-auto mb-2 h-8 w-8 text-purple-600" />
               <h3 className="font-semibold text-purple-800 dark:text-purple-300">Goals</h3>
               <p className="text-sm text-purple-700 dark:text-purple-400">
-                {shortTerm.goals.length} development goal{shortTerm.goals.length !== 1 ? "s" : ""}
+                {shortTerm?.goals?.length || 0} development goal{(shortTerm?.goals?.length || 0) !== 1 ? "s" : ""}
               </p>
             </div>
             <div className="rounded-lg bg-blue-50 p-4 text-center dark:bg-blue-950/30">
               <BrainIcon className="mx-auto mb-2 h-8 w-8 text-blue-600" />
               <h3 className="font-semibold text-blue-800 dark:text-blue-300">Skills</h3>
               <p className="text-sm text-blue-700 dark:text-blue-400">
-                {shortTerm.skills.length} skill{shortTerm.skills.length !== 1 ? "s" : ""} to develop
+                {shortTerm?.skills?.length || 0} skill{(shortTerm?.skills?.length || 0) !== 1 ? "s" : ""} to develop
               </p>
             </div>
           </div>
