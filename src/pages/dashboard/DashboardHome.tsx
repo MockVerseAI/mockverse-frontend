@@ -45,7 +45,7 @@ const DashboardHome = () => {
               View all
             </Link>
             <Link to="/dashboard/interview-workspace/setup" className={cn(buttonVariants({ variant: "default" }))}>
-              <Plus /> New session
+              <Plus /> New workspace
             </Link>
           </div>
         </div>

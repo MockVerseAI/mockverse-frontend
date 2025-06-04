@@ -113,7 +113,7 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
             <CardTitle className="text-lg">Analysis</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">No analysis data available.</p>
+            <p className="text-muted-foreground">The analysis is still in progress. Please check back later.</p>
           </CardContent>
         </Card>
       </div>
