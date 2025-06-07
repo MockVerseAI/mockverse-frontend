@@ -108,6 +108,7 @@ const InterviewReport = () => {
               messages={messages}
               recordings={interview?.recordings}
               analysis={interviewReport?.mediaAnalysis}
+              isAgentMode={interview?.isAgentMode}
             />
           </TabsContent>
         </Tabs>

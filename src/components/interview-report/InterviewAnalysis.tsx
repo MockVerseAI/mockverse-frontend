@@ -29,9 +29,10 @@ interface InterviewAnalysisProps {
     video?: string;
   };
   analysis: IMediaAnalysis;
+  isAgentMode?: boolean;
 }
 
-const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, analysis }) => {
+const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, analysis, isAgentMode }) => {
   const analysisData: IMediaAnalysisData = analysis?.analysis;
 
   const getScoreBadgeVariant = (score: number | null) => {
@@ -78,7 +79,7 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
     </div>
   );
 
-  if (!analysis?.isCompleted) {
+  if (!analysis?.isCompleted || !isAgentMode) {
     return (
       <div className="flex flex-col gap-4">
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -90,32 +91,36 @@ const InterviewAnalysis: FC<InterviewAnalysisProps> = ({ messages, recordings, a
               <Message key={index} message={message} className="max-w-xs md:max-w-xs lg:max-w-md xl:max-w-xl" />
             ))}
           </div>
-          <div className="flex aspect-video w-full flex-col gap-4">
-            {recordings?.video ? (
-              <video className="w-full rounded-lg" controls>
-                <source src={recordings?.video} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            ) : (
-              <DualAudioWaveform
-                userAudioUrl={recordings?.voice?.user}
-                assistantAudioUrl={recordings?.voice?.assistant}
-                combinedAudioUrl={recordings?.voice?.combined}
-                title="Interview Recording"
-                className="h-full"
-                height={50}
-              />
-            )}
-          </div>
+          {isAgentMode ? (
+            <div className="flex aspect-video w-full flex-col gap-4">
+              {recordings?.video ? (
+                <video className="w-full rounded-lg" controls>
+                  <source src={recordings?.video} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              ) : (
+                <DualAudioWaveform
+                  userAudioUrl={recordings?.voice?.user}
+                  assistantAudioUrl={recordings?.voice?.assistant}
+                  combinedAudioUrl={recordings?.voice?.combined}
+                  title="Interview Recording"
+                  className="h-full"
+                  height={50}
+                />
+              )}
+            </div>
+          ) : null}
         </div>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg">Analysis</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">The analysis is still in progress. Please check back later.</p>
-          </CardContent>
-        </Card>
+        {isAgentMode ? (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Analysis</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground">The analysis is still in progress. Please check back later.</p>
+            </CardContent>
+          </Card>
+        ) : null}
       </div>
     );
   }
