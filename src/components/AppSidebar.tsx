@@ -32,6 +32,11 @@ const navItems = [
     url: "/dashboard/application-enhancer",
     icon: FileText,
   },
+  {
+    name: "Cover Letter",
+    url: "/dashboard/cover-letter",
+    icon: FileText,
+  },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {

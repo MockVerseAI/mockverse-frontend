@@ -39,6 +39,9 @@ const ApplicationEnhancerSetup = lazy(
 const ApplicationEnhancerReport = lazy(
   () => import("./pages/dashboard/application-enhancer/ApplicationEnhancerReport.tsx")
 );
+const CoverLetter = lazy(() => import("./pages/dashboard/cover-letter/CoverLetter.tsx"));
+const CoverLetterSetup = lazy(() => import("./pages/dashboard/cover-letter/CoverLetterSetup.tsx"));
+const CoverLetterReport = lazy(() => import("./pages/dashboard/cover-letter/CoverLetterReport.tsx"));
 const Account = lazy(() => import("./pages/dashboard/Account.tsx"));
 
 // Not Found
@@ -78,6 +81,9 @@ createRoot(document.getElementById("root")!).render(
               <Route path="/dashboard/application-enhancer" element={<ApplicationEnhancer />} />
               <Route path="/dashboard/application-enhancer/setup" element={<ApplicationEnhancerSetup />} />
               <Route path="/dashboard/application-enhancer/report/:id" element={<ApplicationEnhancerReport />} />
+              <Route path="/dashboard/cover-letter" element={<CoverLetter />} />
+              <Route path="/dashboard/cover-letter/setup" element={<CoverLetterSetup />} />
+              <Route path="/dashboard/cover-letter/report/:id" element={<CoverLetterReport />} />
               <Route path="/dashboard/account" element={<Account />} />
             </Route>
 

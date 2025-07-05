@@ -77,6 +77,22 @@ export interface IApplication {
   updatedAt: string;
 }
 
+export interface ICoverLetter {
+  _id: string;
+  userId: string;
+  resumeId: string;
+  companyName: string;
+  jobRole: string;
+  jobDescription: string;
+  generatedContent: string;
+  isDeleted: boolean;
+  wordCount: number;
+  generationDuration: number | null;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 export interface IApplicationFeedback {
   core_alignment_analysis: {
     role_fit_score: number;

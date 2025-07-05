@@ -85,6 +85,23 @@ const Breadcrumbs = () => {
             link: "#",
           });
         }
+      } else if (pathParts.includes("cover-letter")) {
+        segments.push({
+          name: "cover letter",
+          link: "/dashboard/cover-letter",
+        });
+
+        if (pathParts.includes("setup")) {
+          segments.push({
+            name: "setup",
+            link: "#",
+          });
+        } else if (pathParts.includes("report")) {
+          segments.push({
+            name: "report",
+            link: "#",
+          });
+        }
       } else if (pathParts.includes("account")) {
         segments.push({
           name: "account",

@@ -2,7 +2,7 @@ import { CalendarX, FileX } from "lucide-react";
 import { useMemo } from "react";
 
 interface NoDataFoundProps {
-  type: "interview" | "application" | "resume" | "interview-workspace";
+  type: "interview" | "application" | "resume" | "interview-workspace" | "cover-letter";
   title?: string;
   description?: string;
 }
@@ -17,6 +17,8 @@ const NoDataFound = ({ type, title, description }: NoDataFoundProps) => {
       case "application":
         return <FileX className="text-muted-foreground size-6" />;
       case "resume":
+        return <FileX className="text-muted-foreground size-6" />;
+      case "cover-letter":
         return <FileX className="text-muted-foreground size-6" />;
       default:
         return <FileX className="text-muted-foreground size-6" />;
@@ -33,6 +35,8 @@ const NoDataFound = ({ type, title, description }: NoDataFoundProps) => {
         return "No Applications Found";
       case "resume":
         return "No Resumes Found";
+      case "cover-letter":
+        return "No Cover Letters Found";
       default:
         return "No Data Found";
     }
@@ -48,6 +52,8 @@ const NoDataFound = ({ type, title, description }: NoDataFoundProps) => {
         return "No applications found. Create a new application to get started.";
       case "resume":
         return "No resumes found. Create a new resume to get started.";
+      case "cover-letter":
+        return "No cover letters found. Create a new cover letter to get started.";
       default:
         return "No data found. Create a new data to get started.";
     }
