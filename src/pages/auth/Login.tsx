@@ -62,9 +62,9 @@ const Login = () => {
     window.location.href = `${import.meta.env.VITE_API_URL}/api/v1/user/google`;
   }, []);
 
-  const handleGithubLogin = useCallback(async () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/api/v1/user/github`;
-  }, []);
+  // const handleGithubLogin = useCallback(async () => {
+  //   window.location.href = `${import.meta.env.VITE_API_URL}/api/v1/user/github`;
+  // }, []);
 
   return (
     <AuthScreenWrapper>
@@ -72,7 +72,7 @@ const Login = () => {
         <Card>
           <CardHeader className="text-center">
             <CardTitle className="text-xl">Welcome back</CardTitle>
-            <CardDescription>Login with your Google or Github account</CardDescription>
+            <CardDescription>Login with your Google account</CardDescription>
           </CardHeader>
           <CardContent>
             <div>
@@ -87,7 +87,7 @@ const Login = () => {
                     </svg>
                     Login with Google
                   </Button>
-                  <Button onClick={handleGithubLogin} variant="outline" className="w-full">
+                  {/* <Button onClick={handleGithubLogin} variant="outline" className="w-full">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
@@ -103,7 +103,7 @@ const Login = () => {
                       <path d="M9 18c-4.51 2-5-2-7-2" />
                     </svg>
                     Login with Github
-                  </Button>
+                  </Button> */}
                 </div>
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
                   <span className="bg-background text-muted-foreground relative z-10 px-2">Or continue with</span>
